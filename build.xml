@@ -25,7 +25,7 @@
 
     <target name="jar">
         <mkdir dir="build/jar"/>
-        <jar destfile="/opt/liferay/utility-jars/dbutility.jar" basedir="build/classes">
+        <jar destfile="/opt/liferay/portlet-ext/dbutility.jar" basedir="build/classes">
         </jar>
     </target>
 
