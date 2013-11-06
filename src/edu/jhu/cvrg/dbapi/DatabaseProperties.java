@@ -53,7 +53,7 @@ public class DatabaseProperties {
 	public static DatabaseProperties getInstance(String dbUserName, String dbUserPassword, String dbURI, 
 			String dbDriver, String dbMainDatabase){
 		
-		System.out.println("Initializing properties.");
+//		System.out.println("Initializing properties.");
 		DatabaseProperties preLoadedPropertiesUtility = new DatabaseProperties(dbUserName, dbUserPassword, dbURI, dbDriver, dbMainDatabase);
 
 		return preLoadedPropertiesUtility;
@@ -62,7 +62,7 @@ public class DatabaseProperties {
 	private DatabaseProperties(String dbUserName, String dbUserPassword, String dbURI, 
 			String dbDriver, String dbMainDatabase){
 
-		System.out.println("Getting properties.");
+		// System.out.println("Getting properties.");
 		
 		this.dbUserName = dbUserName;
 		this.dbUserPassword = dbUserPassword;
@@ -70,7 +70,7 @@ public class DatabaseProperties {
 		this.dbDriver = dbDriver;
 		this.dbMainDatabase = dbMainDatabase;
 		
-		System.out.println("Got properties.");
+		// System.out.println("Got properties.");
 	}
 	
 	

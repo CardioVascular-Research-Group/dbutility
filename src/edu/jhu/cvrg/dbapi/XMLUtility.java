@@ -144,29 +144,38 @@ public abstract class XMLUtility extends DBUtility {
 			DatabaseManager.registerDatabase(connection);
 
 			xmlCollection = DatabaseManager.getCollection(sDBFullPath, dbUserName, dbUserPassword);
-
-			XQueryService subjectQuery = (XQueryService) xmlCollection.getService("XQueryService", "1.0");
-			subjectQuery.setProperty("indent", "yes");
-			//queryResult = subjectQuery.query(sQuery);
-			CompiledExpression query = subjectQuery.compile(sQuery);
-			
-			queryResult = subjectQuery.execute(query);
+			if(xmlCollection==null){
+				System.err.println("dbUtility.jar, XMLUtility.java, executeQuery(), getCollection returned null.");
+			}else{
+				XQueryService subjectQuery = (XQueryService) xmlCollection.getService("XQueryService", "1.0");
+				subjectQuery.setProperty("indent", "yes");
+				//queryResult = subjectQuery.query(sQuery);
+				CompiledExpression query = subjectQuery.compile(sQuery);
+				
+				queryResult = subjectQuery.execute(query);
+			}
 
 		} catch (ExceptionInInitializerError e) {
+			System.err.println("dbUtility.jar, XMLUtility.java, executeQuery(), ExceptionInInitializerError:" + e.getMessage());
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			System.err.println("dbUtility.jar, XMLUtility.java, executeQuery(), ClassNotFoundException:" + e.getMessage());
 			e.printStackTrace();
 		} catch (InstantiationException e) {
+			System.err.println("dbUtility.jar, XMLUtility.java, executeQuery(), InstantiationException:" + e.getMessage());
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			System.err.println("dbUtility.jar, XMLUtility.java, executeQuery(), IllegalAccessException:" + e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
+			System.err.println("dbUtility.jar, XMLUtility.java, executeQuery(), Exception:" + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if (xmlCollection != null) {
 				try {
 					xmlCollection.close();
 				} catch (XMLDBException xmlEx) {
+					System.err.println("dbUtility.jar, XMLUtility.java, executeQuery(), xmlCollection.close() failed.");
 					xmlEx.printStackTrace();
 				}
 			}
