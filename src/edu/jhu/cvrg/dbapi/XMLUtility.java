@@ -32,6 +32,8 @@ public abstract class XMLUtility extends DBUtility {
 	
 	protected String dbMainCollection = "/db";
 	
+	private Collection xmlCollection = null;
+	
 	public XMLUtility() {
 		super();
 		
@@ -58,11 +60,75 @@ public abstract class XMLUtility extends DBUtility {
 	}
 	
 	public ResourceSet executeQuery(String sQuery) {
-		ResourceSet resultSet = executeQuery(sQuery, this.dbMainCollection);
+		ResourceSet resultSet;
+		if(xmlCollection == null){
+			resultSet = executeQuery(sQuery, this.dbMainCollection);	
+		}else{
+			resultSet  = executeQueryOnly(sQuery);
+		}
+		
 		
 		return resultSet;
 	}
 	
+	public void initialize(){
+		
+		try {
+			String sDBFullPath = dbURI + this.dbMainCollection;
+
+			Class<?> cl = Class.forName(dbDriver);
+			Database connection = (Database) cl.newInstance();
+			connection.setProperty("create-database", "true");
+			DatabaseManager.registerDatabase(connection);
+
+			xmlCollection = DatabaseManager.getCollection(sDBFullPath, dbUserName, dbUserPassword);
+			
+		} catch (ExceptionInInitializerError e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+	}
+	
+	public void close(){
+		if (xmlCollection != null) {
+			try {
+				xmlCollection.close();
+			} catch (XMLDBException xmlEx) {
+				xmlEx.printStackTrace();
+			}
+		}
+	}
+	
+	protected ResourceSet executeQueryOnly(String sQuery) {
+		ResourceSet queryResult = null;
+		try {
+
+			XQueryService subjectQuery = (XQueryService) xmlCollection.getService("XQueryService", "1.0");
+			subjectQuery.setProperty("indent", "yes");
+			
+			CompiledExpression query = subjectQuery.compile(sQuery);
+			
+			queryResult = subjectQuery.execute(query);
+
+		} catch (ExceptionInInitializerError e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return queryResult;
+
+	}
+	
+	@Deprecated
 	protected ResourceSet executeQuery(String sQuery, String dbCollection) {
 		// TODO Auto-generated method stub
 		ResourceSet queryResult = null;

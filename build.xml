@@ -1,32 +1,48 @@
-<project>
+<project name="dbutility" basedir="." default="jar" >
 	
-	<path id="utility.classpath">
-		<fileset dir="/opt/liferay/utility-jars">
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="/opt/liferay/waveform3/tomcat-7.0.27/lib">
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="/opt/liferay/waveform3/tomcat-7.0.27/lib/ext">
+	<property name="liferay" value="/opt/liferay" />
+	<property file="${liferay}/liferay-plugins-sdk-6.1.1/build.${user.name}.properties" />
+	<property name="dependencies" value="${liferay}/projects-dependencies" />
+	
+	<path id="project-classpath">
+		<fileset dir="${dependencies}/${ant.project.name}-dependencies">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
+	
+	<target name="copyDependenciesToServer">
+		<copy todir="${app.server.lib.global.dir}">
+			<fileset dir="${dependencies}/${ant.project.name}-dependencies">
+				<include name="*.jar"/>
+			</fileset>
+		</copy>
+	</target>
+
+	
     <target name="clean">
         <delete dir="build"/>
     </target>
 
-    <target name="compile">
+    <target name="compile" depends="clean">
+    	<mkdir dir="build"/>
         <mkdir dir="build/classes"/>
-        <javac includeantruntime="false" srcdir="src" destdir="build/classes" source="1.7" target="1.7">
-        	<classpath refid="utility.classpath"/>
+        <javac includeantruntime="false" classpathref="project-classpath" srcdir="src" destdir="build/classes" target="1.5" debug="true">
         	<compilerarg value="-Xlint:unchecked"/>
         </javac>
     </target>
 
-    <target name="jar">
-        <mkdir dir="build/jar"/>
-        <jar destfile="/opt/liferay/portlet-ext/dbutility.jar" basedir="build/classes">
-        </jar>
+    <target name="jar" depends="compile">
+    	<jar destfile="/opt/liferay/portlet-ext/dbutility.jar" basedir="build/classes" />
+    	<antcall target="clean"/>
+    	
+    	<mkdir dir="${dependencies}/waveform-annotations-dependencies"/>
+		<mkdir dir="${dependencies}/waveform-utilities-dependencies"/>
+		<mkdir dir="${dependencies}/cvrg-broker-service-dependencies"/>
+		
+		<copy todir="${dependencies}/waveform-annotations-dependencies" file="/opt/liferay/portlet-ext/dbutility.jar" />
+		<copy todir="${dependencies}/waveform-utilities-dependencies" file="/opt/liferay/portlet-ext/dbutility.jar" />
+    	<copy todir="${dependencies}/cvrg-broker-service-dependencies" file="/opt/liferay/portlet-ext/dbutility.jar" />
+    	
     </target>
 
 </project>
