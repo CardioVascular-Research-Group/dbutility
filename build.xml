@@ -27,11 +27,11 @@
     	
     	<mkdir dir="${dependencies}"/>
         <mkdir dir="${dependencies}/${ant.project.name}-dependencies"/>
-    	<copy todir="${dependencies}/${ant.project.name}-dependencies">
+    	<!-- <copy todir="${dependencies}/${ant.project.name}-dependencies">
     		<fileset dir="${dropbox.home}/jars/projects-dependencies/${ant.project.name}-dependencies">
 				<include name="*.jar"/>    		
     		</fileset>
-    	</copy>
+    	</copy> -->
     	
     	<mkdir dir="build"/>
         <mkdir dir="build/classes"/>
@@ -51,6 +51,13 @@
 		<copy todir="${dependencies}/waveform-annotations-dependencies" file="/opt/liferay/portlet-ext/dbutility.jar" />
 		<copy todir="${dependencies}/waveform-utilities-dependencies" file="/opt/liferay/portlet-ext/dbutility.jar" />
     	<copy todir="${dependencies}/cvrg-broker-service-dependencies" file="/opt/liferay/portlet-ext/dbutility.jar" />
+    	
+    	<copy todir="/opt/liferay/liferay-plugins-sdk-6.1.1/portlets/analyze-portlet/docroot/WEB-INF/lib" file="/opt/liferay/portlet-ext/dbutility.jar" />
+    	<copy todir="/opt/liferay/liferay-plugins-sdk-6.1.1/portlets/upload-portlet/docroot/WEB-INF/lib" file="/opt/liferay/portlet-ext/dbutility.jar" />
+    	<copy todir="/opt/liferay/liferay-plugins-sdk-6.1.1/portlets/download-portlet/docroot/WEB-INF/lib" file="/opt/liferay/portlet-ext/dbutility.jar" />
+    	<copy todir="/opt/liferay/liferay-plugins-sdk-6.1.1/portlets/visualize-portlet/docroot/WEB-INF/lib" file="/opt/liferay/portlet-ext/dbutility.jar" />
+    	    	
+    	<copy todir="${app.server.deploy.dir}/axis2/WEB-INF/lib" file="/opt/liferay/portlet-ext/dbutility.jar" />
     	
     </target>
 

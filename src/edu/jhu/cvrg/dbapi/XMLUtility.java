@@ -107,6 +107,16 @@ public abstract class XMLUtility extends DBUtility {
 		}
 	}
 	
+	public boolean isClosed(){
+		try {
+			return xmlCollection == null || !xmlCollection.isOpen();
+		} catch (XMLDBException e) {
+			e.printStackTrace();
+			return true;
+		}
+		
+	}
+	
 	protected ResourceSet executeQueryOnly(String sQuery) {
 		ResourceSet queryResult = null;
 		try {
