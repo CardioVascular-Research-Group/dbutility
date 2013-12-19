@@ -1,8 +1,10 @@
 package edu.jhu.cvrg.dbapi.dto;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import edu.jhu.cvrg.dbapi.factory.exists.model.AnnotationData;
+import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
 
 /*
  * NEW COLUMNS
@@ -22,6 +24,7 @@ import edu.jhu.cvrg.dbapi.factory.exists.model.AnnotationData;
  * */
 public class AnnotationDTO {
 
+	private Long annotationId;;
 	private long userID;
 	private long groupID; 
 	private long companyID;
@@ -44,6 +47,9 @@ public class AnnotationDTO {
 	private String newStudyID;
 	private String newRecordName;
 	private String newSubjectID;
+
+	public AnnotationDTO() {
+	}
 	
 	
 	public AnnotationDTO(long userID, long groupID, long companyID, Long recordID, String createdBy,
@@ -74,6 +80,27 @@ public class AnnotationDTO {
 		this.newStudyID = newStudyID;
 		this.newRecordName = newRecordName;
 		this.newSubjectID = newSubjectID;
+	}
+	
+	public AnnotationDTO(AnnotationInfo entity){
+		this(entity.getDocumentRecord().getUserId(), 0L, 0L, entity.getDocumentRecordId(), entity.getCreatedBy(), entity.getAnnotationType(), entity.getName(), entity.getBioportalId(), 
+			 entity.getBioportalReference(), entity.getLeadIndex(), entity.getUnitOfMeasurement(), entity.getDescription(), entity.getValue(), null, null,null, null, null, 
+		     String.valueOf(entity.getDocumentRecordId()), entity.getDocumentRecord().getRecordName(), entity.getDocumentRecord().getSubjectId());
+		
+		if(entity.getStartCoordinate() != null){
+			this.setStartXcoord(entity.getStartCoordinate().getxCoordinate());
+			this.setStartYcoord(entity.getStartCoordinate().getyCoordinate());
+		}
+		
+		if(entity.getEndCoordinate() != null){
+			this.setEndXcoord(entity.getEndCoordinate().getxCoordinate());
+			this.setEndYcoord(entity.getEndCoordinate().getyCoordinate());
+		}
+		
+		Calendar cal = new GregorianCalendar();
+		cal.setTime( entity.getTimestamp());
+		this.setTimestamp(cal);
+		this.setAnnotationId(entity.getAnnotationId());
 	}
 
 	public long getUserID() {
@@ -195,12 +222,12 @@ public class AnnotationDTO {
 		annData.setDatasetName(this.getNewRecordName());
 		annData.setStudyID(this.getNewStudyID());
 		
-		annData.setIsComment("COMMENT".equals(this.getAnnotationType()));
+		annData.setIsComment(isComment());
 		
 		annData.setAnnotation(this.getValue());
 		annData.setComment(this.getDescription());
 		
-		annData.setConceptID(null);
+		annData.setConceptID(this.getBioportalID());
 		annData.setConceptLabel(this.getName());
 		annData.setConceptRestURL(this.getBioportalRef());
 		
@@ -248,4 +275,33 @@ public class AnnotationDTO {
 	public void setBioportalID(String bioportalID) {
 		this.bioportalID = bioportalID;
 	}
+
+	public Long getAnnotationId() {
+		return annotationId;
+	}
+
+	public void setAnnotationId(Long annotationId) {
+		this.annotationId = annotationId;
+	}
+
+	public boolean isComment() {
+		return "COMMENT".equals(this.getAnnotationType());
+	}
+	
+	public boolean isSinglePoint(){
+		boolean ret = false;
+		
+		if(this.getStartXcoord() != null && this.getStartYcoord() != null){
+			if(this.getEndXcoord() != null && this.getEndYcoord() != null && (this.getStartXcoord().equals(this.getEndXcoord()) || this.getStartYcoord().equals(this.getEndYcoord()))){
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public boolean isWholeLead(){
+		return this.getStartXcoord() == null && this.getStartYcoord() == null && this.getEndXcoord() == null && this.getEndYcoord() == null;
+	}
+	
 }

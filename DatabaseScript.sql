@@ -101,7 +101,7 @@ CREATE TABLE annotationinfo
   endingcoordinateid bigint,
   unitofmeasurement character varying(75),
   description character varying(75),
-  value character varying(75),
+  value text,
   documentrecordid bigint,
   "timestamp" timestamp without time zone,
   CONSTRAINT annotation_pk PRIMARY KEY (annotationid),

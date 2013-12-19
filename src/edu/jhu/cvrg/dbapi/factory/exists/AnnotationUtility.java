@@ -127,12 +127,9 @@ public class AnnotationUtility extends XMLUtility {
 	 * 
 	 * Calls getAnnotationNode
 	 */
-	public AnnotationData[] getLeadAnnotationNode(String sUserID,
-			String sStudyID, String sSubjectID, String sLeadName,
-			int iLeadIndex, String sRecordName) {
-		AnnotationData[] annotations = this.getAnnotationNode(sUserID,
-				sStudyID, sSubjectID, sLeadName, iLeadIndex, sRecordName,
-				false, false);
+	public AnnotationData[] getLeadAnnotationNode(String sUserID, String sStudyID, String sSubjectID, String sLeadName, int iLeadIndex, String sRecordName) {
+		
+		AnnotationData[] annotations = this.getAnnotationNode(sUserID, sStudyID, sSubjectID, sLeadName, iLeadIndex, sRecordName,false, false);
 
 		return annotations;
 	}
@@ -143,12 +140,9 @@ public class AnnotationUtility extends XMLUtility {
 	 * 
 	 * Calls getAnnotationNode
 	 */
-	public AnnotationData[] getPhenotypeAnnotationNode(String sUserID,
-			String sStudyID, String sSubjectID, String sLeadName,
-			int iLeadIndex, String sRecordName) {
-		AnnotationData[] annotations = this.getAnnotationNode(sUserID,
-				sStudyID, sSubjectID, sLeadName, iLeadIndex, sRecordName, true,
-				false);
+	public AnnotationData[] getPhenotypeAnnotationNode(String sUserID, String sStudyID, String sSubjectID, String sLeadName, int iLeadIndex, String sRecordName) {
+		
+		AnnotationData[] annotations = this.getAnnotationNode(sUserID, sStudyID, sSubjectID, sLeadName, iLeadIndex, sRecordName, true, false);
 
 		return annotations;
 	}
@@ -167,16 +161,12 @@ public class AnnotationUtility extends XMLUtility {
 	 * 
 	 * @author mshipwa1
 	 */
-	public AnnotationData getAnnotationByID(String sUserID, String sStudyID,
-			String sSubjectID, String sLeadName, int iLeadIndex,
-			String sRecordName, String sUniqueID) {
+	public AnnotationData getAnnotationByID(String sUserID, String sStudyID, String sSubjectID, String sLeadName, int iLeadIndex, String sRecordName, String sUniqueID) {
 		
 		AnnotationData ret = null;
 		boolean isPhenotype=false, isComment=false;
 		
-		AnnotationData[] annArray = getAnnotationNode(sUserID, sStudyID,
-			 sSubjectID, sLeadName, iLeadIndex,
-			 sRecordName, isPhenotype, isComment);
+		AnnotationData[] annArray = getAnnotationNode(sUserID, sStudyID, sSubjectID, sLeadName, iLeadIndex, sRecordName, isPhenotype, isComment);
 		
 		for(int i=0;i< annArray.length;i++){
 			if( annArray[i].getUniqueID().equals(sUniqueID) ){
@@ -199,16 +189,15 @@ public class AnnotationUtility extends XMLUtility {
 	 * @param iLeadIndex - zero based lead number. e.g. Lead "III" is at LeadIndex "2".
 	 * @param sRecordName - e.g. "twa94"
 	 */
-	private AnnotationData[] getAnnotationNode(String sUserID, String sStudyID,
-			String sSubjectID, String sLeadName, int iLeadIndex,
-			String sRecordName, boolean isPhenotype, boolean isComment) {		
+	private AnnotationData[] getAnnotationNode(String sUserID, String sStudyID, String sSubjectID, String sLeadName, int iLeadIndex,
+											   String sRecordName, boolean isPhenotype, boolean isComment) {		
+		
 		AnnotationData[] theAnnotations = new AnnotationData[0];
 
 		try {
 			String sLetClause = "";
 			String sForCollection = annotationBuilder.defaultFor();
-			String sWhereClause = annotationBuilder.userRecordSearch(sStudyID,
-					sSubjectID, sRecordName, sUserID);
+			String sWhereClause = annotationBuilder.userRecordSearch(sStudyID, sSubjectID, sRecordName, sUserID);
 			String sReturnClause = "";
 			String sOrderByClause = "";
 			if (isComment) {
@@ -217,7 +206,7 @@ public class AnnotationUtility extends XMLUtility {
 				sReturnClause = annotationBuilder.returnCommentAnnotation();
 			} else {
 				// sReturnClause =
-				// annotationBuilder.returnLeadAnnotation(sLeadName);
+
 				sReturnClause = annotationBuilder.returnLeadAnnotation(String
 						.valueOf(iLeadIndex + 1)); // The code uses a zero based
 													// lead index, but the
@@ -464,8 +453,7 @@ public class AnnotationUtility extends XMLUtility {
 	 *         Lead number(term), Total annotation count, Manual annotations
 	 *         count, Automated annotation count..
 	 */
-	public int[][] getAnnotationCountPerLead(String sUserID, String sStudyID,
-			String sSubjectID, String sRecordName) {
+	public int[][] getAnnotationCountPerLead(String sUserID, String sStudyID, String sSubjectID, String sRecordName) {
 		int[][] iaAnnPerLead = null;
 		try {
 			String sForCollection = annotationBuilder.defaultFor();

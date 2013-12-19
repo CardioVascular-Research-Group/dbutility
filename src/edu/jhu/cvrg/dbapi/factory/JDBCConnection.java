@@ -239,7 +239,7 @@ public class JDBCConnection extends Connection{
 	}
 
 	@Override
-	public List<FileInfoDTO> getFileIdListByUser(long userId) {
+	public List<FileInfoDTO> getFileListByUser(long userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -260,6 +260,31 @@ public class JDBCConnection extends Connection{
 
 	@Override
 	public DocumentRecordDTO getDocumentRecordById(long documentRecordId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[][] getAnnotationCountPerLead(Long docId, int qtdLead) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<FileInfoDTO> getFileListByDocumentRecordId(long docId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId,
+			int leadIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AnnotationDTO getAnnotationById(Long userId, Long annotationId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

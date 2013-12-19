@@ -202,7 +202,7 @@ public class HibernateConnection extends Connection {
 	}
 
 	@Override
-	public List<FileInfoDTO> getFileIdListByUser(long userId) {
+	public List<FileInfoDTO> getFileListByUser(long userId) {
 		
 		List<FileInfoDTO> ret = new ArrayList<FileInfoDTO>();
 		
@@ -224,6 +224,30 @@ public class HibernateConnection extends Connection {
 		return ret;
 	}
 	
+	@Override
+	public List<FileInfoDTO> getFileListByDocumentRecordId(long docId) {
+		
+		List<FileInfoDTO> ret = new ArrayList<FileInfoDTO>();
+		
+		Session session = sessionFactory.openSession();
+		
+		Query q = session.createQuery("select f from FileInfo f where f.documentRecordId = :docId and f.analysisJobId is null");
+		
+		q.setParameter("docId", docId);
+		
+		List<FileInfo> l = q.list();
+		
+		for (int i = 0; i < l.size(); i++) {
+			FileInfo entity = l.get(i);
+			ret.add(new FileInfoDTO(entity.getDocumentRecordId(), entity.getFileId(), entity.getAnalysisJobId()));
+		}
+		
+		session.close();
+		
+		return ret;
+	}
+	
+	@Override
 	public Long storeAnalysisJob(long documentRecord, int fileCount, int parameterCount, String serviceUrl, String serviceName, String serviceMethod, Date dateOfAnalysis, long userId){
 		
 		Session session = sessionFactory.openSession();
@@ -284,4 +308,145 @@ public class HibernateConnection extends Connection {
 		return ret;
 	}
 	
+	/**
+	 * Gets an array of the counts of annotations from the metadata storage
+	 * database on a per lead basis.
+	 * 
+	 * @return - a comma separated list with the following columns<BR>
+	 *         Lead number(term), Total annotation count, Manual annotations
+	 *         count, Automated annotation count..
+	 */
+	@Override
+	public int[][] getAnnotationCountPerLead(Long docId, int qtdLead){
+		int[][] annPerLead ;
+		
+		Session session = sessionFactory.openSession();
+		
+		int[][] annPerLeadManual = _getAnnotationCount(true, docId, session);
+		int[][] annPerLeadAuto = _getAnnotationCount(false, docId, session);
+		
+		annPerLead = new int[qtdLead][4];
+		
+		for(int i = 0; i < annPerLead.length; i++){
+			
+			int leadName = i + 1;
+			
+			if(annPerLeadAuto != null){
+				for (int j = 0; j < annPerLeadAuto.length; j++) {
+					if(annPerLeadAuto[j][0] == leadName){
+						annPerLead[i][3] = annPerLeadAuto[j][1];
+						break;
+					}
+				}
+			}
+			
+			if(annPerLeadManual != null){
+				for (int j = 0; j < annPerLeadManual.length; j++) {
+					if(annPerLeadManual[j][0] == leadName){
+						annPerLead[i][2] = annPerLeadManual[j][1];
+						break;
+					}
+				}	
+			}
+						
+			annPerLead[i][1] = annPerLead[i][3] + annPerLead[i][2];
+			annPerLead[i][0] = leadName;
+		}
+		
+		session.close();
+		
+		return annPerLead;
+	}
+	
+	
+	private int[][] _getAnnotationCount(boolean manual, Long docId, Session session){
+		int[][] annPerLead  = null;
+		
+		StringBuilder hql = new StringBuilder();
+		
+		hql.append("select leadIndex, count(annotationId) from AnnotationInfo where documentRecordId = :docId and ");
+		
+		if(manual){
+			hql.append("createdBy = 'manual'");
+		}else{
+			hql.append("createdBy <> 'manual'");
+		}
+		
+		hql.append(" group by leadIndex order by 1");
+		
+		Query q = session.createQuery(hql.toString()).setParameter("docId", docId);
+		
+		List<Object[]> result = q.list();
+		
+		if(result != null && result.size() > 0){
+			annPerLead = new int[result.size()][2];
+			int i  = 0;
+			for (Object[] objects : result) {
+				annPerLead[i][0] = ((Integer)objects[0]) + 1;
+				annPerLead[i][1] = ((Long)objects[1]).intValue();
+				i++;
+			}
+		}
+		return annPerLead;	
+	}
+	
+	@Override
+	public List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId, int leadIndex){
+		List<AnnotationDTO> annotations = null;
+		
+		Session session = sessionFactory.openSession();
+		
+		StringBuilder hql = new StringBuilder();
+		
+		hql.append("select a from DocumentRecord d ")
+			.append("inner join d.annotationInfos as a ")
+			.append("left  join a.startCoordinate as cStart ")
+			.append("where d.documentRecordId = :docId and d.userId = :userId and a.leadIndex = :leadIndex ")
+			.append("order by cStart.xCoordinate ");
+		
+		Query q = session.createQuery(hql.toString());
+		
+		q.setParameter("docId", docId);
+		q.setParameter("userId", userId);
+		q.setParameter("leadIndex", leadIndex);
+		
+		List<AnnotationInfo> result = q.list();
+		
+		if(result != null && result.size() > 0 ){
+			annotations = new ArrayList<AnnotationDTO>();
+			
+			for (AnnotationInfo entity : result) {
+				annotations.add(new AnnotationDTO(entity));	
+			}
+		}
+		
+		session.close();
+		
+		return annotations;
+	}
+	
+	@Override
+	public AnnotationDTO getAnnotationById(Long userId, Long annotationId){
+		AnnotationDTO annotation = null;
+		
+		Session session = sessionFactory.openSession();
+		
+		Query q = session.createQuery("select a from DocumentRecord d inner join d.annotationInfos a where a.annotationId = :annotationId and d.userId = :userId ");
+		
+		q.setParameter("annotationId", annotationId);
+		q.setParameter("userId", userId);
+		
+		List<AnnotationInfo> result = q.list();
+		
+		if(result != null && result.size() > 0 ){
+			for (AnnotationInfo entity : result) {
+				annotation = new AnnotationDTO(entity);
+				break;
+			}
+		}
+		
+		session.close();
+		
+		return annotation;
+	}
 }
