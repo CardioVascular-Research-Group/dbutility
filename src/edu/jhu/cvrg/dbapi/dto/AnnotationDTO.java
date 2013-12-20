@@ -1,5 +1,6 @@
 package edu.jhu.cvrg.dbapi.dto;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -22,8 +23,10 @@ import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
  * 		offsetRestURL
  * 	
  * */
-public class AnnotationDTO {
+public class AnnotationDTO implements Serializable{
 
+	private static final long serialVersionUID = 198688003623925166L;
+	
 	private Long annotationId;;
 	private long userID;
 	private long groupID; 

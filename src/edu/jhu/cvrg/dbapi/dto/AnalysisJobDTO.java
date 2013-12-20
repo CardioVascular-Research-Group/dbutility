@@ -1,10 +1,13 @@
 package edu.jhu.cvrg.dbapi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class AnalysisJobDTO {
+public class AnalysisJobDTO implements Serializable{
 
+	private static final long serialVersionUID = 1299576684818750458L;
+	
 	private Long analysisJobId;
 	private long documentRecordId;
 	private int fileCount;

@@ -1,9 +1,12 @@
 package edu.jhu.cvrg.dbapi.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DocumentRecordDTO {
+public class DocumentRecordDTO implements Serializable{
 
+	private static final long serialVersionUID = 2261268385587096394L;
+	
 	private Long documentRecordId;
 	private String recordName;
 	private Long userId;

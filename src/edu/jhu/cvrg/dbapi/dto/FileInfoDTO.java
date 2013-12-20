@@ -1,7 +1,11 @@
 package edu.jhu.cvrg.dbapi.dto;
 
-public class FileInfoDTO {
+import java.io.Serializable;
 
+public class FileInfoDTO implements Serializable{
+
+	private static final long serialVersionUID = -5873247825340296375L;
+	
 	private Long documentRecordId;
 	private Long fileEntryId;
 	private Long analysisJobId;
