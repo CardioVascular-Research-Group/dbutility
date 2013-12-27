@@ -134,9 +134,7 @@ public class DocumentRecordDTO implements Serializable{
 	   * @return
 	   */
 	public double getDurationSec(){
-		double seconds = this.numberOfPoints/this.samplingRate;
-	    
-	    return seconds;
+		return this.numberOfPoints/this.samplingRate;
 	}
 	
 	/** Calculated number of milliseconds in full ECG file, based on getNumberOfPoints and getSamplingRate.
@@ -146,6 +144,10 @@ public class DocumentRecordDTO implements Serializable{
 	public int getMsecDuration(){
 		int duration = (int)((getNumberOfPoints()/getSamplingRate())*1000.0); // number of milliseconds in full ECG file.
 		return duration;
+	}
+	
+	public int getSamplesPerChannel(){
+		return this.numberOfPoints / this.leadCount;
 	}
 
 }
