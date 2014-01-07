@@ -27,7 +27,7 @@ ALTER TABLE documentrecord
 CREATE UNIQUE INDEX documentrecord_pkey ON documentrecord USING btree (documentrecordid);
 
 -- Index: ix_documentrecord_1
-CREATE INDEX ix_documentrecord_1 ON documentrecord USING btree (recordname COLLATE pg_catalog."default", userid, subjectid COLLATE pg_catalog."default", filetreepath COLLATE pg_catalog."default");
+CREATE INDEX ix_documentrecord_1 ON documentrecord USING btree (recordname, userid, subjectid , filetreepath );
 
 -- Index: ix_documentrecord_2
 CREATE INDEX ix_documentrecord_2 ON documentrecord USING btree (userid);
@@ -36,10 +36,10 @@ CREATE INDEX ix_documentrecord_2 ON documentrecord USING btree (userid);
 CREATE INDEX ix_documentrecord_3 ON documentrecord USING btree (documentrecordid);
 
 -- Index: ix_documentrecord_4
-CREATE INDEX ix_documentrecord_4 ON documentrecord USING btree (subjectid COLLATE pg_catalog."default");
+CREATE INDEX ix_documentrecord_4 ON documentrecord USING btree (subjectid );
 
 -- Index: ix_documentrecord_5
-CREATE INDEX ix_documentrecord_5 ON documentrecord USING btree (originalformat COLLATE pg_catalog."default");
+CREATE INDEX ix_documentrecord_5 ON documentrecord USING btree (originalformat);
 
 -- Table: filesinfo
 
@@ -127,13 +127,13 @@ ALTER TABLE annotationinfo OWNER TO liferay;
 CREATE UNIQUE INDEX annotationinfo_pkey ON annotationinfo USING btree (annotationid);
 
 -- Index: ix_annotationinfo_1
-CREATE INDEX ix_annotationinfo_1 ON annotationinfo USING btree (documentrecordid, name COLLATE pg_catalog."default", annotationtype COLLATE pg_catalog."default", leadindex);
+CREATE INDEX ix_annotationinfo_1 ON annotationinfo USING btree (documentrecordid, name , annotationtype , leadindex);
 
 -- Index: ix_annotationinfo_2
 CREATE INDEX ix_annotationinfo_2 ON annotationinfo USING btree (documentrecordid);
 
 -- Index: ix_annotationinfo_3
-CREATE INDEX ix_annotationinfo_3 ON annotationinfo USING btree (annotationtype COLLATE pg_catalog."default", documentrecordid);
+CREATE INDEX ix_annotationinfo_3 ON annotationinfo USING btree (annotationtype, documentrecordid);
 
 -- Table: uploadstatus
 
