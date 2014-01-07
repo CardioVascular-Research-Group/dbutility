@@ -42,6 +42,7 @@ public class AnnotationInfo implements java.io.Serializable {
 	private String description;
 	private String value;
 	private Long documentRecordId;
+	private Long analysisJobId;
 
 	public AnnotationInfo() {
 	}
@@ -51,7 +52,7 @@ public class AnnotationInfo implements java.io.Serializable {
 	}
 
 	public AnnotationInfo(Long annotationid, Long documentrecordid, Long startingcoordinateid, Long endingcoordinateid, String createdby, String annotationtype, String name, String bioportalreference,
-						  String bioportalid, Integer leadindex, String unitofmeasurement, String description, String value) {
+						  String bioportalid, Integer leadindex, String unitofmeasurement, String description, String value, Long analysisJobId) {
 		this.annotationId = annotationid;
 		this.documentRecordId = documentrecordid;
 		this.startCoordinateId = startingcoordinateid;
@@ -65,6 +66,7 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.unitOfMeasurement = unitofmeasurement;
 		this.description = description;
 		this.value = value;
+		this.analysisJobId = analysisJobId;
 	}
 	
 	public AnnotationInfo(Long annotationid,
@@ -73,7 +75,7 @@ public class AnnotationInfo implements java.io.Serializable {
 			Coordinate coordinateByEndingcoordinateid, String createdby,
 			String annotationtype, String name, String bioportalreference,
 			String bioportalid, Integer leadindex, String unitofmeasurement,
-			String description, String value) {
+			String description, String value, Long analysisJobId) {
 		this.annotationId = annotationid;
 		this.startCoordinate = coordinateByStartingcoordinateid;
 		this.documentRecord = documentrecord;
@@ -87,6 +89,7 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.unitOfMeasurement = unitofmeasurement;
 		this.description = description;
 		this.value = value;
+		this.analysisJobId = analysisJobId;
 	}
 
 	@Id
@@ -250,6 +253,15 @@ public class AnnotationInfo implements java.io.Serializable {
 
 	public void setDocumentRecordId(Long documentrecordid) {
 		this.documentRecordId = documentrecordid;
+	}
+
+	@Column(name = "analysisjobid")
+	public Long getAnalysisJobId() {
+		return analysisJobId;
+	}
+
+	public void setAnalysisJobId(Long analysisJobId) {
+		this.analysisJobId = analysisJobId;
 	}
 
 }

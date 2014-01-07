@@ -104,7 +104,11 @@ CREATE TABLE annotationinfo
   value text,
   documentrecordid bigint,
   "timestamp" timestamp without time zone,
+  analysisjobid bigint,
   CONSTRAINT annotation_pk PRIMARY KEY (annotationid),
+  CONSTRAINT analysisjob_annotationinfo FOREIGN KEY (analysisjobid)
+      REFERENCES analysisjob (analysisjobid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT documentrecord_annotationinfo_fk FOREIGN KEY (documentrecordid)
       REFERENCES documentrecord (documentrecordid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -114,8 +118,7 @@ CREATE TABLE annotationinfo
   CONSTRAINT startcoordinate_fk FOREIGN KEY (startingcoordinateid)
       REFERENCES coordinate (coordinateid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
+)WITH (
   OIDS=FALSE
 );
 ALTER TABLE annotationinfo OWNER TO liferay;

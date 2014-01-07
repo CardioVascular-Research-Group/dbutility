@@ -50,6 +50,8 @@ public class AnnotationDTO implements Serializable{
 	private String newStudyID;
 	private String newRecordName;
 	private String newSubjectID;
+	
+	private Long analysisJobId;
 
 	public AnnotationDTO() {
 	}
@@ -305,6 +307,16 @@ public class AnnotationDTO implements Serializable{
 	
 	public boolean isWholeLead(){
 		return this.getStartXcoord() == null && this.getStartYcoord() == null && this.getEndXcoord() == null && this.getEndYcoord() == null;
+	}
+
+
+	public Long getAnalysisJobId() {
+		return analysisJobId;
+	}
+
+
+	public void setAnalysisJobId(Long analysisJobId) {
+		this.analysisJobId = analysisJobId;
 	}
 	
 }
