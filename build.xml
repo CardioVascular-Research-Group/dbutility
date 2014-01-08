@@ -59,6 +59,8 @@
     	    	
     	<copy todir="${app.server.deploy.dir}/axis2/WEB-INF/lib" file="/opt/liferay/portlet-ext/dbutility.jar" />
     	
+    	<echo>The username is ${user.name}</echo>
+    	
     </target>
 
 </project>
