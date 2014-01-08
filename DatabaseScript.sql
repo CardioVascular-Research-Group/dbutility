@@ -1,4 +1,4 @@
--- Table: documentrecord
+﻿-- Table: documentrecord
 CREATE TABLE documentrecord
 (
   documentrecordid bigint NOT NULL,
@@ -43,6 +43,32 @@ CREATE INDEX ix_documentrecord_5 ON documentrecord USING btree (originalformat);
 
 -- Table: filesinfo
 
+-- Table: analysisjob
+
+CREATE TABLE analysisjob
+(
+  analysisjobid bigint NOT NULL,
+  filecount integer NOT NULL,
+  documentrecordid bigint NOT NULL,
+  parametercount integer NOT NULL,
+  serviceurl character varying(75)[] NOT NULL,
+  servicename character varying(50)[] NOT NULL,
+  servicemethod character varying(50)[] NOT NULL,
+  CONSTRAINT analysisjob_pk PRIMARY KEY (analysisjobid),
+  CONSTRAINT documentrecord_analysisjob_fk FOREIGN KEY (documentrecordid)
+      REFERENCES documentrecord (documentrecordid) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE analysisjob
+  OWNER TO liferay;
+
+-- Index: analysisjob__pkey
+CREATE UNIQUE INDEX analysisjob__pkey ON analysisjob USING btree (analysisjobid);
+ALTER TABLE analysisjob CLUSTER ON analysisjob__pkey;
+
 CREATE TABLE filesinfo
 (
   fileid bigint NOT NULL,
@@ -83,8 +109,7 @@ WITH (
 ALTER TABLE coordinate OWNER TO liferay;
 
 -- Index: coordinate_pkey
-CREATE UNIQUE INDEX coordinate_pkey ON coordinate USING btree (coordinateid);
-	
+CREATE UNIQUE INDEX coordinate_pkey ON coordinate USING btree (coordinateid);	
 
 -- Table: annotationinfo
 
@@ -158,34 +183,6 @@ ALTER TABLE uploadstatus
 
 -- Index: uploadstatus_pkey
 CREATE UNIQUE INDEX uploadstatus_pkey ON uploadstatus USING btree (uploadstatusid);
-
--- Table: analysisjob
-
-CREATE TABLE analysisjob
-(
-  analysisjobid bigint NOT NULL,
-  filecount integer NOT NULL,
-  documentrecordid bigint NOT NULL,
-  parametercount integer NOT NULL,
-  serviceurl character varying(75)[] NOT NULL,
-  servicename character varying(50)[] NOT NULL,
-  servicemethod character varying(50)[] NOT NULL,
-  CONSTRAINT analysisjob_pk PRIMARY KEY (analysisjobid),
-  CONSTRAINT documentrecord_analysisjob_fk FOREIGN KEY (documentrecordid)
-      REFERENCES documentrecord (documentrecordid) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE analysisjob
-  OWNER TO liferay;
-
--- Index: analysisjob__pkey
-CREATE UNIQUE INDEX analysisjob__pkey ON analysisjob USING btree (analysisjobid);
-ALTER TABLE analysisjob CLUSTER ON analysisjob__pkey;
-
-
 
 -- Sequence: annotationinfo_sequence
 
