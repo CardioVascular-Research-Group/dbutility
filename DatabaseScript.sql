@@ -1,3 +1,36 @@
+DROP SEQUENCE analyzejob_sequence;
+DROP SEQUENCE uploadstatus_sequence;
+DROP SEQUENCE documentrecord_sequence;
+DROP SEQUENCE coordinate_sequence;
+DROP SEQUENCE annotationinfo_sequence;
+
+DROP INDEX uploadstatus_pkey;
+DROP TABLE uploadstatus;
+
+DROP INDEX ix_annotationinfo_3;
+DROP INDEX ix_annotationinfo_2;
+DROP INDEX ix_annotationinfo_1;
+DROP INDEX annotationinfo_pkey;
+DROP TABLE annotationinfo;
+
+DROP INDEX coordinate_pkey;
+DROP TABLE coordinate;
+
+DROP INDEX ix_filesinfo_1;
+DROP INDEX filesinfo_pkey;
+DROP TABLE filesinfo;
+
+DROP INDEX analysisjob__pkey;
+DROP TABLE analysisjob;
+
+DROP INDEX ix_documentrecord_5;
+DROP INDEX ix_documentrecord_4;
+DROP INDEX ix_documentrecord_3;
+DROP INDEX ix_documentrecord_2;
+DROP INDEX ix_documentrecord_1;
+DROP INDEX documentrecord_pkey;
+DROP TABLE documentrecord;
+
 ﻿-- Table: documentrecord
 CREATE TABLE documentrecord
 (
@@ -54,6 +87,8 @@ CREATE TABLE analysisjob
   serviceurl character varying(75)[] NOT NULL,
   servicename character varying(50)[] NOT NULL,
   servicemethod character varying(50)[] NOT NULL,
+  userid bigint NOT NULL,
+  dateofanalysis timestamp without time zone NOT NULL,
   CONSTRAINT analysisjob_pk PRIMARY KEY (analysisjobid),
   CONSTRAINT documentrecord_analysisjob_fk FOREIGN KEY (documentrecordid)
       REFERENCES documentrecord (documentrecordid) MATCH SIMPLE
