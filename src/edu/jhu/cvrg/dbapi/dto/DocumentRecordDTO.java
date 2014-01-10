@@ -1,6 +1,8 @@
 package edu.jhu.cvrg.dbapi.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
 public class DocumentRecordDTO implements Serializable{
@@ -134,7 +136,7 @@ public class DocumentRecordDTO implements Serializable{
 	   * @return
 	   */
 	public double getDurationSec(){
-		return this.numberOfPoints/this.samplingRate;
+		return new BigDecimal(this.numberOfPoints/this.samplingRate).setScale(3, RoundingMode.HALF_EVEN).doubleValue();
 	}
 	
 	/** Calculated number of milliseconds in full ECG file, based on getNumberOfPoints and getSamplingRate.
