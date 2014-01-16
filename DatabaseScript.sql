@@ -1,3 +1,6 @@
+﻿;
+-- In the future, an actual solution needs to be found for the above line
+-- It is a temporary workaround to get this script to work on the psql command line
 DROP SEQUENCE analyzejob_sequence;
 DROP SEQUENCE uploadstatus_sequence;
 DROP SEQUENCE documentrecord_sequence;
@@ -31,7 +34,7 @@ DROP INDEX ix_documentrecord_1;
 DROP INDEX documentrecord_pkey;
 DROP TABLE documentrecord;
 
-﻿-- Table: documentrecord
+-- Table: documentrecord
 CREATE TABLE documentrecord
 (
   documentrecordid bigint NOT NULL,
