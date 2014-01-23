@@ -35,7 +35,7 @@ public class DBUtilityProperties {
 	
 	private void loadProperties(){
 		try {
-			if(propertiesFile.lastModified() > lastChange){
+			if(hasChanges()){
 				prop.clear();
 				prop.load(new FileReader(propertiesFile));
 				lastChange = propertiesFile.lastModified();
@@ -47,6 +47,10 @@ public class DBUtilityProperties {
 			e.printStackTrace();
 		}
 
+	}
+
+	public boolean hasChanges() {
+		return propertiesFile.lastModified() > lastChange;
 	}
 	
 	
@@ -62,5 +66,9 @@ public class DBUtilityProperties {
 	public static final String HIBERNATE_DB_PASSWORD = "jdbc.default.password";
 	public static final String HIBERNATE_DB_USERNAME = "jdbc.default.username";
 	public static final String HIBERNATE_SHOW_SQL = "hibernate.show_sql";
+	public static final String HIBERNATE_C3P0_MIN_SIZE = "hibernate.c3p0.min_size";
+	public static final String HIBERNATE_C3P0_MAX_SIZE = "hibernate.c3p0.max_size";
+	public static final String HIBERNATE_C3P0_TIMEOUT = "hibernate.c3p0.timeout";
+	public static final String HIBERNATE_C3P0_MAX_STATEMENTS = "hibernate.c3p0.max_statements";
 
 }

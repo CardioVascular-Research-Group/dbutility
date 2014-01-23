@@ -37,7 +37,12 @@ public class HibernateConnection extends Connection {
 	
 	@Override
 	protected void init() {
-		if(sessionFactory == null){
+		if(sessionFactory == null || props.hasChanges()){
+			
+			if(sessionFactory != null){
+				sessionFactory.close();
+			}
+			
 			Configuration cfg = new Configuration();
 			
 			cfg.addAnnotatedClass(DocumentRecord.class);
@@ -54,10 +59,10 @@ public class HibernateConnection extends Connection {
 	    	cfg.setProperty("hibernate.connection.url", props.getProperty(DBUtilityProperties.HIBERNATE_DB_URL));
 	    	
 	    	cfg.setProperty("hibernate.show_sql", props.getProperty(DBUtilityProperties.HIBERNATE_SHOW_SQL));
-	    	cfg.setProperty("hibernate.c3p0.min_size", "5");
-	    	cfg.setProperty("hibernate.c3p0.max_size", "20");
-	    	cfg.setProperty("hibernate.c3p0.timeout", "1800");
-	    	cfg.setProperty("hibernate.c3p0.max_statements", "50");
+	    	cfg.setProperty("hibernate.c3p0.min_size", props.getProperty(DBUtilityProperties.HIBERNATE_C3P0_MIN_SIZE));
+	    	cfg.setProperty("hibernate.c3p0.max_size", props.getProperty(DBUtilityProperties.HIBERNATE_C3P0_MAX_SIZE));
+	    	cfg.setProperty("hibernate.c3p0.timeout", props.getProperty(DBUtilityProperties.HIBERNATE_C3P0_TIMEOUT));
+	    	cfg.setProperty("hibernate.c3p0.max_statements", props.getProperty(DBUtilityProperties.HIBERNATE_C3P0_MAX_STATEMENTS));
 	    	
 	    	ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(cfg.getProperties()).buildServiceRegistry();        
 	        sessionFactory = cfg.buildSessionFactory(serviceRegistry);
