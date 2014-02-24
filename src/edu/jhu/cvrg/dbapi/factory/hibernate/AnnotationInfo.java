@@ -25,6 +25,8 @@ import javax.persistence.Version;
 @Table(name = "annotationinfo", schema = "public")
 public class AnnotationInfo implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1414386334714848736L;
+	
 	private Long annotationId;
 	private Date timestamp;
 	private Coordinate startCoordinate;
@@ -33,8 +35,9 @@ public class AnnotationInfo implements java.io.Serializable {
 	private String createdBy;
 	private String annotationType;
 	private String name;
+	private Long bioportalOntologyId;
 	private String bioportalReference;
-	private String bioportalId;
+	private String bioportalConceptId;
 	private Integer leadIndex;
 	private Long startCoordinateId;
 	private Long endCoordinateId;
@@ -52,7 +55,7 @@ public class AnnotationInfo implements java.io.Serializable {
 	}
 
 	public AnnotationInfo(Long annotationid, Long documentrecordid, Long startingcoordinateid, Long endingcoordinateid, String createdby, String annotationtype, String name, String bioportalreference,
-						  String bioportalid, Integer leadindex, String unitofmeasurement, String description, String value, Long analysisJobId) {
+						  Long bioportalOntologyId, String bioportalid, Integer leadindex, String unitofmeasurement, String description, String value, Long analysisJobId) {
 		this.annotationId = annotationid;
 		this.documentRecordId = documentrecordid;
 		this.startCoordinateId = startingcoordinateid;
@@ -60,8 +63,9 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.createdBy = createdby;
 		this.annotationType = annotationtype;
 		this.name = name;
+		this.bioportalOntologyId = bioportalOntologyId;
 		this.bioportalReference = bioportalreference;
-		this.bioportalId = bioportalid;
+		this.bioportalConceptId = bioportalid;
 		this.leadIndex = leadindex;
 		this.unitOfMeasurement = unitofmeasurement;
 		this.description = description;
@@ -74,7 +78,7 @@ public class AnnotationInfo implements java.io.Serializable {
 			Coordinate coordinateByStartingcoordinateid,
 			Coordinate coordinateByEndingcoordinateid, String createdby,
 			String annotationtype, String name, String bioportalreference,
-			String bioportalid, Integer leadindex, String unitofmeasurement,
+			Long bioportalOntologyId, String bioportalConceptId, Integer leadindex, String unitofmeasurement,
 			String description, String value, Long analysisJobId) {
 		this.annotationId = annotationid;
 		this.startCoordinate = coordinateByStartingcoordinateid;
@@ -84,7 +88,8 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.annotationType = annotationtype;
 		this.name = name;
 		this.bioportalReference = bioportalreference;
-		this.bioportalId = bioportalid;
+		this.bioportalOntologyId = bioportalOntologyId;
+		this.bioportalConceptId = bioportalConceptId;
 		this.leadIndex = leadindex;
 		this.unitOfMeasurement = unitofmeasurement;
 		this.description = description;
@@ -184,12 +189,12 @@ public class AnnotationInfo implements java.io.Serializable {
 	}
 
 	@Column(name = "bioportalid", length = 75)
-	public String getBioportalId() {
-		return this.bioportalId;
+	public String getBioportalConceptId() {
+		return this.bioportalConceptId;
 	}
 
-	public void setBioportalId(String bioportalid) {
-		this.bioportalId = bioportalid;
+	public void setBioportalConceptId(String bioportalid) {
+		this.bioportalConceptId = bioportalid;
 	}
 
 	@Column(name = "leadindex")
@@ -262,6 +267,15 @@ public class AnnotationInfo implements java.io.Serializable {
 
 	public void setAnalysisJobId(Long analysisJobId) {
 		this.analysisJobId = analysisJobId;
+	}
+
+	@Column(name = "ontologyId")
+	public Long getBioportalOntologyId() {
+		return bioportalOntologyId;
+	}
+
+	public void setBioportalOntologyId(Long ontologyId) {
+		this.bioportalOntologyId = ontologyId;
 	}
 
 }

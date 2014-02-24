@@ -158,7 +158,7 @@ public class HibernateConnection extends Connection {
 		}
 		
 		AnnotationInfo ann = new AnnotationInfo(null, annotation.getRecordID(), startCoordId, endCoordId, annotation.getCreatedBy(), annotation.getAnnotationType(), annotation.getName(), annotation.getBioportalRef(), 
-													  annotation.getBioportalID(), annotation.getLead(), annotation.getUnitMeasurement(), annotation.getDescription(), 
+													  annotation.getBioportalOntologyID(), annotation.getBioportalConceptID(), annotation.getLead(), annotation.getUnitMeasurement(), annotation.getDescription(), 
 													  annotation.getValue(), annotation.getAnalysisJobId());
 		session.save(ann);
 		return ann;

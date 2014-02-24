@@ -24,6 +24,8 @@ import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
  * 	
  * */
 public class AnnotationDTO implements Serializable{
+	
+	public static final Long ECG_TERMS_ONTOLOGY_ID = 48037L;
 
 	private static final long serialVersionUID = 198688003623925166L;
 	
@@ -35,7 +37,8 @@ public class AnnotationDTO implements Serializable{
 	private String createdBy;
 	private String annotationType;
 	private String name;
-	private String bioportalID;
+	private Long bioportalOntologyID;
+	private String bioportalConceptID;
 	private String bioportalRef;
 	private Integer lead;
 	private String unitMeasurement;
@@ -58,7 +61,7 @@ public class AnnotationDTO implements Serializable{
 	
 	
 	public AnnotationDTO(long userID, long groupID, long companyID, Long recordID, String createdBy,
-			String annotationType, String name, String bioportalID, String bioportalRef,
+			String annotationType, String name, Long bioportalOntologyID, String bioportalConceptID, String bioportalRef,
 			Integer lead, String unitMeasurement, String description,
 			String value, Calendar timestamp, Double startXcoord,
 			Double startYcoord, Double endXcoord, Double endYcoord,
@@ -71,7 +74,8 @@ public class AnnotationDTO implements Serializable{
 		this.createdBy = createdBy;
 		this.annotationType = annotationType;
 		this.name = name;
-		this.bioportalID = bioportalID;
+		this.bioportalOntologyID = bioportalOntologyID;
+		this.bioportalConceptID = bioportalConceptID;
 		this.bioportalRef = bioportalRef;
 		this.lead = lead;
 		this.unitMeasurement = unitMeasurement;
@@ -88,7 +92,7 @@ public class AnnotationDTO implements Serializable{
 	}
 	
 	public AnnotationDTO(AnnotationInfo entity){
-		this(entity.getDocumentRecord().getUserId(), 0L, 0L, entity.getDocumentRecordId(), entity.getCreatedBy(), entity.getAnnotationType(), entity.getName(), entity.getBioportalId(), 
+		this(entity.getDocumentRecord().getUserId(), 0L, 0L, entity.getDocumentRecordId(), entity.getCreatedBy(), entity.getAnnotationType(), entity.getName(), entity.getBioportalOntologyId(), entity.getBioportalConceptId(), 
 			 entity.getBioportalReference(), entity.getLeadIndex(), entity.getUnitOfMeasurement(), entity.getDescription(), entity.getValue(), null, null,null, null, null, 
 		     String.valueOf(entity.getDocumentRecordId()), entity.getDocumentRecord().getRecordName(), entity.getDocumentRecord().getSubjectId());
 		
@@ -106,6 +110,7 @@ public class AnnotationDTO implements Serializable{
 		cal.setTime( entity.getTimestamp());
 		this.setTimestamp(cal);
 		this.setAnnotationId(entity.getAnnotationId());
+		
 	}
 
 	public long getUserID() {
@@ -232,7 +237,7 @@ public class AnnotationDTO implements Serializable{
 		annData.setAnnotation(this.getValue());
 		annData.setComment(this.getDescription());
 		
-		annData.setConceptID(this.getBioportalID());
+		annData.setConceptID(this.getBioportalConceptID());
 		annData.setConceptLabel(this.getName());
 		annData.setConceptRestURL(this.getBioportalRef());
 		
@@ -273,12 +278,12 @@ public class AnnotationDTO implements Serializable{
 		this.companyID = companyID;
 	}
 
-	public String getBioportalID() {
-		return bioportalID;
+	public String getBioportalConceptID() {
+		return bioportalConceptID;
 	}
 
-	public void setBioportalID(String bioportalID) {
-		this.bioportalID = bioportalID;
+	public void setBioportalConceptID(String bioportalID) {
+		this.bioportalConceptID = bioportalID;
 	}
 
 	public Long getAnnotationId() {
@@ -317,6 +322,16 @@ public class AnnotationDTO implements Serializable{
 
 	public void setAnalysisJobId(Long analysisJobId) {
 		this.analysisJobId = analysisJobId;
+	}
+
+
+	public Long getBioportalOntologyID() {
+		return bioportalOntologyID;
+	}
+
+
+	public void setBioportalOntologyID(Long ontologyID) {
+		this.bioportalOntologyID = ontologyID;
 	}
 	
 }

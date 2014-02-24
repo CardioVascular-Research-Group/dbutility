@@ -157,7 +157,7 @@ public class JDBCConnection extends Connection{
 		annPstmt.setString(3, annotation.getAnnotationType());
 		annPstmt.setString(4, annotation.getName());
 		annPstmt.setString(5, annotation.getBioportalRef());
-		annPstmt.setString(6, annotation.getBioportalID());
+		annPstmt.setString(6, annotation.getBioportalConceptID());
 		annPstmt.setInt(7, annotation.getLead());
 		
 		annPstmt.setInt(8, startId);
