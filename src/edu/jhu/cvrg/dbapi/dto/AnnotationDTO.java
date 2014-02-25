@@ -23,7 +23,7 @@ import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
  * 		offsetRestURL
  * 	
  * */
-public class AnnotationDTO implements Serializable{
+public class AnnotationDTO implements Serializable, Cloneable{
 	
 	public static final Long ECG_TERMS_ONTOLOGY_ID = 48037L;
 
@@ -326,12 +326,37 @@ public class AnnotationDTO implements Serializable{
 
 
 	public Long getBioportalOntologyID() {
-		return bioportalOntologyID;
+		return bioportalOntologyID == null ? AnnotationDTO.ECG_TERMS_ONTOLOGY_ID : bioportalOntologyID;
 	}
 
 
 	public void setBioportalOntologyID(Long ontologyID) {
 		this.bioportalOntologyID = ontologyID;
+	}
+	
+	public double getDataYChange() {
+		if(isSinglePoint()){
+			return 0;
+		}else{
+			return this.getEndYcoord() - this.getStartYcoord();
+		}
+	}
+	
+	public double getDataXChange() {
+		if(isSinglePoint()){
+			return 0;
+		}else{
+			return this.getEndXcoord() - this.getStartXcoord();
+		}
+	}
+	
+	public AnnotationDTO clone(){
+		
+		try {
+			return (AnnotationDTO) super.clone();
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
 	}
 	
 }
