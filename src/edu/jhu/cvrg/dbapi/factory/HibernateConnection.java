@@ -374,7 +374,7 @@ public class HibernateConnection extends Connection {
 		if(manual){
 			hql.append("createdBy = 'manual'");
 		}else{
-			hql.append("createdBy <> 'manual'");
+			hql.append("(createdBy <> 'manual' or createdBy is null)");
 		}
 		
 		hql.append(" group by leadIndex order by 1");
