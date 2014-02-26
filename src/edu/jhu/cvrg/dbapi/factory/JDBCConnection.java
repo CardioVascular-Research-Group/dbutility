@@ -47,7 +47,7 @@ public class JDBCConnection extends Connection{
 
 	@Override
 	public Long storeDocument(long userID, long groupID, long companyID,
-			String recordName, String subjectID, String originalFormat,
+			String recordName, String subjectID, int originalFormat,
 			double samplingRate, String fileTreePath, int leadCount,
 			int numPoints, Calendar dateUploaded, int age, String gender,
 			Calendar dateRecorded, double aduGain, String studyID,
@@ -63,7 +63,7 @@ public class JDBCConnection extends Connection{
 			docPstmt.setString(2, recordName);
 			docPstmt.setLong(3, userID);
 			docPstmt.setString(4, subjectID);
-			docPstmt.setString(5, originalFormat);
+			docPstmt.setInt(5, originalFormat);
 			docPstmt.setDouble(6, samplingRate);
 			docPstmt.setString(7, fileTreePath);
 			docPstmt.setInt(8, leadCount);

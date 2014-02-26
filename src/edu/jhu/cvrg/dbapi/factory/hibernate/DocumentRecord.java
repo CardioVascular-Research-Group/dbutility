@@ -27,11 +27,13 @@ import javax.persistence.TemporalType;
 @Table(name = "documentrecord", schema = "public")
 public class DocumentRecord implements java.io.Serializable {
 
+	private static final long serialVersionUID = -5169528861003795811L;
+	
 	private Long documentRecordId;
 	private String recordName;
 	private Long userId;
 	private String subjectId;
-	private String originalFormat;
+	private Integer originalFormat;
 	private Double samplingRate;
 	private String fileTreePath;
 	private Integer leadCount;
@@ -54,7 +56,7 @@ public class DocumentRecord implements java.io.Serializable {
 	}
 
 	public DocumentRecord(Long documentrecordid, String recordname,
-			Long userid, String subjectid, String originalformat,
+			Long userid, String subjectid, Integer originalformat,
 			Double samplingrate, String filetreepath, Integer leadcount,
 			Integer numberofpoints, Date dateofupload, Integer age,
 			String gender, Date dateofrecording, Double adugain) {
@@ -113,12 +115,12 @@ public class DocumentRecord implements java.io.Serializable {
 		this.subjectId = subjectid;
 	}
 
-	@Column(name = "originalformat", length = 75)
-	public String getOriginalFormat() {
+	@Column(name = "originalformat")
+	public Integer getOriginalFormat() {
 		return this.originalFormat;
 	}
 
-	public void setOriginalFormat(String originalformat) {
+	public void setOriginalFormat(Integer originalformat) {
 		this.originalFormat = originalformat;
 	}
 

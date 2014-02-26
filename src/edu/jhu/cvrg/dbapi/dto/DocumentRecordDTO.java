@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
 
+import edu.jhu.cvrg.dbapi.enums.EnumFileType;
+
 public class DocumentRecordDTO implements Serializable{
 
 	private static final long serialVersionUID = 2261268385587096394L;
@@ -13,7 +15,7 @@ public class DocumentRecordDTO implements Serializable{
 	private String recordName;
 	private Long userId;
 	private String subjectId;
-	private String originalFormat;
+	private EnumFileType originalFormat;
 	private Double samplingRate;
 	private String fileTreePath;
 	private Integer leadCount;
@@ -25,7 +27,7 @@ public class DocumentRecordDTO implements Serializable{
 	private Double aduGain;
 	
 	public DocumentRecordDTO(Long documentRecordId, String recordName,
-			Long userId, String subjectId, String originalFormat,
+			Long userId, String subjectId, EnumFileType originalFormat,
 			Double samplingRate, String fileTreePath, Integer leadCount,
 			Integer numberOfPoints, Date dateOfUpload, Integer age,
 			String gender, Date dateOfRecording, Double aduGain) {
@@ -70,10 +72,10 @@ public class DocumentRecordDTO implements Serializable{
 	public void setSubjectId(String subjectId) {
 		this.subjectId = subjectId;
 	}
-	public String getOriginalFormat() {
+	public EnumFileType getOriginalFormat() {
 		return originalFormat;
 	}
-	public void setOriginalFormat(String originalFormat) {
+	public void setOriginalFormat(EnumFileType originalFormat) {
 		this.originalFormat = originalFormat;
 	}
 	public Double getSamplingRate() {

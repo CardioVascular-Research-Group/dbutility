@@ -24,7 +24,7 @@ public class LiferayLocalConnection extends Connection{
 	
 
 	@Override
-	public Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, String originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId) {
+	public Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, int originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

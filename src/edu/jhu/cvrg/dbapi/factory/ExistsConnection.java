@@ -35,7 +35,7 @@ public class ExistsConnection extends Connection{
 	}
 	
 	@Override
-	public Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, String originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId) {
+	public Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, int originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId) {
 		/*
 		 * NEW COLUMNS
 		 * 	
@@ -69,7 +69,7 @@ public class ExistsConnection extends Connection{
 				metaData.setRecordName(recordName);
 			}
 			
-			metaData.setFileFormat(Integer.valueOf(originalFormat));
+			metaData.setFileFormat(originalFormat);
 			metaData.setNumberOfPoints(numPoints);
 			metaData.setUserID(String.valueOf(userID));
 			metaData.setSubjectAge(age);

@@ -30,7 +30,7 @@ public abstract class Connection {
 
 	protected abstract void init();
 	
-	public abstract Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, String originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId);
+	public abstract Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, int originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId);
 	public abstract Long storeAnnotations(Set<AnnotationDTO> annotSet);
 	public abstract Long storeAnnotation(AnnotationDTO annotation);
 	public abstract boolean storeFilesInfo(long documentRecordId, long[] fileEntryId, Long analysisJobId);

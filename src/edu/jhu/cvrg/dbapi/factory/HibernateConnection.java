@@ -18,6 +18,7 @@ import edu.jhu.cvrg.dbapi.dto.AnalysisJobDTO;
 import edu.jhu.cvrg.dbapi.dto.AnnotationDTO;
 import edu.jhu.cvrg.dbapi.dto.DocumentRecordDTO;
 import edu.jhu.cvrg.dbapi.dto.FileInfoDTO;
+import edu.jhu.cvrg.dbapi.enums.EnumFileType;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AnalysisJob;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
 import edu.jhu.cvrg.dbapi.factory.hibernate.Coordinate;
@@ -71,7 +72,7 @@ public class HibernateConnection extends Connection {
 
 	@Override
 	public Long storeDocument(long userID, long groupID, long companyID,
-			String recordName, String subjectID, String originalFormat,
+			String recordName, String subjectID, int originalFormat,
 			double samplingRate, String fileTreePath, int leadCount,
 			int numPoints, Calendar dateUploaded, int age, String gender,
 			Calendar dateRecorded, double aduGain, String studyID,
@@ -306,7 +307,7 @@ public class HibernateConnection extends Connection {
 		
 		if(l.size() > 0){
 			DocumentRecord entity = l.get(0);
-			ret = new DocumentRecordDTO(entity.getDocumentRecordId(), entity.getRecordName(), entity.getUserId(), entity.getSubjectId(), entity.getOriginalFormat(), entity.getSamplingRate(), entity.getFileTreePath(),entity.getLeadCount(), entity.getNumberOfPoints(), entity.getDateOfUpload(), entity.getAge(), entity.getGender(), entity.getDateOfRecording(), entity.getAduGain());
+			ret = new DocumentRecordDTO(entity.getDocumentRecordId(), entity.getRecordName(), entity.getUserId(), entity.getSubjectId(), EnumFileType.getTypeById(entity.getOriginalFormat()), entity.getSamplingRate(), entity.getFileTreePath(),entity.getLeadCount(), entity.getNumberOfPoints(), entity.getDateOfUpload(), entity.getAge(), entity.getGender(), entity.getDateOfRecording(), entity.getAduGain());
 		}
 		session.close();
 		

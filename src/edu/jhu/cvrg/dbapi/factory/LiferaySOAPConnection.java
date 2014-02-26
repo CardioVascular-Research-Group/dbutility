@@ -43,7 +43,7 @@ public class LiferaySOAPConnection extends Connection{
 	}
 	
 	@Override
-	public Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, String originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId) {
+	public Long storeDocument(long userID, long groupID, long companyID, String recordName, String subjectID, int originalFormat, double samplingRate, String fileTreePath, int leadCount, int numPoints, Calendar dateUploaded, int age, String gender, Calendar dateRecorded, double aduGain, String studyID, int fileSize, String datatype, long[] filesId) {
 		
 		DocumentRecordServiceSoap documentService = this.getDocumentService();
 		FilesInfoServiceSoap filesInfoService = this.getFilesInfoService();
@@ -51,7 +51,7 @@ public class LiferaySOAPConnection extends Connection{
 		try {
 			
 			
-			DocumentRecordSoap doc = documentService.addDocumentRecord(userID, groupID, companyID, recordName, subjectID, originalFormat, samplingRate, fileTreePath, leadCount, numPoints, dateUploaded, age, gender, dateRecorded, aduGain);
+			DocumentRecordSoap doc = documentService.addDocumentRecord(userID, groupID, companyID, recordName, subjectID, String.valueOf(originalFormat), samplingRate, fileTreePath, leadCount, numPoints, dateUploaded, age, gender, dateRecorded, aduGain);
 			
 			if(filesId != null){
 				for (long liferayFileId : filesId) {
