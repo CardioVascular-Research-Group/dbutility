@@ -42,7 +42,7 @@ public abstract class Connection {
 	public abstract AnalysisJobDTO getAnalysisJobById(long jobId);
 	public abstract DocumentRecordDTO getDocumentRecordById(long documentRecordId);
 	public abstract int[][] getAnnotationCountPerLead(Long docId, int qtdLead);
-	public abstract List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId, int leadIndex);
+	public abstract List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId, Integer leadIndex);
 	public abstract AnnotationDTO getAnnotationById(Long userId, Long annotationId);
 	
 	public ConnectionType getType() {

@@ -206,8 +206,7 @@ public class ExistsConnection extends Connection{
 	}
 
 	@Override
-	public List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId,
-			int leadIndex) {
+	public List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId, Integer leadIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}

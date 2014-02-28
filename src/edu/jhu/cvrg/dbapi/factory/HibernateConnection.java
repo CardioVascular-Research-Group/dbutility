@@ -370,12 +370,12 @@ public class HibernateConnection extends Connection {
 		
 		StringBuilder hql = new StringBuilder();
 		
-		hql.append("select leadIndex, count(annotationId) from AnnotationInfo where documentRecordId = :docId and ");
+		hql.append("select leadIndex, count(annotationId) from AnnotationInfo where documentRecordId = :docId and leadindex is not null and ");
 		
 		if(manual){
-			hql.append("createdBy = 'manual'");
+			hql.append(" createdBy = 'manual' ");
 		}else{
-			hql.append("(createdBy <> 'manual' or createdBy is null)");
+			hql.append(" (createdBy <> 'manual' or createdBy is null) ");
 		}
 		
 		hql.append(" group by leadIndex order by 1");
@@ -397,7 +397,7 @@ public class HibernateConnection extends Connection {
 	}
 	
 	@Override
-	public List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId, int leadIndex){
+	public List<AnnotationDTO> getLeadAnnotationNode(Long userId, Long docId, Integer leadIndex){
 		List<AnnotationDTO> annotations = null;
 		
 		Session session = sessionFactory.openSession();
@@ -407,14 +407,24 @@ public class HibernateConnection extends Connection {
 		hql.append("select a from DocumentRecord d ")
 			.append("inner join d.annotationInfos as a ")
 			.append("left  join a.startCoordinate as cStart ")
-			.append("where d.documentRecordId = :docId and d.userId = :userId and a.leadIndex = :leadIndex ")
-			.append("order by cStart.xCoordinate ");
+			.append("where d.documentRecordId = :docId and d.userId = :userId and a.leadIndex ");
+		
+		if(leadIndex != null){
+			hql.append(" = :leadIndex ");	
+		}else{
+			hql.append(" is null ");
+		}
+		
+		hql.append("order by cStart.xCoordinate ");
 		
 		Query q = session.createQuery(hql.toString());
 		
 		q.setParameter("docId", docId);
 		q.setParameter("userId", userId);
-		q.setParameter("leadIndex", leadIndex);
+		
+		if(leadIndex != null){
+			q.setParameter("leadIndex", leadIndex);
+		}
 		
 		List<AnnotationInfo> result = q.list();
 		

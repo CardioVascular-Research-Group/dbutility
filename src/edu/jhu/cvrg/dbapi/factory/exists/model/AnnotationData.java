@@ -16,7 +16,7 @@ public class AnnotationData implements Serializable , Comparable<AnnotationData>
 	private String userID;
 	private String subjectID;
 	private String studyID = "Mesa";
-	private int leadIndex;
+	private Integer leadIndex;
 	private String leadName;	
 	private Double milliSecondStart; // start time of interval in milliSeconds from beginning of the file.
 	private Double uVoltStart;	// Y Coordinate in Schema
@@ -89,7 +89,7 @@ public class AnnotationData implements Serializable , Comparable<AnnotationData>
 	 * e.g lead 0 is "I", 1 is "II"
 	 * @return
 	 */
-	public int getLeadIndex() {
+	public Integer getLeadIndex() {
 		return leadIndex;
 	}
 	
@@ -131,7 +131,7 @@ public class AnnotationData implements Serializable , Comparable<AnnotationData>
 		return leadIndex;
 	}
 	
-	public void setLeadIndex(int lead) {
+	public void setLeadIndex(Integer lead) {
 		this.leadIndex = lead;
 	}
 
@@ -140,9 +140,12 @@ public class AnnotationData implements Serializable , Comparable<AnnotationData>
 	 * @return
 	 */
 	public String getLeadName() {
-		leadName=getLeadName(this.leadIndex);
+		if(this.leadIndex != null){
+			leadName=getLeadName(this.leadIndex);
+		}else{
+			leadName=null;
+		}
 		
-
 		return leadName;
 	}
 	
