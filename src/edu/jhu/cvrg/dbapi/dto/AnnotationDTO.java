@@ -1,6 +1,8 @@
 package edu.jhu.cvrg.dbapi.dto;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -25,7 +27,7 @@ import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
  * */
 public class AnnotationDTO implements Serializable, Cloneable{
 	
-	public static final Long ECG_TERMS_ONTOLOGY_ID = 48037L;
+	public static final String ECG_TERMS_ONTOLOGY = "ECGT";
 
 	private static final long serialVersionUID = 198688003623925166L;
 	
@@ -37,9 +39,9 @@ public class AnnotationDTO implements Serializable, Cloneable{
 	private String createdBy;
 	private String annotationType;
 	private String name;
-	private Long bioportalOntologyID;
-	private String bioportalConceptID;
-	private String bioportalRef;
+	private String bioportalOntology;
+	private String bioportalClassId;
+	private String bioportalReferenceLink;
 	private Integer lead;
 	private String unitMeasurement;
 	private String description;
@@ -61,7 +63,7 @@ public class AnnotationDTO implements Serializable, Cloneable{
 	
 	
 	public AnnotationDTO(long userID, long groupID, long companyID, Long recordID, String createdBy,
-			String annotationType, String name, Long bioportalOntologyID, String bioportalConceptID, String bioportalRef,
+			String annotationType, String name, String bioportalOntologyID, String bioportalClassId, String bioportalReferenceLink,
 			Integer lead, String unitMeasurement, String description,
 			String value, Calendar timestamp, Double startXcoord,
 			Double startYcoord, Double endXcoord, Double endYcoord,
@@ -74,9 +76,15 @@ public class AnnotationDTO implements Serializable, Cloneable{
 		this.createdBy = createdBy;
 		this.annotationType = annotationType;
 		this.name = name;
-		this.bioportalOntologyID = bioportalOntologyID;
-		this.bioportalConceptID = bioportalConceptID;
-		this.bioportalRef = bioportalRef;
+		this.bioportalOntology = bioportalOntologyID;
+		this.bioportalClassId = bioportalClassId;
+		
+		if(bioportalReferenceLink == null){
+			this.bioportalReferenceLink = AnnotationDTO.generateURL(bioportalOntologyID, bioportalClassId);
+		}else{
+			this.bioportalReferenceLink = bioportalReferenceLink;
+		}
+		
 		this.lead = lead;
 		this.unitMeasurement = unitMeasurement;
 		this.description = description;
@@ -92,8 +100,8 @@ public class AnnotationDTO implements Serializable, Cloneable{
 	}
 	
 	public AnnotationDTO(AnnotationInfo entity){
-		this(entity.getDocumentRecord().getUserId(), 0L, 0L, entity.getDocumentRecordId(), entity.getCreatedBy(), entity.getAnnotationType(), entity.getName(), entity.getBioportalOntologyId(), entity.getBioportalConceptId(), 
-			 entity.getBioportalReference(), entity.getLeadIndex(), entity.getUnitOfMeasurement(), entity.getDescription(), entity.getValue(), null, null,null, null, null, 
+		this(entity.getDocumentRecord().getUserId(), 0L, 0L, entity.getDocumentRecordId(), entity.getCreatedBy(), entity.getAnnotationType(), entity.getName(), entity.getBioportalOntology(), entity.getBioportalClassId(), 
+			 entity.getBioportalReferenceLink(), entity.getLeadIndex(), entity.getUnitOfMeasurement(), entity.getDescription(), entity.getValue(), null, null,null, null, null, 
 		     String.valueOf(entity.getDocumentRecordId()), entity.getDocumentRecord().getRecordName(), entity.getDocumentRecord().getSubjectId());
 		
 		if(entity.getStartCoordinate() != null){
@@ -143,11 +151,11 @@ public class AnnotationDTO implements Serializable, Cloneable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getBioportalRef() {
-		return bioportalRef;
+	public String getBioportalReferenceLink() {
+		return bioportalReferenceLink;
 	}
-	public void setBioportalRef(String bioportalRef) {
-		this.bioportalRef = bioportalRef;
+	public void setBioportalReferenceLink(String bioportalReferenceLink) {
+		this.bioportalReferenceLink = bioportalReferenceLink;
 	}
 	public Integer getLead() {
 		return lead;
@@ -237,9 +245,9 @@ public class AnnotationDTO implements Serializable, Cloneable{
 		annData.setAnnotation(this.getValue());
 		annData.setComment(this.getDescription());
 		
-		annData.setConceptID(this.getBioportalConceptID());
+		annData.setConceptID(this.getBioportalClassId());
 		annData.setConceptLabel(this.getName());
-		annData.setConceptRestURL(this.getBioportalRef());
+		annData.setConceptRestURL(this.getBioportalReferenceLink());
 		
 		annData.setCreator(this.getCreatedBy());
 		
@@ -278,12 +286,12 @@ public class AnnotationDTO implements Serializable, Cloneable{
 		this.companyID = companyID;
 	}
 
-	public String getBioportalConceptID() {
-		return bioportalConceptID;
+	public String getBioportalClassId() {
+		return bioportalClassId;
 	}
 
-	public void setBioportalConceptID(String bioportalID) {
-		this.bioportalConceptID = bioportalID;
+	public void setBioportalClassId(String bioportalClassId) {
+		this.bioportalClassId = bioportalClassId;
 	}
 
 	public Long getAnnotationId() {
@@ -325,13 +333,13 @@ public class AnnotationDTO implements Serializable, Cloneable{
 	}
 
 
-	public Long getBioportalOntologyID() {
-		return bioportalOntologyID == null ? AnnotationDTO.ECG_TERMS_ONTOLOGY_ID : bioportalOntologyID;
+	public String getBioportalOntology() {
+		return bioportalOntology;
 	}
 
 
-	public void setBioportalOntologyID(Long ontologyID) {
-		this.bioportalOntologyID = ontologyID;
+	public void setBioportalOntology(String bioportalOntology) {
+		this.bioportalOntology = bioportalOntology;
 	}
 	
 	public double getDataYChange() {
@@ -358,5 +366,22 @@ public class AnnotationDTO implements Serializable, Cloneable{
 			return null;
 		}
 	}
-	
+
+	public static String generateURL(String bioportalOntologyID, String bioportalClassId){
+		String ret = null;
+		if(bioportalOntologyID != null && bioportalClassId != null){
+			String tmpClass = bioportalClassId;
+			if(bioportalClassId.contains("http://")){
+				try {
+					tmpClass = URLEncoder.encode(bioportalClassId, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			ret = "http://bioportal.bioontology.org/ontologies/" + bioportalOntologyID + "/?p=classes&conceptid=" + tmpClass;
+		}
+		return ret;
+	}
+
 }

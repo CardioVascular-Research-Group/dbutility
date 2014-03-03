@@ -35,9 +35,9 @@ public class AnnotationInfo implements java.io.Serializable {
 	private String createdBy;
 	private String annotationType;
 	private String name;
-	private Long bioportalOntologyId;
-	private String bioportalReference;
-	private String bioportalConceptId;
+	private String bioportalOntology;
+	private String bioportalReferenceLink;
+	private String bioportalClassId;
 	private Integer leadIndex;
 	private Long startCoordinateId;
 	private Long endCoordinateId;
@@ -54,8 +54,8 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.annotationId = annotationid;
 	}
 
-	public AnnotationInfo(Long annotationid, Long documentrecordid, Long startingcoordinateid, Long endingcoordinateid, String createdby, String annotationtype, String name, String bioportalreference,
-						  Long bioportalOntologyId, String bioportalid, Integer leadindex, String unitofmeasurement, String description, String value, Long analysisJobId) {
+	public AnnotationInfo(Long annotationid, Long documentrecordid, Long startingcoordinateid, Long endingcoordinateid, String createdby, String annotationtype, String name, String bioportalreferenceLink,
+						  String bioportalOntology, String bioportalid, Integer leadindex, String unitofmeasurement, String description, String value, Long analysisJobId) {
 		this.annotationId = annotationid;
 		this.documentRecordId = documentrecordid;
 		this.startCoordinateId = startingcoordinateid;
@@ -63,9 +63,9 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.createdBy = createdby;
 		this.annotationType = annotationtype;
 		this.name = name;
-		this.bioportalOntologyId = bioportalOntologyId;
-		this.bioportalReference = bioportalreference;
-		this.bioportalConceptId = bioportalid;
+		this.bioportalOntology = bioportalOntology;
+		this.bioportalReferenceLink = bioportalreferenceLink;
+		this.bioportalClassId = bioportalid;
 		this.leadIndex = leadindex;
 		this.unitOfMeasurement = unitofmeasurement;
 		this.description = description;
@@ -77,8 +77,8 @@ public class AnnotationInfo implements java.io.Serializable {
 			DocumentRecord documentrecord,
 			Coordinate coordinateByStartingcoordinateid,
 			Coordinate coordinateByEndingcoordinateid, String createdby,
-			String annotationtype, String name, String bioportalreference,
-			Long bioportalOntologyId, String bioportalConceptId, Integer leadindex, String unitofmeasurement,
+			String annotationtype, String name, String bioportalReferenceLink,
+			String bioportalOntology, String bioportalClassId, Integer leadindex, String unitofmeasurement,
 			String description, String value, Long analysisJobId) {
 		this.annotationId = annotationid;
 		this.startCoordinate = coordinateByStartingcoordinateid;
@@ -87,9 +87,9 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.createdBy = createdby;
 		this.annotationType = annotationtype;
 		this.name = name;
-		this.bioportalReference = bioportalreference;
-		this.bioportalOntologyId = bioportalOntologyId;
-		this.bioportalConceptId = bioportalConceptId;
+		this.bioportalReferenceLink = bioportalReferenceLink;
+		this.bioportalOntology = bioportalOntology;
+		this.bioportalClassId = bioportalClassId;
 		this.leadIndex = leadindex;
 		this.unitOfMeasurement = unitofmeasurement;
 		this.description = description;
@@ -179,22 +179,31 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "bioportalreference", length = 75)
-	public String getBioportalReference() {
-		return this.bioportalReference;
+	@Column(name = "bioportalreferencelink", length = 200)
+	public String getBioportalReferenceLink() {
+		return this.bioportalReferenceLink;
 	}
 
-	public void setBioportalReference(String bioportalreference) {
-		this.bioportalReference = bioportalreference;
+	public void setBioportalReferenceLink(String bioportalreferenceLink) {
+		this.bioportalReferenceLink = bioportalreferenceLink;
 	}
 
-	@Column(name = "bioportalid", length = 75)
-	public String getBioportalConceptId() {
-		return this.bioportalConceptId;
+	@Column(name = "bioportalclassid", length = 200)
+	public String getBioportalClassId() {
+		return this.bioportalClassId;
 	}
 
-	public void setBioportalConceptId(String bioportalid) {
-		this.bioportalConceptId = bioportalid;
+	public void setBioportalClassId(String bioportalid) {
+		this.bioportalClassId = bioportalid;
+	}
+	
+	@Column(name = "bioportalontology", length = 50)
+	public String getBioportalOntology() {
+		return bioportalOntology;
+	}
+
+	public void setBioportalOntology(String ontologyId) {
+		this.bioportalOntology = ontologyId;
 	}
 
 	@Column(name = "leadindex")
@@ -267,15 +276,6 @@ public class AnnotationInfo implements java.io.Serializable {
 
 	public void setAnalysisJobId(Long analysisJobId) {
 		this.analysisJobId = analysisJobId;
-	}
-
-	@Column(name = "ontologyId")
-	public Long getBioportalOntologyId() {
-		return bioportalOntologyId;
-	}
-
-	public void setBioportalOntologyId(Long ontologyId) {
-		this.bioportalOntologyId = ontologyId;
 	}
 
 }

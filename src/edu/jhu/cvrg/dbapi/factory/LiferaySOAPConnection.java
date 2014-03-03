@@ -184,7 +184,7 @@ public class LiferaySOAPConnection extends Connection{
 				
 				
 				AnnotationInfoSoap ann = annotationService.addAnnotationInfo(annotation.getUserID(), annotation.getGroupID(), annotation.getCompanyID(), annotation.getRecordID(), annotation.getCreatedBy(), annotation.getAnnotationType(),
-																			 annotation.getName(), annotation.getBioportalConceptID(), annotation.getBioportalRef(), annotation.getLead(), startCoordId, endCoordId, annotation.getUnitMeasurement(), 
+																			 annotation.getName(), annotation.getBioportalClassId(), annotation.getBioportalReferenceLink(), annotation.getLead(), startCoordId, endCoordId, annotation.getUnitMeasurement(), 
 																			 annotation.getDescription(), annotation.getValue(), annotation.getTimestamp());
 				
 				if(ann != null){
@@ -219,7 +219,7 @@ public class LiferaySOAPConnection extends Connection{
 			}
 			
 			AnnotationInfoSoap ann = annotationService.addAnnotationInfo(annotation.getUserID(), annotation.getGroupID(), annotation.getCompanyID(), annotation.getRecordID(), annotation.getCreatedBy(), annotation.getAnnotationType(),
-																		 annotation.getName(), annotation.getBioportalConceptID(), annotation.getBioportalRef(), annotation.getLead(), startCoordId, endCoordId, annotation.getUnitMeasurement(), 
+																		 annotation.getName(), annotation.getBioportalClassId(), annotation.getBioportalReferenceLink(), annotation.getLead(), startCoordId, endCoordId, annotation.getUnitMeasurement(), 
 																		 annotation.getDescription(), annotation.getValue(), annotation.getTimestamp());
 			
 			return ann.getAnnotationID();
