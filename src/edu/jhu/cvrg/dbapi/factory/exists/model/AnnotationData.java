@@ -2,6 +2,7 @@ package edu.jhu.cvrg.dbapi.factory.exists.model;
 
 import java.io.Serializable;
 
+@Deprecated
 public class AnnotationData implements Serializable , Comparable<AnnotationData> {
 
 	private static final long serialVersionUID = 36376190556447571L;
