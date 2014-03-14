@@ -384,4 +384,26 @@ public class AnnotationDTO implements Serializable, Cloneable{
 		return ret;
 	}
 
+	public int getExpTimeInSec(){
+		int exponent=0;
+		double miliSec = 0;
+		if(this.getStartXcoord()!=null){
+			miliSec = this.getStartXcoord();
+		}else if(this.getEndXcoord() != null){
+			miliSec = this.getEndXcoord();
+		}
+			
+		if(miliSec>0){	
+			double secMinTime = miliSec/1000;
+			
+			for (int i = 0; i < 10; i++) {
+				if(secMinTime/Math.pow(10, i) < 10){
+					exponent = i;
+					break;
+				}
+			}
+		}
+		return exponent;
+	}
+	
 }
