@@ -9,6 +9,8 @@ import edu.jhu.cvrg.dbapi.dto.AnalysisJobDTO;
 import edu.jhu.cvrg.dbapi.dto.AnnotationDTO;
 import edu.jhu.cvrg.dbapi.dto.DocumentRecordDTO;
 import edu.jhu.cvrg.dbapi.dto.FileInfoDTO;
+import edu.jhu.cvrg.dbapi.dto.UploadStatusDTO;
+import edu.jhu.cvrg.dbapi.enums.EnumUploadState;
 
 public class LiferayLocalConnection extends Connection{
 
@@ -97,4 +99,28 @@ public class LiferayLocalConnection extends Connection{
 		return null;
 	}
 
+	@Override
+	public boolean updateUploadStatus(long documentRecordId, EnumUploadState uploadPhase, Long time, Boolean status, String message) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean storeUploadStatus(UploadStatusDTO status) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<UploadStatusDTO> getUploadStatusByUser(long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UploadStatusDTO> getUploadStatusByUserAndDocId(long userId,
+			Set<Long> docIds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

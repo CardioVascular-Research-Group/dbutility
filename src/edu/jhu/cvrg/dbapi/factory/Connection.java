@@ -11,6 +11,8 @@ import edu.jhu.cvrg.dbapi.dto.AnalysisJobDTO;
 import edu.jhu.cvrg.dbapi.dto.AnnotationDTO;
 import edu.jhu.cvrg.dbapi.dto.DocumentRecordDTO;
 import edu.jhu.cvrg.dbapi.dto.FileInfoDTO;
+import edu.jhu.cvrg.dbapi.dto.UploadStatusDTO;
+import edu.jhu.cvrg.dbapi.enums.EnumUploadState;
 import edu.jhu.cvrg.dbapi.util.DBUtilityProperties;
 
 public abstract class Connection {
@@ -35,6 +37,11 @@ public abstract class Connection {
 	public abstract Long storeAnnotation(AnnotationDTO annotation);
 	public abstract boolean storeFilesInfo(long documentRecordId, long[] fileEntryId, Long analysisJobId);
 	public abstract Long storeAnalysisJob(long documentRecord, int fileCount, int parameterCount, String serviceUrl, String serviceName, String serviceMethod, Date dateOfAnalysis, long userId);
+	public abstract boolean updateUploadStatus(long documentRecordId, EnumUploadState uploadPhase, Long time, Boolean status, String message);
+	public abstract boolean storeUploadStatus(UploadStatusDTO status);
+	public abstract List<UploadStatusDTO> getUploadStatusByUser(long userId);
+	public abstract List<UploadStatusDTO> getUploadStatusByUserAndDocId(long userId, Set<Long> docIds);
+	
 	
 	public abstract List<FileInfoDTO> getFileListByUser(long userId);
 	public abstract List<FileInfoDTO> getFileListByDocumentRecordId(long docId);

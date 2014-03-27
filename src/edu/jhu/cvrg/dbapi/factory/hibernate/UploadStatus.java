@@ -1,13 +1,11 @@
 package edu.jhu.cvrg.dbapi.factory.hibernate;
 
-// Generated Dec 7, 2013 2:31:41 PM by Hibernate Tools 4.0.0
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -17,43 +15,69 @@ import javax.persistence.Table;
 @Table(name = "uploadstatus", schema = "public")
 public class UploadStatus implements java.io.Serializable {
 
-	private long uploadStatusId;
+	private static final long serialVersionUID = -7924573640720178670L;
+	
 	private DocumentRecord documentRecord;
-	private String fileTransfer;
-	private String fileConversion;
-	private String recordCreation;
-	private String annotationCreation;
+	private Long documentRecordId;
+	private Long annotationTime;
+	private Long transferReadTime;
+	private Long validationTime;
+	private Long writeTime;
+	private Boolean status;
+	private String message; 
 
 	public UploadStatus() {
 	}
 
-	public UploadStatus(long uploadstatusid) {
-		this.uploadStatusId = uploadstatusid;
-	}
-
-	public UploadStatus(long uploadstatusid, DocumentRecord documentrecord,
-			String filetransfer, String fileconversion, String recordcreation,
-			String annotationcreation) {
-		this.uploadStatusId = uploadstatusid;
-		this.documentRecord = documentrecord;
-		this.fileTransfer = filetransfer;
-		this.fileConversion = fileconversion;
-		this.recordCreation = recordcreation;
-		this.annotationCreation = annotationcreation;
+	public UploadStatus(Long documentrecordid, Long annotationtime,Long transferreadtime, Long validationtime, Long writetime, Boolean status, String message) {
+		super();
+		this.documentRecordId = documentrecordid;
+		this.annotationTime = annotationtime;
+		this.transferReadTime = transferreadtime;
+		this.validationTime = validationtime;
+		this.writeTime = writetime;
+		this.status = status;
+		this.message = message;
 	}
 
 	@Id
-	@Column(name = "uploadstatusid", unique = true, nullable = false)
-	public long getUploadStatusId() {
-		return this.uploadStatusId;
+	@Column(name = "documentrecordid", unique = true, nullable = false)
+	public Long getDocumentRecordId() {
+		return documentRecordId;
+	}
+	
+	@Column(name = "annotationtime")
+	public Long getAnnotationTime() {
+		return annotationTime;
 	}
 
-	public void setUploadStatusId(long uploadstatusid) {
-		this.uploadStatusId = uploadstatusid;
+	@Column(name = "transferreadtime")
+	public Long getTransferReadTime() {
+		return transferReadTime;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "documentrecordid", insertable = false, updatable = false)
+	@Column(name = "validationtime")
+	public Long getValidationTime() {
+		return validationTime;
+	}
+
+	@Column(name = "writetime")
+	public Long getWriteTime() {
+		return writeTime;
+	}
+	
+	@Column(name = "status")
+	public Boolean getStatus() {
+		return status;
+	}
+
+	@Column(name = "message", length = 300)
+	public String getMessage() {
+		return message;
+	}
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	public DocumentRecord getDocumentRecord() {
 		return this.documentRecord;
 	}
@@ -61,41 +85,53 @@ public class UploadStatus implements java.io.Serializable {
 	public void setDocumentRecord(DocumentRecord documentrecord) {
 		this.documentRecord = documentrecord;
 	}
-
-	@Column(name = "filetransfer", length = 75)
-	public String getFileTransfer() {
-		return this.fileTransfer;
+	public void setDocumentRecordId(Long documentrecordid) {
+		this.documentRecordId = documentrecordid;
+	}
+	public void setAnnotationTime(Long annotationtime) {
+		this.annotationTime = annotationtime;
+	}
+	public void setTransferReadTime(Long transferreadtime) {
+		this.transferReadTime = transferreadtime;
+	}
+	public void setValidationTime(Long validationtime) {
+		this.validationTime = validationtime;
+	}
+	public void setWriteTime(Long writetime) {
+		this.writeTime = writetime;
+	}
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((documentRecordId == null) ? 0 : documentRecordId.hashCode());
+		return result;
 	}
 
-	public void setFileTransfer(String filetransfer) {
-		this.fileTransfer = filetransfer;
-	}
-
-	@Column(name = "fileconversion", length = 75)
-	public String getFileConversion() {
-		return this.fileConversion;
-	}
-
-	public void setFileConversion(String fileconversion) {
-		this.fileConversion = fileconversion;
-	}
-
-	@Column(name = "recordcreation", length = 75)
-	public String getRecordCreation() {
-		return this.recordCreation;
-	}
-
-	public void setRecordCreation(String recordcreation) {
-		this.recordCreation = recordcreation;
-	}
-
-	@Column(name = "annotationcreation", length = 75)
-	public String getAnnotationCreation() {
-		return this.annotationCreation;
-	}
-
-	public void setAnnotationCreation(String annotationcreation) {
-		this.annotationCreation = annotationcreation;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UploadStatus other = (UploadStatus) obj;
+		if (documentRecordId == null) {
+			if (other.documentRecordId != null)
+				return false;
+		} else if (!documentRecordId.equals(other.documentRecordId))
+			return false;
+		return true;
 	}
 
 }

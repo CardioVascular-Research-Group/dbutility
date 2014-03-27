@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,7 +19,9 @@ import edu.jhu.cvrg.dbapi.dto.AnalysisJobDTO;
 import edu.jhu.cvrg.dbapi.dto.AnnotationDTO;
 import edu.jhu.cvrg.dbapi.dto.DocumentRecordDTO;
 import edu.jhu.cvrg.dbapi.dto.FileInfoDTO;
+import edu.jhu.cvrg.dbapi.dto.UploadStatusDTO;
 import edu.jhu.cvrg.dbapi.enums.EnumFileType;
+import edu.jhu.cvrg.dbapi.enums.EnumUploadState;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AnalysisJob;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
 import edu.jhu.cvrg.dbapi.factory.hibernate.Coordinate;
@@ -464,5 +467,163 @@ public class HibernateConnection extends Connection {
 		session.close();
 		
 		return annotation;
+	}
+	
+	@Override
+	public boolean updateUploadStatus(long documentRecordId, EnumUploadState uploadPhase, Long time, Boolean status, String message) {
+		
+		Session session = sessionFactory.openSession();
+		
+		session.beginTransaction();
+		
+		UploadStatus entity = null;
+		try{
+			entity = (UploadStatus) session.load(UploadStatus.class, documentRecordId);
+			if(uploadPhase!= null){
+				switch (uploadPhase) {
+					case VALIDATION: 	entity.setValidationTime(time); break;
+					case TRANFER_READ: 	entity.setTransferReadTime(time); break;
+					case WRITE: 		entity.setWriteTime(time); 		break;
+					case ANNOTATION: 	entity.setAnnotationTime(time); break;
+				}	
+			}
+		}catch(ObjectNotFoundException e){
+			entity = new UploadStatus();
+			entity.setDocumentRecordId(documentRecordId);
+			if(uploadPhase!= null){
+				switch (uploadPhase) {
+					case VALIDATION: 	entity.setValidationTime(time); break;
+					case TRANFER_READ: 	entity.setTransferReadTime(time); break;
+					case WRITE: 		entity.setWriteTime(time); 		break;
+					case ANNOTATION: 	entity.setAnnotationTime(time); break;
+				}
+			}
+		}
+		
+		if(status != null){
+			entity.setStatus(status);
+		}
+		
+		if(message != null){
+			entity.setMessage(message);
+		}
+		
+		session.persist(entity);
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		return true;
+	}
+	
+	public List<UploadStatusDTO> getUploadStatusByUser(long userId){
+		
+		List<UploadStatusDTO> ret = null;
+		
+		Session session = sessionFactory.openSession();
+		
+		Query q = session.createQuery("select u from DocumentRecord d inner join d.uploadStatus u where d.userId = :userId and u.status is null order by u.documentRecordId desc");
+		
+		q.setParameter("userId", userId);
+		
+		List<UploadStatus> entities = q.list();
+		
+		if(entities != null && !entities.isEmpty()){
+			ret = new ArrayList<UploadStatusDTO>();
+			
+			for (UploadStatus uploadStatus : entities) {
+				UploadStatusDTO dto = new UploadStatusDTO(uploadStatus.getDocumentRecordId(), uploadStatus.getAnnotationTime(), uploadStatus.getTransferReadTime(), uploadStatus.getValidationTime(), uploadStatus.getWriteTime(), uploadStatus.getStatus(), uploadStatus.getMessage());
+				dto.setRecordName(uploadStatus.getDocumentRecord().getRecordName());
+				ret.add(dto);
+			}
+		}
+		
+		session.close();
+		return ret;
+	}
+
+	public List<UploadStatusDTO> getUploadStatusByUserAndDocId(long userId, Set<Long> docIds){
+		
+		List<UploadStatusDTO> ret = null;
+		
+		Session session = sessionFactory.openSession();
+		
+		StringBuilder hql = new StringBuilder();
+		hql.append("select u from DocumentRecord d inner join d.uploadStatus u where d.userId = :userId ");
+		
+		if(docIds != null){
+			hql.append(" and d.documentRecordId in (:docIds) ");
+		}
+		
+		hql.append(" order by u.documentRecordId desc ");
+	
+		Query q = session.createQuery(hql.toString());
+		q.setParameter("userId", userId);
+		
+		if(docIds != null){
+			q.setParameterList("docIds", docIds);	
+		}
+		
+		List<UploadStatus> entities = q.list();
+		
+		if(entities != null && !entities.isEmpty()){
+			ret = new ArrayList<UploadStatusDTO>();
+			
+			for (UploadStatus uploadStatus : entities) {
+				UploadStatusDTO dto = new UploadStatusDTO(uploadStatus.getDocumentRecordId(), uploadStatus.getAnnotationTime(), uploadStatus.getTransferReadTime(), uploadStatus.getValidationTime(), uploadStatus.getWriteTime(), uploadStatus.getStatus(), uploadStatus.getMessage());
+				dto.setRecordName(uploadStatus.getDocumentRecord().getSubjectId());
+				ret.add(dto);
+			}
+		}
+		
+		session.close();
+		return ret;
+	}
+	
+	@Override
+	public boolean storeUploadStatus(UploadStatusDTO status) {
+		
+		boolean ret = false;
+		
+		if(status != null){
+			Session session = sessionFactory.openSession();
+			
+			session.beginTransaction();
+			
+			UploadStatus entity;
+			
+			try{
+				entity = (UploadStatus) session.load(UploadStatus.class, status.getDocumentRecordId());
+				entity.setValidationTime(status.getValidationTime());
+				entity.setTransferReadTime(status.getTransferReadTime());
+				
+				if(status.getWriteTime() != null){
+					entity.setWriteTime(status.getWriteTime());
+				}
+				
+				if(status.getAnnotationTime() != null){
+					entity.setAnnotationTime(status.getAnnotationTime());
+				}
+				
+				if(status.getStatus() != null){
+					entity.setStatus(status.getStatus());
+				}
+				
+				if(status.getMessage() != null){
+					entity.setMessage(status.getMessage());
+				}
+				
+			}catch(ObjectNotFoundException e){
+				entity = new UploadStatus(status.getDocumentRecordId(), status.getAnnotationTime(), status.getTransferReadTime(), status.getValidationTime(), status.getWriteTime(), status.getStatus(), status.getMessage());
+			}
+			
+			session.persist(entity);
+			ret = true;
+			
+			session.getTransaction().commit();
+			session.close();
+		}
+	
+		return ret;
 	}
 }
