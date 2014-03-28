@@ -97,7 +97,7 @@ public class UploadStatusDTO implements Serializable{
 		}else if(transferReadTime != null){
 			actualPhase = EnumUploadState.WRITE;
 		}else if(validationTime != null){
-			actualPhase = EnumUploadState.TRANFER_READ;
+			actualPhase = EnumUploadState.TRANSFER_READ;
 		}
 		
 		if(status != null){
@@ -118,7 +118,7 @@ public class UploadStatusDTO implements Serializable{
 		switch (getState()) {
 			case WAIT: progress = 0; break;
 			case VALIDATION: progress = 20; break;
-			case TRANFER_READ: progress = 40; break;
+			case TRANSFER_READ: progress = 40; break;
 			case WRITE: progress = 60; break;
 			case ANNOTATION: progress = 80; break;
 			case DONE: progress = 100; break;

@@ -482,7 +482,7 @@ public class HibernateConnection extends Connection {
 			if(uploadPhase!= null){
 				switch (uploadPhase) {
 					case VALIDATION: 	entity.setValidationTime(time); break;
-					case TRANFER_READ: 	entity.setTransferReadTime(time); break;
+					case TRANSFER_READ: 	entity.setTransferReadTime(time); break;
 					case WRITE: 		entity.setWriteTime(time); 		break;
 					case ANNOTATION: 	entity.setAnnotationTime(time); break;
 				}	
@@ -493,7 +493,7 @@ public class HibernateConnection extends Connection {
 			if(uploadPhase!= null){
 				switch (uploadPhase) {
 					case VALIDATION: 	entity.setValidationTime(time); break;
-					case TRANFER_READ: 	entity.setTransferReadTime(time); break;
+					case TRANSFER_READ: 	entity.setTransferReadTime(time); break;
 					case WRITE: 		entity.setWriteTime(time); 		break;
 					case ANNOTATION: 	entity.setAnnotationTime(time); break;
 				}

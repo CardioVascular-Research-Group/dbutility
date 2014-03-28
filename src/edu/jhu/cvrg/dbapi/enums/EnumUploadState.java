@@ -4,7 +4,7 @@ public enum EnumUploadState {
 
 	WAIT,
 	VALIDATION,
-	TRANFER_READ,
+	TRANSFER_READ,
 	WRITE,
 	ANNOTATION,
 	DONE,
