@@ -3,6 +3,7 @@ package edu.jhu.cvrg.dbapi.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.jhu.cvrg.dbapi.dto.PhysionetMethods;
 //import edu.jhu.cvrg.waveform.model.PhysionetMethods;
 //import edu.jhu.cvrg.waveform.utility.AdditionalParameters;
 //import edu.jhu.cvrg.waveform.utility.FileTypes;
