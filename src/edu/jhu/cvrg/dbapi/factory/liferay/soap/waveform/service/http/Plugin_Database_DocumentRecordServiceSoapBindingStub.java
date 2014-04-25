@@ -239,7 +239,8 @@ public class Plugin_Database_DocumentRecordServiceSoapBindingStub extends org.ap
          super.cachedEndpoint = endpointURL;
     }
 
-    public Plugin_Database_DocumentRecordServiceSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    @SuppressWarnings("unchecked")
+	public Plugin_Database_DocumentRecordServiceSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
         } else {

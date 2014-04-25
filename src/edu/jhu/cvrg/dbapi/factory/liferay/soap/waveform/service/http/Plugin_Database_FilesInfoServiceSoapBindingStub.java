@@ -101,7 +101,8 @@ public class Plugin_Database_FilesInfoServiceSoapBindingStub extends org.apache.
          super.cachedEndpoint = endpointURL;
     }
 
-    public Plugin_Database_FilesInfoServiceSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    @SuppressWarnings({ "unchecked", "unused" })
+	public Plugin_Database_FilesInfoServiceSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
         } else {

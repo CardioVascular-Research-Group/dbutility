@@ -70,7 +70,8 @@ public class AnnotationInfoServiceSoapServiceLocator extends org.apache.axis.cli
      * If this service has no port for the given interface,
      * then ServiceException is thrown.
      */
-    public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
+    @SuppressWarnings("rawtypes")
+	public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
             if (edu.jhu.cvrg.dbapi.factory.liferay.soap.waveform.service.http.AnnotationInfoServiceSoap.class.isAssignableFrom(serviceEndpointInterface)) {
                 edu.jhu.cvrg.dbapi.factory.liferay.soap.waveform.service.http.Plugin_Database_AnnotationInfoServiceSoapBindingStub _stub = new edu.jhu.cvrg.dbapi.factory.liferay.soap.waveform.service.http.Plugin_Database_AnnotationInfoServiceSoapBindingStub(new java.net.URL(Plugin_Database_AnnotationInfoService_address), this);
@@ -89,7 +90,8 @@ public class AnnotationInfoServiceSoapServiceLocator extends org.apache.axis.cli
      * If this service has no port for the given interface,
      * then ServiceException is thrown.
      */
-    public java.rmi.Remote getPort(javax.xml.namespace.QName portName, Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
+    @SuppressWarnings("rawtypes")
+	public java.rmi.Remote getPort(javax.xml.namespace.QName portName, Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         if (portName == null) {
             return getPort(serviceEndpointInterface);
         }
@@ -108,9 +110,11 @@ public class AnnotationInfoServiceSoapServiceLocator extends org.apache.axis.cli
         return new javax.xml.namespace.QName("urn:http.service.dbpersistence.main.waveform.cvrg.jhu.edu", "AnnotationInfoServiceSoapService");
     }
 
-    private java.util.HashSet ports = null;
+    @SuppressWarnings("rawtypes")
+	private java.util.HashSet ports = null;
 
-    public java.util.Iterator getPorts() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
             ports.add(new javax.xml.namespace.QName("urn:http.service.dbpersistence.main.waveform.cvrg.jhu.edu", "Plugin_Database_AnnotationInfoService"));

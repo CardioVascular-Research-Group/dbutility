@@ -110,7 +110,8 @@ public class DocumentRecordServiceSoapServiceLocator extends org.apache.axis.cli
 
     private java.util.HashSet ports = null;
 
-    public java.util.Iterator getPorts() {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
             ports.add(new javax.xml.namespace.QName("urn:http.service.dbpersistence.main.waveform.cvrg.jhu.edu", "Plugin_Database_DocumentRecordService"));

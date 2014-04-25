@@ -5,16 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import edu.jhu.cvrg.dbapi.dto.AdditionalParameters;
+import edu.jhu.cvrg.dbapi.dto.Algorithm;
 import edu.jhu.cvrg.dbapi.dto.AnalysisJobDTO;
 import edu.jhu.cvrg.dbapi.dto.AnnotationDTO;
 import edu.jhu.cvrg.dbapi.dto.DocumentRecordDTO;
 import edu.jhu.cvrg.dbapi.dto.FileInfoDTO;
+import edu.jhu.cvrg.dbapi.dto.Service;
+import edu.jhu.cvrg.dbapi.dto.UploadStatusDTO;
+import edu.jhu.cvrg.dbapi.enums.EnumUploadState;
 import edu.jhu.cvrg.dbapi.util.DBUtilityProperties;
 
 public class JDBCConnection extends Connection{
@@ -287,6 +293,63 @@ public class JDBCConnection extends Connection{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Algorithm> getAvailableAlgorithmList(long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer storeAlgorithm(String uiName, Integer serviceID,
+			String serviceMethod, String shortDescription,
+			String completeDescription) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer storeAlgorithmParameter(AdditionalParameters param,
+			int iAlgorithmID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
+	@Override
+	public boolean updateUploadStatus(long documentRecordId, EnumUploadState uploadPhase, Long time, Boolean status, String message) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean storeUploadStatus(UploadStatusDTO status) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<UploadStatusDTO> getUploadStatusByUser(long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UploadStatusDTO> getUploadStatusByUserAndDocId(long userId,
+			Set<Long> docIds) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Service> getAvailableServiceList(long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<AdditionalParameters> getAlgorithmParameterArray(int algorithmId) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
 
 }

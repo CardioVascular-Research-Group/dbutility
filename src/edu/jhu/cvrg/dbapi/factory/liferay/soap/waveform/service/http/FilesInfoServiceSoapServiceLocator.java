@@ -110,7 +110,8 @@ public class FilesInfoServiceSoapServiceLocator extends org.apache.axis.client.S
 
     private java.util.HashSet ports = null;
 
-    public java.util.Iterator getPorts() {
+    @SuppressWarnings("unchecked")
+	public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
             ports.add(new javax.xml.namespace.QName("urn:http.service.dbpersistence.main.waveform.cvrg.jhu.edu", "Plugin_Database_FilesInfoService"));

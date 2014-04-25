@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 import edu.jhu.cvrg.dbapi.factory.exists.model.AnnotationData;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
 
-/*
+/** Annotation Data Transfer Object<BR>
  * NEW COLUMNS
  * 	timestamp
  * 
@@ -24,7 +24,7 @@ import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
  * 		offsetLabel
  * 		offsetRestURL
  * 	
- * */
+ **/
 public class AnnotationDTO implements Serializable, Cloneable{
 	
 	public static final String ECG_TERMS_ONTOLOGY = "ECGT";

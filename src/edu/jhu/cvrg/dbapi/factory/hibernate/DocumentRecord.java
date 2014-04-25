@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -43,8 +44,8 @@ public class DocumentRecord implements java.io.Serializable {
 	private String gender;
 	private Date dateOfRecording;
 	private Double aduGain;
+	private UploadStatus uploadStatus;
 	private Set<AnalysisJob> analysisJobs = new HashSet<AnalysisJob>(0);
-	private Set<UploadStatus> uploadStatuses = new HashSet<UploadStatus>(0);
 	private Set<AnnotationInfo> annotationInfos = new HashSet<AnnotationInfo>(0);
 	private List<FileInfo> filesInfo = new ArrayList<FileInfo>(0);
 
@@ -216,13 +217,13 @@ public class DocumentRecord implements java.io.Serializable {
 		this.analysisJobs = analysisjobs;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "documentRecord")
-	public Set<UploadStatus> getUploadStatuses() {
-		return this.uploadStatuses;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "documentRecord")
+	public UploadStatus getUploadStatus() {
+		return this.uploadStatus;
 	}
 
-	public void setUploadStatuses(Set<UploadStatus> uploadstatuses) {
-		this.uploadStatuses = uploadstatuses;
+	public void setUploadStatus(UploadStatus uploadstatuses) {
+		this.uploadStatus = uploadstatuses;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "documentRecord")

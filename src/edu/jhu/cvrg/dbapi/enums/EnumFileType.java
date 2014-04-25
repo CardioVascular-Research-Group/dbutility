@@ -24,7 +24,7 @@ public enum EnumFileType {
 	/**
 	 *  Indicates an ECG file used by GE Magellan 
 	 */
-	GE_MAGELLAN("GE Magellan", null),
+	GE_MAGELLAN("GE Magellan", EnumFileExtension.TXT),
 	/**
 	 *  Indicates an WFDB file format.  Requires both a header and a .dat file 
 	 */
@@ -36,15 +36,15 @@ public enum EnumFileType {
 	/**
 	 *  Indicates a Holter2 formatted file 
 	 */
-	HOLTER12("Holter 12", null),
+	HOLTER12("Holter 12", EnumFileExtension.CSV),
 	/**
 	 *  Indicates a Holter13 formatted file 
 	 */
-	HOLTER3("Holter 3", null), 
+	HOLTER3("Holter 3", EnumFileExtension.CSV), 
 	/**
 	 * Indicates a GE Muse file
 	 */
-	GE_MUSE("GE Muse", null),
+	GE_MUSE("GE Muse", EnumFileExtension.TXT),
 	/**
 	 * Indicates an HL7 format
 	 */

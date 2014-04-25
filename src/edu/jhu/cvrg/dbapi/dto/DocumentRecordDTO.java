@@ -7,6 +7,7 @@ import java.util.Date;
 
 import edu.jhu.cvrg.dbapi.enums.EnumFileType;
 
+/** Document Record, Data Transfer Object **/
 public class DocumentRecordDTO implements Serializable{
 
 	private static final long serialVersionUID = 2261268385587096394L;

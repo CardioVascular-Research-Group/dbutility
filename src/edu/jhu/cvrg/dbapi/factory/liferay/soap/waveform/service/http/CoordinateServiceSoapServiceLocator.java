@@ -108,9 +108,11 @@ public class CoordinateServiceSoapServiceLocator extends org.apache.axis.client.
         return new javax.xml.namespace.QName("urn:http.service.dbpersistence.main.waveform.cvrg.jhu.edu", "CoordinateServiceSoapService");
     }
 
-    private java.util.HashSet ports = null;
+    @SuppressWarnings("rawtypes")
+	private java.util.HashSet ports = null;
 
-    public java.util.Iterator getPorts() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
             ports.add(new javax.xml.namespace.QName("urn:http.service.dbpersistence.main.waveform.cvrg.jhu.edu", "Plugin_Database_CoordinateService"));
