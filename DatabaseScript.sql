@@ -203,13 +203,14 @@ CREATE INDEX ix_annotationinfo_3 ON annotationinfo USING btree (annotationtype, 
 
 CREATE TABLE uploadstatus
 (
-  uploadstatusid bigint NOT NULL,
-  filetransfer character varying(75),
-  fileconversion character varying(75),
-  recordcreation character varying(75),
-  annotationcreation character varying(75),
-  documentrecordid bigint,
-  CONSTRAINT uploadstatus_pk PRIMARY KEY (uploadstatusid),
+  documentrecordid bigint NOT NULL,
+  validationtime bigint,
+  transferreadtime bigint,
+  writetime bigint,
+  annotationtime bigint,
+  status boolean,
+  message character varying(300),
+  CONSTRAINT uploadstatus_pk PRIMARY KEY (documentrecordid),
   CONSTRAINT documentrecord_uploadstatus_fk FOREIGN KEY (documentrecordid)
       REFERENCES documentrecord (documentrecordid) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -221,7 +222,7 @@ ALTER TABLE uploadstatus
   OWNER TO liferay;
 
 -- Index: uploadstatus_pkey
-CREATE UNIQUE INDEX uploadstatus_pkey ON uploadstatus USING btree (uploadstatusid);
+CREATE UNIQUE INDEX uploadstatus_pkey ON uploadstatus USING btree (documentrecordid);
 
 -- Sequence: annotationinfo_sequence
 
@@ -256,17 +257,6 @@ CREATE SEQUENCE documentrecord_sequence
 ALTER TABLE documentrecord_sequence
   OWNER TO liferay;
 
--- Sequence: uploadstatus_sequence
-
-CREATE SEQUENCE uploadstatus_sequence
-  INCREMENT 1
-  MINVALUE 1
-  MAXVALUE 9223372036854775807
-  START 1
-  CACHE 1;
-ALTER TABLE uploadstatus_sequence
-  OWNER TO liferay;
-  
 -- Sequence: analyzejob_sequence
 
   CREATE SEQUENCE analyzejob_sequence
