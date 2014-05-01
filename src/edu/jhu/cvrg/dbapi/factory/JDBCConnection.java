@@ -19,6 +19,7 @@ import edu.jhu.cvrg.dbapi.dto.AnnotationDTO;
 import edu.jhu.cvrg.dbapi.dto.DocumentRecordDTO;
 import edu.jhu.cvrg.dbapi.dto.FileInfoDTO;
 import edu.jhu.cvrg.dbapi.dto.Service;
+
 import edu.jhu.cvrg.dbapi.dto.UploadStatusDTO;
 import edu.jhu.cvrg.dbapi.enums.EnumUploadState;
 import edu.jhu.cvrg.dbapi.util.DBUtilityProperties;
@@ -350,6 +351,7 @@ public class JDBCConnection extends Connection{
 	public ArrayList<AdditionalParameters> getAlgorithmParameterArray(int algorithmId) {
 		// TODO Auto-generated method stub
 		return null;
+
 	}	
 
 }

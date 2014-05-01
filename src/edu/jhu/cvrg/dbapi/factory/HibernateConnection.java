@@ -507,7 +507,6 @@ public class HibernateConnection extends Connection {
 		return annotation;
 	}
 	
-
 	@Override
 	public boolean updateUploadStatus(long documentRecordId, EnumUploadState uploadPhase, Long time, Boolean status, String message) {
 		
@@ -561,13 +560,7 @@ public class HibernateConnection extends Connection {
 		
 		Session session = sessionFactory.openSession();
 		
-		Query q = session.createQuery("select u " +
-				"from DocumentRecord d " +
-				"  inner join d.uploadStatus u " +
-				"where d.userId = :userId " +
-				"  and u.status is null " +
-				"order by " +
-				"  u.documentRecordId desc");
+		Query q = session.createQuery("select u from DocumentRecord d inner join d.uploadStatus u where d.userId = :userId and u.status is null order by u.documentRecordId desc");
 		
 		q.setParameter("userId", userId);
 		
@@ -671,6 +664,7 @@ public class HibernateConnection extends Connection {
 	
 		return ret;
 	}
+
 	//*********** Algorithm database interaction methods **********************
 	@Override
 	public List<Service> getAvailableServiceList(long userId) {
@@ -985,6 +979,6 @@ public class HibernateConnection extends Connection {
 		
 		return algID;
 	}
-	
-	
+
+
 }

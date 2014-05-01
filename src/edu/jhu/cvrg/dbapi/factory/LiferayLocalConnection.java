@@ -123,8 +123,27 @@ public class LiferayLocalConnection extends Connection{
 		// TODO Auto-generated method stub
 		return null;
 	}
+//
+//
+//	@Override
+//	public boolean storeUploadStatus(UploadStatusDTO status) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
+//
+//	@Override
+//	public List<UploadStatusDTO> getUploadStatusByUser(long userId) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
 
 	@Override
+	public List<Service> getAvailableServiceList(long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public boolean updateUploadStatus(long documentRecordId, EnumUploadState uploadPhase, Long time, Boolean status, String message) {
 		// TODO Auto-generated method stub
 		return false;
@@ -141,16 +160,10 @@ public class LiferayLocalConnection extends Connection{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public List<UploadStatusDTO> getUploadStatusByUserAndDocId(long userId,
 			Set<Long> docIds) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Service> getAvailableServiceList(long userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

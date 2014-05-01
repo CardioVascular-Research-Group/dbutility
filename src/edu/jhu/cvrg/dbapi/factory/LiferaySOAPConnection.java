@@ -312,6 +312,16 @@ public class LiferaySOAPConnection extends Connection{
 		// TODO Auto-generated method stub
 		return null;
 	}
+@Override
+	public List<Service> getAvailableServiceList(long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<AdditionalParameters> getAlgorithmParameterArray(int algorithmId) {
+		return null;
+	}
 	
 	@Override
 	public boolean updateUploadStatus(long documentRecordId, EnumUploadState uploadPhase, Long time, Boolean status, String message) {
@@ -334,18 +344,6 @@ public class LiferaySOAPConnection extends Connection{
 	@Override
 	public List<UploadStatusDTO> getUploadStatusByUserAndDocId(long userId,
 			Set<Long> docIds) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Service> getAvailableServiceList(long userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<AdditionalParameters> getAlgorithmParameterArray(int algorithmId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
