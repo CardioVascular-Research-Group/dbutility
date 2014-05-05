@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="\"parameterOption\"")
-public class AWS_ParameterOption implements Serializable {
+public class ParamOption_AWS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -37,7 +37,7 @@ public class AWS_ParameterOption implements Serializable {
 	@Column(name="\"uiValue\"")
 	private String uiValue;
 
-	public AWS_ParameterOption() {
+	public ParamOption_AWS() {
 	}
 
 	public String getCompleteDescription() {

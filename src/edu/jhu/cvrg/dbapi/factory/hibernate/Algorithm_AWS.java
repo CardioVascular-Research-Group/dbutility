@@ -34,7 +34,7 @@ import org.hibernate.mapping.Collection;
  */
 @Entity
 @Table(name = "algorithm", schema = "public")
-public class AWS_Algorithm implements java.io.Serializable  {
+public class Algorithm_AWS implements java.io.Serializable  {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -79,7 +79,7 @@ public class AWS_Algorithm implements java.io.Serializable  {
 //	private List<AWS_AlgorithmPerson> algorithmPersons = new ArrayList<AWS_AlgorithmPerson>(0);
 
 	
-	public AWS_Algorithm() {
+	public Algorithm_AWS() {
 	}
 	
 	/** Initialization constructor.
@@ -90,7 +90,7 @@ public class AWS_Algorithm implements java.io.Serializable  {
 	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
 	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
 	 */
-	public AWS_Algorithm(String uiName, Integer serviceid, String serviceMethod, 
+	public Algorithm_AWS(String uiName, Integer serviceid, String serviceMethod, 
 			String shortDescription,
 			String completeDescription) {
 		setUiName(uiName);

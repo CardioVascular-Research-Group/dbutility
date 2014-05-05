@@ -13,7 +13,7 @@ import java.util.List;
  * 
  */
 @Entity
-public class AWS_Organization implements Serializable {
+public class Organization_AWS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,7 +33,7 @@ public class AWS_Organization implements Serializable {
 //	@OneToMany(mappedBy="organization")
 //	private List<AWS_OrganizationContact> organizationContacts;
 
-	public AWS_Organization() {
+	public Organization_AWS() {
 	}
 
 	public Integer getOrganizationID() {

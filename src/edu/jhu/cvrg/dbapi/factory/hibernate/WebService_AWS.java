@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "service", schema = "public")
-public class AWS_Service implements java.io.Serializable  {
+public class WebService_AWS implements java.io.Serializable  {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -36,7 +36,7 @@ public class AWS_Service implements java.io.Serializable  {
 //	@OneToMany(mappedBy="service")
 //	private List<AWS_Algorithm> algorithms;
 
-	public AWS_Service() {
+	public WebService_AWS() {
 	}
 
 	public Integer getServiceid() {

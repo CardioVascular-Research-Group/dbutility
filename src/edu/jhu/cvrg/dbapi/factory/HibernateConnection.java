@@ -29,16 +29,17 @@ import edu.jhu.cvrg.dbapi.dto.ParameterValidator;
 import edu.jhu.cvrg.dbapi.dto.Service;
 import edu.jhu.cvrg.dbapi.dto.UploadStatusDTO;
 import edu.jhu.cvrg.dbapi.enums.EnumFileType;
-import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_Algorithm;
-import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_AlgorithmPerson;
-import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_Organization;
+import edu.jhu.cvrg.dbapi.factory.hibernate.Algorithm_AWS;
+import edu.jhu.cvrg.dbapi.factory.hibernate.AlgPerson_AWS;
+import edu.jhu.cvrg.dbapi.factory.hibernate.AlgRef_AWS;
+import edu.jhu.cvrg.dbapi.factory.hibernate.Organization_AWS;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_OrganizationContact;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_Parameter;
-import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_ParameterOption;
+import edu.jhu.cvrg.dbapi.factory.hibernate.ParamOption_AWS;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_ParameterType;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_ParameterValidator;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_Person;
-import edu.jhu.cvrg.dbapi.factory.hibernate.AWS_Service;
+import edu.jhu.cvrg.dbapi.factory.hibernate.WebService_AWS;
 import edu.jhu.cvrg.dbapi.enums.EnumUploadState;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AnalysisJob;
 import edu.jhu.cvrg.dbapi.factory.hibernate.AnnotationInfo;
@@ -75,16 +76,18 @@ public class HibernateConnection extends Connection {
 			cfg.addAnnotatedClass(UploadStatus.class);
 			cfg.addAnnotatedClass(AnalysisJob.class);
 
-			cfg.addAnnotatedClass(AWS_Service.class);
+			cfg.addAnnotatedClass(WebService_AWS.class);
 			cfg.addAnnotatedClass(AWS_Parameter.class);
-			cfg.addAnnotatedClass(AWS_Algorithm.class);
-			cfg.addAnnotatedClass(AWS_AlgorithmPerson.class);
-			cfg.addAnnotatedClass(AWS_Organization.class);
+			cfg.addAnnotatedClass(Algorithm_AWS.class);
+			cfg.addAnnotatedClass(AlgPerson_AWS.class);
+			cfg.addAnnotatedClass(Organization_AWS.class);
 			cfg.addAnnotatedClass(AWS_OrganizationContact.class);
-			cfg.addAnnotatedClass(AWS_ParameterOption.class);
+			cfg.addAnnotatedClass(ParamOption_AWS.class);
 			cfg.addAnnotatedClass(AWS_ParameterType.class);
 			cfg.addAnnotatedClass(AWS_ParameterValidator.class);
 			cfg.addAnnotatedClass(AWS_Person.class);
+			cfg.addAnnotatedClass(AlgRef_AWS.class);
+			
 
 			
 			cfg.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
@@ -673,15 +676,15 @@ public class HibernateConnection extends Connection {
 		try{
 			Session session = sessionFactory.openSession();
 			Query qs = session.createQuery(
-					 "SELECT s "
+					 "SELECT w "
 					+"FROM  "
-					+"  AWS_Service s "
+					+"  WebService_AWS w "
 					+"ORDER BY  "
-					+"  s.serviceid");
+					+"  w.serviceid");
 			
 			@SuppressWarnings("unchecked")
-			List<AWS_Service> servList = qs.list();
-			for (AWS_Service aws_S : servList) {
+			List<WebService_AWS> servList = qs.list();
+			for (WebService_AWS aws_S : servList) {
 				Service serv = aws_S.getServiceBean();
 				ret.add(serv);
 			}
@@ -757,15 +760,22 @@ public class HibernateConnection extends Connection {
 					+"  a.uiName, "
 					+"  a.shortDescription, "
 					+"  a.completeDescription,  "
-					+"  s.serviceid,  "
-					+"  s.uiName,  "
-					+"  s.wsName,  "
-					+"  s.url  "
+					+"  w.serviceid,  "
+					+"  w.uiName,  "
+					+"  w.wsName,  "
+					+"  w.url, "
+					+"  r.referenceurl, "
+					+"  r.licence, "			
+					+"  r.versionAlgorithm, "
+					+"  r.versionWebService "
 					+"FROM  "
-					+"  AWS_Algorithm a,"
-					+"  AWS_Service s "
+					+"  Algorithm_AWS a,"
+					+"  WebService_AWS w, "
+					+"  AlgRef_AWS r "
 					+"WHERE  "
-					+"  a.serviceid = s.serviceid "
+					+"  a.serviceid = w.serviceid "
+					+"  AND " 
+					+"  a.algorithmid = r.algorithmid "
 					+"ORDER BY  "
 					+"  a.algorithmid");
 								
@@ -786,10 +796,10 @@ public class HibernateConnection extends Connection {
 				alg.setDisplayServiceName((String)obj[7]);
 				alg.setServiceName((String)obj[8]);
 				alg.setUrl((String)obj[9]);
-				alg.setURLreference("URLreference not in database yet.");
-				alg.setLicence("Licence not in database yet.");
-				alg.setVersionIdAlgorithm("VersionIdAlgorithm not in database yet.");
-				alg.setVersionIdWebService("VersionIdWebService not in database yet.");
+				alg.setURLreference((String)obj[10]);
+				alg.setLicence((String)obj[11]);
+				alg.setVersionIdAlgorithm((String)obj[12]);
+				alg.setVersionIdWebService((String)obj[13]);
 				alg.setWfdbAnnotationOutput(true);
 				alg.setParameters(getAlgorithmParameterArray(alg.getId()));
 				
@@ -905,7 +915,7 @@ public class HibernateConnection extends Connection {
 			Session session = sessionFactory.openSession();		
 			session.beginTransaction();
 			
-			AWS_Algorithm alg = new AWS_Algorithm(uiName, serviceID, serviceMethod, shortDescription, completeDescription);
+			Algorithm_AWS alg = new Algorithm_AWS(uiName, serviceID, serviceMethod, shortDescription, completeDescription);
 			
 			session.persist(alg);
 			
