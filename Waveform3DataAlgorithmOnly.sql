@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.12
 -- Dumped by pg_dump version 9.1.12
--- Started on 2014-04-30 13:11:26 EDT
+-- Started on 2014-05-06 09:16:25 EDT
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -15,8 +15,8 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2852 (class 0 OID 36872)
--- Dependencies: 177 2856
+-- TOC entry 2862 (class 0 OID 36872)
+-- Dependencies: 177 2868
 -- Data for Name: service; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -27,8 +27,8 @@ COPY service (serviceid, "uiName", "wsName", "wsUrl") FROM stdin;
 
 
 --
--- TOC entry 2836 (class 0 OID 36791)
--- Dependencies: 161 2852 2856
+-- TOC entry 2846 (class 0 OID 36791)
+-- Dependencies: 161 2862 2868
 -- Data for Name: algorithm; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -48,27 +48,16 @@ COPY algorithm (serviceid, "uiName", "shortDescription", "completeDescription", 
 
 
 --
--- TOC entry 2850 (class 0 OID 36867)
--- Dependencies: 175 2856
--- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: liferay
+-- TOC entry 2872 (class 0 OID 0)
+-- Dependencies: 192
+-- Name: algorithmReference_algorithmReferenceID_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
 
-COPY person (firstname, lastname, middlename, email, phonenumber, "personID") FROM stdin;
-\.
-
-
---
--- TOC entry 2837 (class 0 OID 36797)
--- Dependencies: 162 2836 2850 2856
--- Data for Name: algorithmPerson; Type: TABLE DATA; Schema: public; Owner: liferay
---
-
-COPY "algorithmPerson" ("algorithmID", "personID", "algorithmPersonID") FROM stdin;
-\.
+SELECT pg_catalog.setval('"algorithmReference_algorithmReferenceID_seq"', 13, true);
 
 
 --
--- TOC entry 2860 (class 0 OID 0)
+-- TOC entry 2873 (class 0 OID 0)
 -- Dependencies: 163
 -- Name: algorithm_algorithmid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -77,7 +66,27 @@ SELECT pg_catalog.setval('algorithm_algorithmid_seq', 55, true);
 
 
 --
--- TOC entry 2861 (class 0 OID 0)
+-- TOC entry 2860 (class 0 OID 36867)
+-- Dependencies: 175 2868
+-- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: liferay
+--
+
+COPY person (firstname, lastname, middlename, email, phonenumber, "personID") FROM stdin;
+\.
+
+
+--
+-- TOC entry 2847 (class 0 OID 36797)
+-- Dependencies: 162 2846 2860 2868
+-- Data for Name: algorithmperson; Type: TABLE DATA; Schema: public; Owner: liferay
+--
+
+COPY algorithmperson (algorithmid, personid, "algorithmPersonid") FROM stdin;
+\.
+
+
+--
+-- TOC entry 2874 (class 0 OID 0)
 -- Dependencies: 164
 -- Name: algorithmperson_algorithmpersonid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -86,8 +95,29 @@ SELECT pg_catalog.setval('algorithmperson_algorithmpersonid_seq', 1, false);
 
 
 --
--- TOC entry 2840 (class 0 OID 36830)
--- Dependencies: 165 2856
+-- TOC entry 2866 (class 0 OID 37240)
+-- Dependencies: 191 2846 2868
+-- Data for Name: algorithmreference; Type: TABLE DATA; Schema: public; Owner: liferay
+--
+
+COPY algorithmreference (algorithmreferenceid, algorithmid, "versionAlgorithm", "dateAlgorithm", "versionWebService", "dateWebService", licence, referenceurl) FROM stdin;
+1	45	n/a	\N	n/a	\N	n/a	http://wiki.cvrgrid.org/index.php/ECG_Gadget_User_Guide#QT_Screening_Algorithm_Results_File_Example
+3	46	n/a	\N	2.0	2012-12-04	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/sigamp-1.htm
+4	47	n/a	\N	2.0	2012-12-04	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/sigamp-1.htm
+5	48	n/a	\N	2.0	2012-11-16	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/sqrs-1.htm
+6	50	n/a	\N	2.0	2014-02-10	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/ihr-1.htm
+8	49	n/a	\N	2.0	2014-02-03	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/sqrs-1.htm
+9	51	n/a	\N	2.0	2014-02-10	http://physionet.org/physiotools/wag/wag.htm	http://physionet.org/physiotools/wag/pnnlis-1.htm
+10	52	n/a	\N	2.0	2012-12-03	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/wqrs-1.htm
+11	53	n/a	\N	2.0	2014-02-03	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/wqrs-1.htm
+12	54	n/a	\N	2.0	2014-02-10	http://physionet.org/physiotools/wag/wag.htm	http://www.physionet.org/physiotools/wag/ihr-1.htm
+13	55	n/a	\N	2.0	2014-02-10	http://physionet.org/physiotools/wag/wag.htm	http://physionet.org/physiotools/wag/pnnlis-1.htm
+\.
+
+
+--
+-- TOC entry 2850 (class 0 OID 36830)
+-- Dependencies: 165 2868
 -- Data for Name: organization; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -96,8 +126,8 @@ COPY organization ("uiName", "organizationID", "orgUrl", phonenumber) FROM stdin
 
 
 --
--- TOC entry 2841 (class 0 OID 36836)
--- Dependencies: 166 2840 2850 2856
+-- TOC entry 2851 (class 0 OID 36836)
+-- Dependencies: 166 2850 2860 2868
 -- Data for Name: organizationContact; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -106,7 +136,7 @@ COPY "organizationContact" ("organizationContactID", "organizationID", "contactI
 
 
 --
--- TOC entry 2862 (class 0 OID 0)
+-- TOC entry 2875 (class 0 OID 0)
 -- Dependencies: 167
 -- Name: organization_organizationid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -115,7 +145,7 @@ SELECT pg_catalog.setval('organization_organizationid_seq', 1, false);
 
 
 --
--- TOC entry 2863 (class 0 OID 0)
+-- TOC entry 2876 (class 0 OID 0)
 -- Dependencies: 168
 -- Name: organizationcontact_organizationcontactid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -124,8 +154,8 @@ SELECT pg_catalog.setval('organizationcontact_organizationcontactid_seq', 1, fal
 
 
 --
--- TOC entry 2846 (class 0 OID 36858)
--- Dependencies: 171 2856
+-- TOC entry 2856 (class 0 OID 36858)
+-- Dependencies: 171 2868
 -- Data for Name: parameterType; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -140,8 +170,8 @@ COPY "parameterType" ("parameterTypeid", "uiName", "shortDescription") FROM stdi
 
 
 --
--- TOC entry 2844 (class 0 OID 36843)
--- Dependencies: 169 2836 2846 2856
+-- TOC entry 2854 (class 0 OID 36843)
+-- Dependencies: 169 2846 2856 2868
 -- Data for Name: parameter; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -193,8 +223,8 @@ COPY parameter (parameterid, algorithmid, "uiName", "shortDescription", "complet
 
 
 --
--- TOC entry 2845 (class 0 OID 36851)
--- Dependencies: 170 2856
+-- TOC entry 2855 (class 0 OID 36851)
+-- Dependencies: 170 2868
 -- Data for Name: parameterOption; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -203,8 +233,8 @@ COPY "parameterOption" ("uiText", "uiValue", "isInitialSelection", "shortDescrip
 
 
 --
--- TOC entry 2854 (class 0 OID 37057)
--- Dependencies: 179 2856
+-- TOC entry 2864 (class 0 OID 37057)
+-- Dependencies: 179 2868
 -- Data for Name: parameterValidator; Type: TABLE DATA; Schema: public; Owner: liferay
 --
 
@@ -214,7 +244,7 @@ COPY "parameterValidator" ("validatorType", message, min, max, regex, "parameter
 
 
 --
--- TOC entry 2864 (class 0 OID 0)
+-- TOC entry 2877 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: parameteroption_parameteroptionid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -223,7 +253,7 @@ SELECT pg_catalog.setval('parameteroption_parameteroptionid_seq', 1, false);
 
 
 --
--- TOC entry 2865 (class 0 OID 0)
+-- TOC entry 2878 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: parameters_parameterid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -232,7 +262,7 @@ SELECT pg_catalog.setval('parameters_parameterid_seq', 7, true);
 
 
 --
--- TOC entry 2866 (class 0 OID 0)
+-- TOC entry 2879 (class 0 OID 0)
 -- Dependencies: 174
 -- Name: parametertype_parametertypeid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -241,7 +271,7 @@ SELECT pg_catalog.setval('parametertype_parametertypeid_seq', 6, true);
 
 
 --
--- TOC entry 2867 (class 0 OID 0)
+-- TOC entry 2880 (class 0 OID 0)
 -- Dependencies: 180
 -- Name: parametervalidator_parametervalidationid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -250,7 +280,7 @@ SELECT pg_catalog.setval('parametervalidator_parametervalidationid_seq', 1, fals
 
 
 --
--- TOC entry 2868 (class 0 OID 0)
+-- TOC entry 2881 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: person_personid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -259,7 +289,7 @@ SELECT pg_catalog.setval('person_personid_seq', 1, false);
 
 
 --
--- TOC entry 2869 (class 0 OID 0)
+-- TOC entry 2882 (class 0 OID 0)
 -- Dependencies: 178
 -- Name: service_serviceid_seq; Type: SEQUENCE SET; Schema: public; Owner: liferay
 --
@@ -267,9 +297,8 @@ SELECT pg_catalog.setval('person_personid_seq', 1, false);
 SELECT pg_catalog.setval('service_serviceid_seq', 2, true);
 
 
--- Completed on 2014-04-30 13:11:26 EDT
+-- Completed on 2014-05-06 09:16:25 EDT
 
 --
 -- PostgreSQL database dump complete
 --
-
