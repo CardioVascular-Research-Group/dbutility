@@ -282,6 +282,14 @@ public class ExistsConnection extends Connection{
 		return null;
 	}
 
+	@Override
+	public List<AnnotationDTO> getLeadAnnotationListConceptIDList(Long userId,
+			Long docId, Integer leadIndex, String createdBy,
+			String bioportalOntologyID, List<String> bioportalClassIdList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 }

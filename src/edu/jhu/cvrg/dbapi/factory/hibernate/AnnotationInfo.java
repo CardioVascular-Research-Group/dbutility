@@ -161,6 +161,11 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.createdBy = createdby;
 	}
 
+	/** Options are:
+	 * "ANNOTATION" if a lead annotation
+	 * "COMMENT" if a whole record annotation
+	 * @return
+	 */
 	@Column(name = "annotationtype", length = 75)
 	public String getAnnotationType() {
 		return this.annotationType;
@@ -206,11 +211,13 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.bioportalOntology = ontologyId;
 	}
 
+	/** set to null if this is a whole record annotation **/
 	@Column(name = "leadindex")
 	public Integer getLeadIndex() {
 		return this.leadIndex;
 	}
 
+	/** set to null if this is a whole record annotation **/
 	public void setLeadIndex(Integer leadindex) {
 		this.leadIndex = leadindex;
 	}

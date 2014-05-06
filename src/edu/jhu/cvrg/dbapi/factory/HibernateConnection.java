@@ -107,6 +107,9 @@ public class HibernateConnection extends Connection {
 	    }
 	}
 
+	/** 
+	 * @param originalFormat - based on the enumeration "fileFormat" in ECGformatCoverter.jar
+	 */
 	@Override
 	public Long storeDocument(long userID, long groupID, long companyID,
 			String recordName, String subjectID, int originalFormat,
@@ -118,8 +121,12 @@ public class HibernateConnection extends Connection {
 		Session session = sessionFactory.openSession();
 		
 		session.beginTransaction();
-		DocumentRecord record = new DocumentRecord(null, recordName, userID, subjectID, originalFormat, samplingRate, fileTreePath, leadCount, numPoints, 
-																   dateUploaded != null ? dateUploaded.getTime() : null, age, gender, dateRecorded != null ? dateRecorded.getTime():null, aduGain);
+		DocumentRecord record = new DocumentRecord(null, recordName, userID, subjectID, originalFormat,
+				 									samplingRate, fileTreePath, leadCount, numPoints, 
+													dateUploaded != null ? dateUploaded.getTime() : null, 
+													age, gender, 
+													dateRecorded != null ? dateRecorded.getTime():null, 
+													aduGain);
 		
 		session.save(record);
 		
@@ -484,6 +491,107 @@ public class HibernateConnection extends Connection {
 		return annotations;
 	}
 	
+	/** Gets, via Hibernate, an ArrayList of all the Annotations of this document 
+	 * which match the list of bioportalClassIds and where created by the specified createdBy.
+	 * 
+	 * @param userId - Id of the user who owns this data.
+	 * @param docId - Document ID
+	 * @param leadIndex - zero based lead index, as found in the original data file.  If null, then it gets only whole record annotations.
+	 * @param createdBy - Either original file format identifier, algorithm identifier, or user ID in the case of manual annotations.
+	 * @param bioportalOntologyID - Identifier of the Ontology, e.g. "ECGT"
+	 * @param bioportalClassIdList - A List of bioportalClassId string, e.g. "ECGOntology:ECG_000000243".
+	 * 
+	 * @author Michael Shipway
+	 */
+	@Override
+	public List<AnnotationDTO> getLeadAnnotationListConceptIDList(Long userId, Long docId, Integer leadIndex, 
+			String createdBy, String bioportalOntologyID, List<String> bioportalClassIdList){
+		List<AnnotationDTO> annotationsRet = new ArrayList<AnnotationDTO>();
+		
+		for(String s:bioportalClassIdList){
+			AnnotationDTO annotation = getLeadAnnotationbyBioportal(userId, docId, leadIndex, 
+					createdBy, bioportalOntologyID, s);
+			
+			if(annotation!=null){
+				annotationsRet.add(annotation);
+			}else{
+				annotationsRet.add(null); // marks the empty result in the result set.
+			}
+		}
+		
+		return annotationsRet;
+	}
+
+	/** returns the single annotation that meets these parameters, returns null if more than one are found or if none are found.
+	 * 
+	 * @param userId - Id of the user who owns this data.
+	 * @param docId - Document ID
+	 * @param leadIndex - zero based lead index, as found in the original data file.
+	 * @param createdBy - Either original file format identifier, algorithm identifier, or user ID in the case of manual annotations.
+	 * @param bioportalOntologyID - Identifier of the Ontology, e.g. "ECGT"
+	 * @param bioportalClassId - A single bioportalClassId string, e.g. "ECGOntology:ECG_000000243".
+	 * 
+	 * @author Michael Shipway
+	 * @return a single annotation or null
+	 */
+	private AnnotationDTO getLeadAnnotationbyBioportal(Long userId, Long docId, Integer leadIndex,
+			String createdBy, String bioportalOntologyID, String bioportalClassId){
+		
+		List<AnnotationDTO> annotations = null;
+		AnnotationDTO annotationRet = null;
+		
+		Session session = sessionFactory.openSession();
+		
+		StringBuilder hql = new StringBuilder();
+		
+		hql.append("select a from DocumentRecord d ")
+			.append("inner join d.annotationInfos as a ") // HashSet of AnnotationInfo class in DocumentRecord
+			.append("where d.documentRecordId = :docId ")
+			.append("  and d.userId = :userId ")
+			.append("  and a.createdBy  = :createdBy ")	
+			.append("  and a.bioportalOntology  = :bioportalOntologyID ")	
+			.append("  and a.bioportalClassId  = :bioportalClassId ")	
+			.append("  and a.annotationtype  = :annotationtype ");
+		if(leadIndex != null){
+			hql.append("  and a.leadIndex  = :leadIndex ");
+		}else{
+		}
+		
+		Query q = session.createQuery(hql.toString());
+		
+		q.setParameter("docId", docId);
+		q.setParameter("userId", userId);		
+		q.setParameter("createdBy", createdBy);
+		q.setParameter("bioportalOntologyID", bioportalOntologyID);
+		q.setParameter("bioportalClassId", bioportalClassId);
+		if(leadIndex != null){
+			q.setParameter("leadIndex", leadIndex);
+			q.setParameter("annotationtype", "ANNOTATION");
+		}else{
+			q.setParameter("annotationtype", "COMMENT");
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<AnnotationInfo> result = q.list();
+		
+		if(result != null && result.size() > 0 ){
+			annotations = new ArrayList<AnnotationDTO>();
+			
+			for (AnnotationInfo entity : result) {
+				annotations.add(new AnnotationDTO(entity));	
+			}
+		}else{
+			annotationRet = null;
+		}
+		
+		if(annotations.size() != 1){
+			annotationRet = null; // multiple results are not allow.
+		}
+		session.close();
+		
+		return annotationRet;
+	}
+	
 	@Override
 	public AnnotationDTO getAnnotationById(Long userId, Long annotationId){
 		AnnotationDTO annotation = null;
@@ -795,7 +903,7 @@ public class HibernateConnection extends Connection {
 				// obj[6] should be the same as obj[1]
 				alg.setDisplayServiceName((String)obj[7]);
 				alg.setServiceName((String)obj[8]);
-				alg.setUrl((String)obj[9]);
+				alg.setAnalysisServiceURL((String)obj[9]);
 				alg.setURLreference((String)obj[10]);
 				alg.setLicence((String)obj[11]);
 				alg.setVersionIdAlgorithm((String)obj[12]);

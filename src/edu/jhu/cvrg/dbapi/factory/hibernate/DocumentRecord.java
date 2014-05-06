@@ -116,6 +116,10 @@ public class DocumentRecord implements java.io.Serializable {
 		this.subjectId = subjectid;
 	}
 
+	/** based on the enumeration "fileFormat" in ECGformatCoverter.jar
+	 *  
+	 * @return
+	 */
 	@Column(name = "originalformat")
 	public Integer getOriginalFormat() {
 		return this.originalFormat;

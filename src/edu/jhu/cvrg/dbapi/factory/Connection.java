@@ -79,4 +79,20 @@ public abstract class Connection {
 	 */
 	public abstract ArrayList<AdditionalParameters> getAlgorithmParameterArray(int algorithmId);
 
+	/** Gets, via Hibernate, an ArrayList of all the Annotations of this document 
+	 * which match the list of bioportalClassIds and where created by the specified createdBy.
+	 * 
+	 * @param userId - Id of the user who owns this data.
+	 * @param docId - Document ID
+	 * @param leadIndex - zero based lead index, as found in the original data file.
+	 * @param createdBy - Either original file format identifier, algorithm identifier, or user ID in the case of manual annotations.
+	 * @param bioportalOntologyID - Identifier of the Ontology, e.g. "ECGT"
+	 * @param bioportalClassIdList - A List of bioportalClassId string, e.g. "ECGOntology:ECG_000000243".
+	 * 
+	 * @author Michael Shipway
+	 */
+	public abstract List<AnnotationDTO> getLeadAnnotationListConceptIDList(Long userId,
+			Long docId, Integer leadIndex, String createdBy,
+			String bioportalOntologyID, List<String> bioportalClassIdList);
+
 }
