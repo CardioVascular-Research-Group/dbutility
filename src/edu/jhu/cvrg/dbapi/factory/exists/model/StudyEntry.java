@@ -94,6 +94,7 @@ public class StudyEntry implements Serializable{
 	public static final int PHILIPSXML103 = 9;
 	public static final int PHILIPSXML104 = 10;
 	public static final int MUSEXML = 11;
+	public static final int SCHILLER = 12;
 	
 	
 	/**

@@ -55,6 +55,7 @@ public enum EnumFileType {
 	XY_FILE("XY formatted CSV file", EnumFileExtension.CSV),
 	PHILIPS_103("Philips 1.03", EnumFileExtension.XML),
 	PHILIPS_104("Philips 1.04", EnumFileExtension.XML),
+	SCHILLER("Schiller", EnumFileExtension.XML),
 	MUSE_XML("Muse", EnumFileExtension.XML);
 	
 	private String label;
