@@ -1,4 +1,4 @@
-﻿;
+;
 -- In the future, an actual solution needs to be found for the above line
 -- It is a temporary workaround to get this script to work on the psql command line
 DROP SEQUENCE analyzejob_sequence;

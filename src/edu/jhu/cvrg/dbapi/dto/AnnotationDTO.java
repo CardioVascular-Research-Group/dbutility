@@ -31,7 +31,7 @@ public class AnnotationDTO implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 198688003623925166L;
 	
-	private Long annotationId;;
+	private Long annotationId;
 	private long userID;
 	private long groupID; 
 	private long companyID;
