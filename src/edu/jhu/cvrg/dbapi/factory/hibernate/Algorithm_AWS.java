@@ -58,6 +58,9 @@ public class Algorithm_AWS implements java.io.Serializable  {
 	@Column(name="\"uiName\"")
 	private String uiName;
 
+	@Column(name="\"resultformat\"")
+	private String resultformat;
+
 //	private List<AWS_Parameter> parameterset = new ArrayList<AWS_Parameter>();
 //
 ////	private Collection parameterset;
@@ -149,6 +152,17 @@ public class Algorithm_AWS implements java.io.Serializable  {
 	public void setUiName(String uiName) {
 		this.uiName = uiName;
 	}
+	
+	
+	public String getResultformat() {
+		return this.resultformat;
+	}
+
+	public void setResultformat(String resultformat) {
+		this.resultformat = resultformat;
+	}
+	
+
 
 //	@OneToMany(fetch = FetchType.LAZY, mappedBy = "algorithm")
 //	public List<AWS_AlgorithmPerson> getAlgorithmPersons() {
