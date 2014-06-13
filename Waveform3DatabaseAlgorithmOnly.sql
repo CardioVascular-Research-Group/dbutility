@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.12
 -- Dumped by pg_dump version 9.1.12
--- Started on 2014-05-06 09:14:10 EDT
+-- Started on 2014-06-13 17:00:32 EDT
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -30,7 +30,8 @@ CREATE TABLE algorithm (
     "shortDescription" character varying(150),
     "completeDescription" character varying(5000),
     "serviceMethod" character varying(250),
-    algorithmid integer NOT NULL
+    algorithmid integer NOT NULL,
+    resultformat character varying(20)
 );
 
 
@@ -105,7 +106,17 @@ COMMENT ON COLUMN algorithm.algorithmid IS 'Primary Key for Algorithms.';
 
 
 --
--- TOC entry 191 (class 1259 OID 37240)
+-- TOC entry 2857 (class 0 OID 0)
+-- Dependencies: 161
+-- Name: COLUMN algorithm.resultformat; Type: COMMENT; Schema: public; Owner: liferay
+--
+
+COMMENT ON COLUMN algorithm.resultformat IS 'Data format of the result file which the web service will return.
+Valid values are "WFDBAnnotation" and "CSV"';
+
+
+--
+-- TOC entry 181 (class 1259 OID 37240)
 -- Dependencies: 6
 -- Name: algorithmreference; Type: TABLE; Schema: public; Owner: liferay; Tablespace: 
 --
@@ -125,8 +136,8 @@ CREATE TABLE algorithmreference (
 ALTER TABLE public.algorithmreference OWNER TO liferay;
 
 --
--- TOC entry 2857 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2858 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: TABLE algorithmreference; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -134,8 +145,8 @@ COMMENT ON TABLE algorithmreference IS 'Contains reference data about the algori
 
 
 --
--- TOC entry 2858 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2859 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference.algorithmreferenceid; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -143,8 +154,8 @@ COMMENT ON COLUMN algorithmreference.algorithmreferenceid IS 'Unique ID of the a
 
 
 --
--- TOC entry 2859 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2860 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference.algorithmid; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -152,8 +163,8 @@ COMMENT ON COLUMN algorithmreference.algorithmid IS 'Foriegn key linking this en
 
 
 --
--- TOC entry 2860 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2861 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference."versionAlgorithm"; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -161,8 +172,8 @@ COMMENT ON COLUMN algorithmreference."versionAlgorithm" IS 'Version ID of the al
 
 
 --
--- TOC entry 2861 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2862 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference."dateAlgorithm"; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -170,8 +181,8 @@ COMMENT ON COLUMN algorithmreference."dateAlgorithm" IS 'Date of this version of
 
 
 --
--- TOC entry 2862 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2863 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference."versionWebService"; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -179,8 +190,8 @@ COMMENT ON COLUMN algorithmreference."versionWebService" IS 'Version ID of the w
 
 
 --
--- TOC entry 2863 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2864 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference."dateWebService"; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -188,8 +199,8 @@ COMMENT ON COLUMN algorithmreference."dateWebService" IS 'Date of this version o
 
 
 --
--- TOC entry 2864 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2865 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference.licence; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -197,8 +208,8 @@ COMMENT ON COLUMN algorithmreference.licence IS 'License of this algorithm, or U
 
 
 --
--- TOC entry 2865 (class 0 OID 0)
--- Dependencies: 191
+-- TOC entry 2866 (class 0 OID 0)
+-- Dependencies: 181
 -- Name: COLUMN algorithmreference.referenceurl; Type: COMMENT; Schema: public; Owner: liferay
 --
 
@@ -206,8 +217,8 @@ COMMENT ON COLUMN algorithmreference.referenceurl IS 'URL of a documentation web
 
 
 --
--- TOC entry 192 (class 1259 OID 37243)
--- Dependencies: 191 6
+-- TOC entry 182 (class 1259 OID 37243)
+-- Dependencies: 6 181
 -- Name: algorithmReference_algorithmReferenceID_seq; Type: SEQUENCE; Schema: public; Owner: liferay
 --
 
@@ -222,8 +233,8 @@ CREATE SEQUENCE "algorithmReference_algorithmReferenceID_seq"
 ALTER TABLE public."algorithmReference_algorithmReferenceID_seq" OWNER TO liferay;
 
 --
--- TOC entry 2866 (class 0 OID 0)
--- Dependencies: 192
+-- TOC entry 2867 (class 0 OID 0)
+-- Dependencies: 182
 -- Name: algorithmReference_algorithmReferenceID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
 
@@ -232,7 +243,7 @@ ALTER SEQUENCE "algorithmReference_algorithmReferenceID_seq" OWNED BY algorithmr
 
 --
 -- TOC entry 163 (class 1259 OID 36800)
--- Dependencies: 161 6
+-- Dependencies: 6 161
 -- Name: algorithm_algorithmid_seq; Type: SEQUENCE; Schema: public; Owner: liferay
 --
 
@@ -247,7 +258,7 @@ CREATE SEQUENCE algorithm_algorithmid_seq
 ALTER TABLE public.algorithm_algorithmid_seq OWNER TO liferay;
 
 --
--- TOC entry 2867 (class 0 OID 0)
+-- TOC entry 2868 (class 0 OID 0)
 -- Dependencies: 163
 -- Name: algorithm_algorithmid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -271,7 +282,7 @@ CREATE TABLE algorithmperson (
 ALTER TABLE public.algorithmperson OWNER TO liferay;
 
 --
--- TOC entry 2868 (class 0 OID 0)
+-- TOC entry 2869 (class 0 OID 0)
 -- Dependencies: 162
 -- Name: TABLE algorithmperson; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -283,7 +294,7 @@ March 10, 2014';
 
 
 --
--- TOC entry 2869 (class 0 OID 0)
+-- TOC entry 2870 (class 0 OID 0)
 -- Dependencies: 162
 -- Name: COLUMN algorithmperson.algorithmid; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -292,7 +303,7 @@ COMMENT ON COLUMN algorithmperson.algorithmid IS 'The algorithm that this person
 
 
 --
--- TOC entry 2870 (class 0 OID 0)
+-- TOC entry 2871 (class 0 OID 0)
 -- Dependencies: 162
 -- Name: COLUMN algorithmperson.personid; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -301,7 +312,7 @@ COMMENT ON COLUMN algorithmperson.personid IS 'The person affiliated with this a
 
 
 --
--- TOC entry 2871 (class 0 OID 0)
+-- TOC entry 2872 (class 0 OID 0)
 -- Dependencies: 162
 -- Name: COLUMN algorithmperson."algorithmPersonid"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -326,7 +337,7 @@ CREATE SEQUENCE algorithmperson_algorithmpersonid_seq
 ALTER TABLE public.algorithmperson_algorithmpersonid_seq OWNER TO liferay;
 
 --
--- TOC entry 2872 (class 0 OID 0)
+-- TOC entry 2873 (class 0 OID 0)
 -- Dependencies: 164
 -- Name: algorithmperson_algorithmpersonid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -351,7 +362,7 @@ CREATE TABLE organization (
 ALTER TABLE public.organization OWNER TO liferay;
 
 --
--- TOC entry 2873 (class 0 OID 0)
+-- TOC entry 2874 (class 0 OID 0)
 -- Dependencies: 165
 -- Name: TABLE organization; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -364,7 +375,7 @@ March 10, 2014';
 
 
 --
--- TOC entry 2874 (class 0 OID 0)
+-- TOC entry 2875 (class 0 OID 0)
 -- Dependencies: 165
 -- Name: COLUMN organization."uiName"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -373,7 +384,7 @@ COMMENT ON COLUMN organization."uiName" IS 'Name to be displays to users. ';
 
 
 --
--- TOC entry 2875 (class 0 OID 0)
+-- TOC entry 2876 (class 0 OID 0)
 -- Dependencies: 165
 -- Name: COLUMN organization."organizationID"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -382,7 +393,7 @@ COMMENT ON COLUMN organization."organizationID" IS 'Primary Key for the organiza
 
 
 --
--- TOC entry 2876 (class 0 OID 0)
+-- TOC entry 2877 (class 0 OID 0)
 -- Dependencies: 165
 -- Name: COLUMN organization."orgUrl"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -391,7 +402,7 @@ COMMENT ON COLUMN organization."orgUrl" IS 'URL of the organization''s web page.
 
 
 --
--- TOC entry 2877 (class 0 OID 0)
+-- TOC entry 2878 (class 0 OID 0)
 -- Dependencies: 165
 -- Name: COLUMN organization.phonenumber; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -415,7 +426,7 @@ CREATE TABLE "organizationContact" (
 ALTER TABLE public."organizationContact" OWNER TO liferay;
 
 --
--- TOC entry 2878 (class 0 OID 0)
+-- TOC entry 2879 (class 0 OID 0)
 -- Dependencies: 166
 -- Name: TABLE "organizationContact"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -427,7 +438,7 @@ March 10, 2014';
 
 
 --
--- TOC entry 2879 (class 0 OID 0)
+-- TOC entry 2880 (class 0 OID 0)
 -- Dependencies: 166
 -- Name: COLUMN "organizationContact"."organizationContactID"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -436,7 +447,7 @@ COMMENT ON COLUMN "organizationContact"."organizationContactID" IS 'Primary Key 
 
 
 --
--- TOC entry 2880 (class 0 OID 0)
+-- TOC entry 2881 (class 0 OID 0)
 -- Dependencies: 166
 -- Name: COLUMN "organizationContact"."organizationID"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -445,7 +456,7 @@ COMMENT ON COLUMN "organizationContact"."organizationID" IS 'Foreign Key of the 
 
 
 --
--- TOC entry 2881 (class 0 OID 0)
+-- TOC entry 2882 (class 0 OID 0)
 -- Dependencies: 166
 -- Name: COLUMN "organizationContact"."contactID"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -470,7 +481,7 @@ CREATE SEQUENCE organization_organizationid_seq
 ALTER TABLE public.organization_organizationid_seq OWNER TO liferay;
 
 --
--- TOC entry 2882 (class 0 OID 0)
+-- TOC entry 2883 (class 0 OID 0)
 -- Dependencies: 167
 -- Name: organization_organizationid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -495,7 +506,7 @@ CREATE SEQUENCE organizationcontact_organizationcontactid_seq
 ALTER TABLE public.organizationcontact_organizationcontactid_seq OWNER TO liferay;
 
 --
--- TOC entry 2883 (class 0 OID 0)
+-- TOC entry 2884 (class 0 OID 0)
 -- Dependencies: 168
 -- Name: organizationcontact_organizationcontactid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -527,7 +538,7 @@ CREATE TABLE parameter (
 ALTER TABLE public.parameter OWNER TO liferay;
 
 --
--- TOC entry 2884 (class 0 OID 0)
+-- TOC entry 2885 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: TABLE parameter; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -542,7 +553,7 @@ March 10, 2014
 
 
 --
--- TOC entry 2885 (class 0 OID 0)
+-- TOC entry 2886 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter.parameterid; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -551,7 +562,7 @@ COMMENT ON COLUMN parameter.parameterid IS 'Primary Key for this parameter. ';
 
 
 --
--- TOC entry 2886 (class 0 OID 0)
+-- TOC entry 2887 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter.algorithmid; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -560,7 +571,7 @@ COMMENT ON COLUMN parameter.algorithmid IS 'Foreign Key of the algorithm this pa
 
 
 --
--- TOC entry 2887 (class 0 OID 0)
+-- TOC entry 2888 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter."uiName"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -569,7 +580,7 @@ COMMENT ON COLUMN parameter."uiName" IS 'Human friendly name to be used by the U
 
 
 --
--- TOC entry 2888 (class 0 OID 0)
+-- TOC entry 2889 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter."shortDescription"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -578,7 +589,7 @@ COMMENT ON COLUMN parameter."shortDescription" IS 'Short summary description sui
 
 
 --
--- TOC entry 2889 (class 0 OID 0)
+-- TOC entry 2890 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter."completeDescription"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -587,7 +598,7 @@ COMMENT ON COLUMN parameter."completeDescription" IS 'Complete description of th
 
 
 --
--- TOC entry 2890 (class 0 OID 0)
+-- TOC entry 2891 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter.flag; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -598,7 +609,7 @@ Or it could be a short word, specified by the web service writer, e.g. "record".
 
 
 --
--- TOC entry 2891 (class 0 OID 0)
+-- TOC entry 2892 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter."defaultValue"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -608,7 +619,7 @@ Also, this is the value which the algorithm will use if no parameter value is se
 
 
 --
--- TOC entry 2892 (class 0 OID 0)
+-- TOC entry 2893 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter."parameterTypeid"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -619,7 +630,7 @@ Options will be:
 
 
 --
--- TOC entry 2893 (class 0 OID 0)
+-- TOC entry 2894 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter.required; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -628,7 +639,7 @@ COMMENT ON COLUMN parameter.required IS 'If true, this parameter must have a val
 
 
 --
--- TOC entry 2894 (class 0 OID 0)
+-- TOC entry 2895 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter."multipleSelect"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -638,7 +649,7 @@ Only relevent for select or data_column parameter types.';
 
 
 --
--- TOC entry 2895 (class 0 OID 0)
+-- TOC entry 2896 (class 0 OID 0)
 -- Dependencies: 169
 -- Name: COLUMN parameter."parameterValidationid"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -666,7 +677,7 @@ CREATE TABLE "parameterOption" (
 ALTER TABLE public."parameterOption" OWNER TO liferay;
 
 --
--- TOC entry 2896 (class 0 OID 0)
+-- TOC entry 2897 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: TABLE "parameterOption"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -679,7 +690,7 @@ March 10, 2014';
 
 
 --
--- TOC entry 2897 (class 0 OID 0)
+-- TOC entry 2898 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: COLUMN "parameterOption"."uiText"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -688,7 +699,7 @@ COMMENT ON COLUMN "parameterOption"."uiText" IS 'Text for the UI to display in a
 
 
 --
--- TOC entry 2898 (class 0 OID 0)
+-- TOC entry 2899 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: COLUMN "parameterOption"."uiValue"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -697,7 +708,7 @@ COMMENT ON COLUMN "parameterOption"."uiValue" IS 'Value to be sent to the web se
 
 
 --
--- TOC entry 2899 (class 0 OID 0)
+-- TOC entry 2900 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: COLUMN "parameterOption"."isInitialSelection"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -706,7 +717,7 @@ COMMENT ON COLUMN "parameterOption"."isInitialSelection" IS 'If true this option
 
 
 --
--- TOC entry 2900 (class 0 OID 0)
+-- TOC entry 2901 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: COLUMN "parameterOption"."shortDescription"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -715,7 +726,7 @@ COMMENT ON COLUMN "parameterOption"."shortDescription" IS 'Short summary descrip
 
 
 --
--- TOC entry 2901 (class 0 OID 0)
+-- TOC entry 2902 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: COLUMN "parameterOption"."completeDescription"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -724,7 +735,7 @@ COMMENT ON COLUMN "parameterOption"."completeDescription" IS 'Complete descripti
 
 
 --
--- TOC entry 2902 (class 0 OID 0)
+-- TOC entry 2903 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: COLUMN "parameterOption".parameteroptionid; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -733,7 +744,7 @@ COMMENT ON COLUMN "parameterOption".parameteroptionid IS 'Primary Key for parame
 
 
 --
--- TOC entry 2903 (class 0 OID 0)
+-- TOC entry 2904 (class 0 OID 0)
 -- Dependencies: 170
 -- Name: COLUMN "parameterOption"."parentParameterID"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -757,7 +768,7 @@ CREATE TABLE "parameterType" (
 ALTER TABLE public."parameterType" OWNER TO liferay;
 
 --
--- TOC entry 2904 (class 0 OID 0)
+-- TOC entry 2905 (class 0 OID 0)
 -- Dependencies: 171
 -- Name: TABLE "parameterType"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -778,7 +789,7 @@ March 10, 2014';
 
 
 --
--- TOC entry 2905 (class 0 OID 0)
+-- TOC entry 2906 (class 0 OID 0)
 -- Dependencies: 171
 -- Name: COLUMN "parameterType"."parameterTypeid"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -787,7 +798,7 @@ COMMENT ON COLUMN "parameterType"."parameterTypeid" IS 'Primary key of parameter
 
 
 --
--- TOC entry 2906 (class 0 OID 0)
+-- TOC entry 2907 (class 0 OID 0)
 -- Dependencies: 171
 -- Name: COLUMN "parameterType"."uiName"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -796,7 +807,7 @@ COMMENT ON COLUMN "parameterType"."uiName" IS 'Name of the parameter(control) ty
 
 
 --
--- TOC entry 2907 (class 0 OID 0)
+-- TOC entry 2908 (class 0 OID 0)
 -- Dependencies: 171
 -- Name: COLUMN "parameterType"."shortDescription"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -823,7 +834,7 @@ CREATE TABLE "parameterValidator" (
 ALTER TABLE public."parameterValidator" OWNER TO liferay;
 
 --
--- TOC entry 2908 (class 0 OID 0)
+-- TOC entry 2909 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: TABLE "parameterValidator"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -841,7 +852,7 @@ Modeled after Galaxy''s tool config XML as documented in the following web pages
 
 
 --
--- TOC entry 2909 (class 0 OID 0)
+-- TOC entry 2910 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: COLUMN "parameterValidator"."validatorType"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -854,7 +865,7 @@ COMMENT ON COLUMN "parameterValidator"."validatorType" IS 'Can be of 3 types:
 
 
 --
--- TOC entry 2910 (class 0 OID 0)
+-- TOC entry 2911 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: COLUMN "parameterValidator".message; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -863,7 +874,7 @@ COMMENT ON COLUMN "parameterValidator".message IS 'The message displayed if vali
 
 
 --
--- TOC entry 2911 (class 0 OID 0)
+-- TOC entry 2912 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: COLUMN "parameterValidator".min; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -872,7 +883,7 @@ COMMENT ON COLUMN "parameterValidator".min IS 'minimum parameter value; only val
 
 
 --
--- TOC entry 2912 (class 0 OID 0)
+-- TOC entry 2913 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: COLUMN "parameterValidator".max; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -881,7 +892,7 @@ COMMENT ON COLUMN "parameterValidator".max IS 'maximum parameter value; only val
 
 
 --
--- TOC entry 2913 (class 0 OID 0)
+-- TOC entry 2914 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: COLUMN "parameterValidator".regex; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -890,7 +901,7 @@ COMMENT ON COLUMN "parameterValidator".regex IS 'A JavaScript regular expression
 
 
 --
--- TOC entry 2914 (class 0 OID 0)
+-- TOC entry 2915 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: COLUMN "parameterValidator"."parameterValidationid"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -915,7 +926,7 @@ CREATE SEQUENCE parameteroption_parameteroptionid_seq
 ALTER TABLE public.parameteroption_parameteroptionid_seq OWNER TO liferay;
 
 --
--- TOC entry 2915 (class 0 OID 0)
+-- TOC entry 2916 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: parameteroption_parameteroptionid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -925,7 +936,7 @@ ALTER SEQUENCE parameteroption_parameteroptionid_seq OWNED BY "parameterOption".
 
 --
 -- TOC entry 173 (class 1259 OID 36863)
--- Dependencies: 6 169
+-- Dependencies: 169 6
 -- Name: parameters_parameterid_seq; Type: SEQUENCE; Schema: public; Owner: liferay
 --
 
@@ -940,7 +951,7 @@ CREATE SEQUENCE parameters_parameterid_seq
 ALTER TABLE public.parameters_parameterid_seq OWNER TO liferay;
 
 --
--- TOC entry 2916 (class 0 OID 0)
+-- TOC entry 2917 (class 0 OID 0)
 -- Dependencies: 173
 -- Name: parameters_parameterid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -950,7 +961,7 @@ ALTER SEQUENCE parameters_parameterid_seq OWNED BY parameter.parameterid;
 
 --
 -- TOC entry 174 (class 1259 OID 36865)
--- Dependencies: 171 6
+-- Dependencies: 6 171
 -- Name: parametertype_parametertypeid_seq; Type: SEQUENCE; Schema: public; Owner: liferay
 --
 
@@ -965,7 +976,7 @@ CREATE SEQUENCE parametertype_parametertypeid_seq
 ALTER TABLE public.parametertype_parametertypeid_seq OWNER TO liferay;
 
 --
--- TOC entry 2917 (class 0 OID 0)
+-- TOC entry 2918 (class 0 OID 0)
 -- Dependencies: 174
 -- Name: parametertype_parametertypeid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -975,7 +986,7 @@ ALTER SEQUENCE parametertype_parametertypeid_seq OWNED BY "parameterType"."param
 
 --
 -- TOC entry 180 (class 1259 OID 37065)
--- Dependencies: 6 179
+-- Dependencies: 179 6
 -- Name: parametervalidator_parametervalidationid_seq; Type: SEQUENCE; Schema: public; Owner: liferay
 --
 
@@ -990,7 +1001,7 @@ CREATE SEQUENCE parametervalidator_parametervalidationid_seq
 ALTER TABLE public.parametervalidator_parametervalidationid_seq OWNER TO liferay;
 
 --
--- TOC entry 2918 (class 0 OID 0)
+-- TOC entry 2919 (class 0 OID 0)
 -- Dependencies: 180
 -- Name: parametervalidator_parametervalidationid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -1017,7 +1028,7 @@ CREATE TABLE person (
 ALTER TABLE public.person OWNER TO liferay;
 
 --
--- TOC entry 2919 (class 0 OID 0)
+-- TOC entry 2920 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: TABLE person; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1030,7 +1041,7 @@ March 10, 2014';
 
 
 --
--- TOC entry 2920 (class 0 OID 0)
+-- TOC entry 2921 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: COLUMN person.email; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1039,7 +1050,7 @@ COMMENT ON COLUMN person.email IS 'Contact email for this person.';
 
 
 --
--- TOC entry 2921 (class 0 OID 0)
+-- TOC entry 2922 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: COLUMN person.phonenumber; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1048,7 +1059,7 @@ COMMENT ON COLUMN person.phonenumber IS 'Contact phone number for this person.';
 
 
 --
--- TOC entry 2922 (class 0 OID 0)
+-- TOC entry 2923 (class 0 OID 0)
 -- Dependencies: 175
 -- Name: COLUMN person."personID"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1058,7 +1069,7 @@ COMMENT ON COLUMN person."personID" IS 'Unique ID for this person.';
 
 --
 -- TOC entry 176 (class 1259 OID 36870)
--- Dependencies: 175 6
+-- Dependencies: 6 175
 -- Name: person_personid_seq; Type: SEQUENCE; Schema: public; Owner: liferay
 --
 
@@ -1073,7 +1084,7 @@ CREATE SEQUENCE person_personid_seq
 ALTER TABLE public.person_personid_seq OWNER TO liferay;
 
 --
--- TOC entry 2923 (class 0 OID 0)
+-- TOC entry 2924 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: person_personid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -1098,7 +1109,7 @@ CREATE TABLE service (
 ALTER TABLE public.service OWNER TO liferay;
 
 --
--- TOC entry 2924 (class 0 OID 0)
+-- TOC entry 2925 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: TABLE service; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1110,7 +1121,7 @@ March 10, 2014';
 
 
 --
--- TOC entry 2925 (class 0 OID 0)
+-- TOC entry 2926 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: COLUMN service.serviceid; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1119,7 +1130,7 @@ COMMENT ON COLUMN service.serviceid IS 'Primary key for the service table.';
 
 
 --
--- TOC entry 2926 (class 0 OID 0)
+-- TOC entry 2927 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: COLUMN service."uiName"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1128,7 +1139,7 @@ COMMENT ON COLUMN service."uiName" IS 'Human friendly name of the web service fo
 
 
 --
--- TOC entry 2927 (class 0 OID 0)
+-- TOC entry 2928 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: COLUMN service."wsName"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1138,7 +1149,7 @@ COMMENT ON COLUMN service."wsName" IS 'The web service’s name to be used in th
 
 
 --
--- TOC entry 2928 (class 0 OID 0)
+-- TOC entry 2929 (class 0 OID 0)
 -- Dependencies: 177
 -- Name: COLUMN service."wsUrl"; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1165,7 +1176,7 @@ CREATE SEQUENCE service_serviceid_seq
 ALTER TABLE public.service_serviceid_seq OWNER TO liferay;
 
 --
--- TOC entry 2929 (class 0 OID 0)
+-- TOC entry 2930 (class 0 OID 0)
 -- Dependencies: 178
 -- Name: service_serviceid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: liferay
 --
@@ -1193,7 +1204,7 @@ ALTER TABLE ONLY algorithmperson ALTER COLUMN "algorithmPersonid" SET DEFAULT ne
 
 --
 -- TOC entry 2708 (class 2604 OID 37245)
--- Dependencies: 192 191
+-- Dependencies: 182 181
 -- Name: algorithmreferenceid; Type: DEFAULT; Schema: public; Owner: liferay
 --
 
@@ -1283,7 +1294,7 @@ ALTER TABLE ONLY algorithm
 
 
 --
--- TOC entry 2930 (class 0 OID 0)
+-- TOC entry 2931 (class 0 OID 0)
 -- Dependencies: 2711
 -- Name: CONSTRAINT "idAlgorithm" ON algorithm; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1312,7 +1323,7 @@ ALTER TABLE ONLY organization
 
 
 --
--- TOC entry 2931 (class 0 OID 0)
+-- TOC entry 2932 (class 0 OID 0)
 -- Dependencies: 2717
 -- Name: CONSTRAINT "idOrganization" ON organization; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1382,7 +1393,7 @@ ALTER TABLE ONLY service
 
 --
 -- TOC entry 2736 (class 2606 OID 37250)
--- Dependencies: 191 191 2847
+-- Dependencies: 181 181 2847
 -- Name: idalgorithmreference; Type: CONSTRAINT; Schema: public; Owner: liferay; Tablespace: 
 --
 
@@ -1391,7 +1402,7 @@ ALTER TABLE ONLY algorithmreference
 
 
 --
--- TOC entry 2932 (class 0 OID 0)
+-- TOC entry 2933 (class 0 OID 0)
 -- Dependencies: 2736
 -- Name: CONSTRAINT idalgorithmreference ON algorithmreference; Type: COMMENT; Schema: public; Owner: liferay
 --
@@ -1455,7 +1466,7 @@ CREATE INDEX "fki_idParameterType" ON parameter USING btree ("parameterTypeid");
 
 --
 -- TOC entry 2734 (class 1259 OID 37256)
--- Dependencies: 191 2847
+-- Dependencies: 181 2847
 -- Name: fki_idalgorithm; Type: INDEX; Schema: public; Owner: liferay; Tablespace: 
 --
 
@@ -1473,7 +1484,7 @@ CREATE INDEX fki_service ON algorithm USING btree (serviceid);
 
 --
 -- TOC entry 2737 (class 2606 OID 37020)
--- Dependencies: 2732 177 161 2847
+-- Dependencies: 161 2732 177 2847
 -- Name: fkService; Type: FK CONSTRAINT; Schema: public; Owner: liferay
 --
 
@@ -1483,7 +1494,7 @@ ALTER TABLE ONLY algorithm
 
 --
 -- TOC entry 2742 (class 2606 OID 37129)
--- Dependencies: 169 161 2710 2847
+-- Dependencies: 2710 161 169 2847
 -- Name: idAlgorithm; Type: FK CONSTRAINT; Schema: public; Owner: liferay
 --
 
@@ -1493,7 +1504,7 @@ ALTER TABLE ONLY parameter
 
 --
 -- TOC entry 2738 (class 2606 OID 37257)
--- Dependencies: 161 2710 162 2847
+-- Dependencies: 161 162 2710 2847
 -- Name: idAlgorithmPersonAlg; Type: FK CONSTRAINT; Schema: public; Owner: liferay
 --
 
@@ -1503,7 +1514,7 @@ ALTER TABLE ONLY algorithmperson
 
 --
 -- TOC entry 2739 (class 2606 OID 37262)
--- Dependencies: 175 162 2730 2847
+-- Dependencies: 2730 175 162 2847
 -- Name: idAlgorithmPersonPerson; Type: FK CONSTRAINT; Schema: public; Owner: liferay
 --
 
@@ -1513,7 +1524,7 @@ ALTER TABLE ONLY algorithmperson
 
 --
 -- TOC entry 2740 (class 2606 OID 37035)
--- Dependencies: 2716 165 166 2847
+-- Dependencies: 166 2716 165 2847
 -- Name: idOrganizationContactOrg; Type: FK CONSTRAINT; Schema: public; Owner: liferay
 --
 
@@ -1533,7 +1544,7 @@ ALTER TABLE ONLY "organizationContact"
 
 --
 -- TOC entry 2743 (class 2606 OID 37134)
--- Dependencies: 171 2728 169 2847
+-- Dependencies: 171 169 2728 2847
 -- Name: idParameterType; Type: FK CONSTRAINT; Schema: public; Owner: liferay
 --
 
@@ -1543,7 +1554,7 @@ ALTER TABLE ONLY parameter
 
 --
 -- TOC entry 2744 (class 2606 OID 37267)
--- Dependencies: 161 2710 191 2847
+-- Dependencies: 181 2710 161 2847
 -- Name: idalgorithm; Type: FK CONSTRAINT; Schema: public; Owner: liferay
 --
 
@@ -1551,7 +1562,7 @@ ALTER TABLE ONLY algorithmreference
     ADD CONSTRAINT idalgorithm FOREIGN KEY (algorithmid) REFERENCES algorithm(algorithmid);
 
 
--- Completed on 2014-05-06 09:14:10 EDT
+-- Completed on 2014-06-13 17:00:32 EDT
 
 --
 -- PostgreSQL database dump complete
