@@ -537,7 +537,7 @@ public class HibernateConnection extends Connection {
 	private AnnotationDTO getLeadAnnotationbyBioportal(Long userId, Long docId, Integer leadIndex,
 			String createdBy, String bioportalOntologyID, String bioportalClassId){
 		
-		List<AnnotationDTO> annotations = null;
+//		List<AnnotationDTO> annotations = null;
 		AnnotationDTO annotationRet = null;
 		
 		Session session = sessionFactory.openSession();
@@ -550,9 +550,9 @@ public class HibernateConnection extends Connection {
 			.append("  and d.userId = :userId ")
 			.append("  and a.createdBy  = :createdBy ")	
 			.append("  and a.bioportalOntology  = :bioportalOntologyID ")	
-			.append("  and a.bioportalClassId  = :bioportalClassId ")	
-			.append("  and a.annotationtype  = :annotationtype ");
+			.append("  and a.bioportalClassId  = :bioportalClassId ")	;
 		if(leadIndex != null){
+			hql.append("  and a.annotationType  = :annotationType ");
 			hql.append("  and a.leadIndex  = :leadIndex ");
 		}else{
 		}
@@ -566,27 +566,28 @@ public class HibernateConnection extends Connection {
 		q.setParameter("bioportalClassId", bioportalClassId);
 		if(leadIndex != null){
 			q.setParameter("leadIndex", leadIndex);
-			q.setParameter("annotationtype", "ANNOTATION");
+			q.setParameter("annotationType", "ANNOTATION");
 		}else{
-			q.setParameter("annotationtype", "COMMENT");
+			// q.setParameter("annotationType", "COMMENT");
 		}
 		
 		@SuppressWarnings("unchecked")
 		List<AnnotationInfo> result = q.list();
 		
 		if(result != null && result.size() > 0 ){
-			annotations = new ArrayList<AnnotationDTO>();
-			
-			for (AnnotationInfo entity : result) {
-				annotations.add(new AnnotationDTO(entity));	
+//			annotations = new ArrayList<AnnotationDTO>();			
+			if(result.size() != 1){
+				annotationRet = null; // multiple results are not allow.
+			}else{
+//				for (AnnotationInfo entity : result) {
+//					annotationRet = new AnnotationDTO(entity);	
+//				}
+				annotationRet = new AnnotationDTO(result.get(0));
 			}
 		}else{
 			annotationRet = null;
 		}
 		
-		if(annotations.size() != 1){
-			annotationRet = null; // multiple results are not allow.
-		}
 		session.close();
 		
 		return annotationRet;
