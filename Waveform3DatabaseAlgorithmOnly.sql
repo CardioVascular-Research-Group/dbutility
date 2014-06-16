@@ -18,12 +18,22 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+DROP TABLE algorithm;
+DROP TABLE algorithmreference;
+DROP TABLE algorithmperson;
+DROP TABLE organization;
+DROP TABLE "organizationContact";
+DROP TABLE parameter;
+DROP TABLE "parameterOption";
+DROP TABLE "parameterType";
+DROP TABLE "parameterValidator";
+DROP TABLE person;
+DROP TABLE service;
 --
 -- TOC entry 161 (class 1259 OID 36791)
 -- Dependencies: 6
 -- Name: algorithm; Type: TABLE; Schema: public; Owner: liferay; Tablespace: 
 --
-
 CREATE TABLE algorithm (
     serviceid integer,
     "uiName" character varying(30),
