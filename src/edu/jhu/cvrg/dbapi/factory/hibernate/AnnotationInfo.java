@@ -33,7 +33,7 @@ public class AnnotationInfo implements java.io.Serializable {
 	private DocumentRecord documentRecord;
 	private Coordinate endCoordinate;
 	private String createdBy;
-	private String annotationType;
+	private String annotationtype;
 	private String name;
 	private String bioportalOntology;
 	private String bioportalReferenceLink;
@@ -61,7 +61,7 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.startCoordinateId = startingcoordinateid;
 		this.endCoordinateId = endingcoordinateid;
 		this.createdBy = createdby;
-		this.annotationType = annotationtype;
+		this.annotationtype = annotationtype;
 		this.name = name;
 		this.bioportalOntology = bioportalOntology;
 		this.bioportalReferenceLink = bioportalreferenceLink;
@@ -85,7 +85,7 @@ public class AnnotationInfo implements java.io.Serializable {
 		this.documentRecord = documentrecord;
 		this.endCoordinate = coordinateByEndingcoordinateid;
 		this.createdBy = createdby;
-		this.annotationType = annotationtype;
+		this.annotationtype = annotationtype;
 		this.name = name;
 		this.bioportalReferenceLink = bioportalReferenceLink;
 		this.bioportalOntology = bioportalOntology;
@@ -168,11 +168,11 @@ public class AnnotationInfo implements java.io.Serializable {
 	 */
 	@Column(name = "annotationtype", length = 75)
 	public String getAnnotationType() {
-		return this.annotationType;
+		return this.annotationtype;
 	}
 
 	public void setAnnotationType(String annotationtype) {
-		this.annotationType = annotationtype;
+		this.annotationtype = annotationtype;
 	}
 
 	@Column(name = "name", length = 75)
