@@ -539,11 +539,11 @@ public class HibernateConnection extends Connection {
 		
 //		List<AnnotationDTO> annotations = null;
 		AnnotationDTO annotationRet = null;
-		
+		try{
 		Session session = sessionFactory.openSession();
 		
 		StringBuilder hql = new StringBuilder();
-		
+		System.out.println("getLeadAnnotationbyBioportal() leadIndex: " + leadIndex);
 		hql.append("select a from DocumentRecord d ")
 			.append("inner join d.annotationInfos as a ") // HashSet of AnnotationInfo class in DocumentRecord
 			.append("where d.documentRecordId = :docId ")
@@ -552,7 +552,7 @@ public class HibernateConnection extends Connection {
 			.append("  and a.bioportalOntology  = :bioportalOntologyID ")	
 			.append("  and a.bioportalClassId  = :bioportalClassId ")	;
 		if(leadIndex != null){
-			hql.append("  and a.annotationType  = :annotationType ");
+			hql.append("  and a.annotationtype  = :annotationtype ");
 			hql.append("  and a.leadIndex  = :leadIndex ");
 		}else{
 		}
@@ -566,7 +566,7 @@ public class HibernateConnection extends Connection {
 		q.setParameter("bioportalClassId", bioportalClassId);
 		if(leadIndex != null){
 			q.setParameter("leadIndex", leadIndex);
-			q.setParameter("annotationType", "ANNOTATION");
+			q.setParameter("annotationtype", "ANNOTATION");
 		}else{
 			// q.setParameter("annotationType", "COMMENT");
 		}
@@ -589,7 +589,9 @@ public class HibernateConnection extends Connection {
 		}
 		
 		session.close();
-		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return annotationRet;
 	}
 	
