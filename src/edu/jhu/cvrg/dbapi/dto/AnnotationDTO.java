@@ -100,7 +100,7 @@ public class AnnotationDTO implements Serializable, Cloneable{
 	}
 	
 	public AnnotationDTO(AnnotationInfo entity){
-		this(entity.getDocumentRecord().getUserId(), 0L, 0L, entity.getDocumentRecordId(), entity.getCreatedBy(), entity.getAnnotationType(), entity.getName(), entity.getBioportalOntology(), entity.getBioportalClassId(), 
+		this(entity.getDocumentRecord().getUserId(), 0L, 0L, entity.getDocumentRecordId(), entity.getCreatedBy(), entity.getAnnotationtype(), entity.getName(), entity.getBioportalOntology(), entity.getBioportalClassId(), 
 			 entity.getBioportalReferenceLink(), entity.getLeadIndex(), entity.getUnitOfMeasurement(), entity.getDescription(), entity.getValue(), null, null,null, null, null, 
 		     String.valueOf(entity.getDocumentRecordId()), entity.getDocumentRecord().getRecordName(), entity.getDocumentRecord().getSubjectId());
 		

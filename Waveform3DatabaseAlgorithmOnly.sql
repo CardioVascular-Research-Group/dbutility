@@ -18,17 +18,17 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
-DROP TABLE algorithm;
-DROP TABLE algorithmreference;
-DROP TABLE algorithmperson;
-DROP TABLE organization;
-DROP TABLE "organizationContact";
-DROP TABLE parameter;
-DROP TABLE "parameterOption";
-DROP TABLE "parameterType";
-DROP TABLE "parameterValidator";
-DROP TABLE person;
-DROP TABLE service;
+DROP TABLE algorithm CASCADE;
+DROP TABLE algorithmreference CASCADE;
+DROP TABLE algorithmperson CASCADE;
+DROP TABLE organization CASCADE;
+DROP TABLE "organizationContact" CASCADE;
+DROP TABLE parameter CASCADE;
+DROP TABLE "parameterOption" CASCADE;
+DROP TABLE "parameterType" CASCADE;
+DROP TABLE "parameterValidator" CASCADE;
+DROP TABLE person CASCADE;
+DROP TABLE service CASCADE;
 --
 -- TOC entry 161 (class 1259 OID 36791)
 -- Dependencies: 6

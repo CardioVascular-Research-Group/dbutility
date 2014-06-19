@@ -46,7 +46,7 @@ public class DocumentRecord implements java.io.Serializable {
 	private Double aduGain;
 	private UploadStatus uploadStatus;
 	private Set<AnalysisJob> analysisJobs = new HashSet<AnalysisJob>(0);
-	private Set<AnnotationInfo> annotationInfos = new HashSet<AnnotationInfo>(0);
+	private Set<AnnotationInfo> annotationinfos = new HashSet<AnnotationInfo>(0);
 	private List<FileInfo> filesInfo = new ArrayList<FileInfo>(0);
 
 	public DocumentRecord() {
@@ -232,11 +232,11 @@ public class DocumentRecord implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "documentRecord")
 	public Set<AnnotationInfo> getAnnotationInfos() {
-		return this.annotationInfos;
+		return this.annotationinfos;
 	}
 
 	public void setAnnotationInfos(Set<AnnotationInfo> annotationinfos) {
-		this.annotationInfos = annotationinfos;
+		this.annotationinfos = annotationinfos;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "documentRecord")

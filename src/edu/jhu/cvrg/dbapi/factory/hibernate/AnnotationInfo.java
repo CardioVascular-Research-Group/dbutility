@@ -167,11 +167,11 @@ public class AnnotationInfo implements java.io.Serializable {
 	 * @return
 	 */
 	@Column(name = "annotationtype", length = 75)
-	public String getAnnotationType() {
+	public String getAnnotationtype() {
 		return this.annotationtype;
 	}
 
-	public void setAnnotationType(String annotationtype) {
+	public void setAnnotationtype(String annotationtype) {
 		this.annotationtype = annotationtype;
 	}
 
