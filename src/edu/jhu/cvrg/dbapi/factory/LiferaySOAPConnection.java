@@ -355,4 +355,12 @@ public class LiferaySOAPConnection extends Connection{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Integer updateAlgorithm(Integer algorithmid, String uiName,
+			Integer serviceID, String serviceMethod, String shortDescription,
+			String completeDescription) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -70,7 +70,8 @@ public abstract class Connection {
 	 * @author Michael Shipway
 	 */
 	public abstract List<Algorithm> getAvailableAlgorithmList(long userId);
-	public abstract Integer storeAlgorithm(String uiName, Integer serviceID, String serviceMethod, String shortDescription, String completeDescription);
+	public abstract Integer storeAlgorithm(                      String uiName, Integer serviceID, String serviceMethod, String shortDescription, String completeDescription);
+	public abstract Integer updateAlgorithm(Integer algorithmid, String uiName, Integer serviceID, String serviceMethod, String shortDescription, String completeDescription);
 	public abstract Integer storeAlgorithmParameter(AdditionalParameters param, int iAlgorithmID);
 
 	/** Gets, via Hibernate, an ArrayList of all the Additional (optional) parameters which this specified algorithm can receive.
@@ -94,5 +95,6 @@ public abstract class Connection {
 	public abstract List<AnnotationDTO> getLeadAnnotationListConceptIDList(Long userId,
 			Long docId, Integer leadIndex, String createdBy,
 			String bioportalOntologyID, List<String> bioportalClassIdList);
+
 
 }

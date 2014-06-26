@@ -1041,6 +1041,43 @@ public class HibernateConnection extends Connection {
 		return algID;
 	}
 
+	/** Store a single Algorithm
+	 * 
+	 * @param uiName - Human friendly name to be used by the UI when listing services.
+	 * @param serviceID - Foreign key to the "service" table, which will contain the URL and description meta-data for a single web service.  
+	 * @param serviceMethod - Name of the method which executes the algorithm, within the webservice. e.g. "sqrsWrapperType2".
+	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
+	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
+	 * @return
+	 */
+	@Override
+	public Integer updateAlgorithm(Integer algorithmid, String uiName, Integer serviceID, String serviceMethod, 
+			String shortDescription,
+			String completeDescription) {
+			
+		int algID=-1;
+		
+		try{
+			Session session = sessionFactory.openSession();		
+			session.beginTransaction();
+			
+			Algorithm_AWS alg = new Algorithm_AWS(uiName, serviceID, serviceMethod, shortDescription, completeDescription);
+			alg.setAlgorithmid(algorithmid);
+			session.update(alg);
+//			session.persist(alg);
+			
+			session.getTransaction().commit();
+			session.close();
+			
+			algID = alg.getAlgorithmid();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return algID;
+	}
+
+
 	/** Store a single Algorithm Parameter
 	 * 
 	 * @param param - Algorithm parameter to be stored in the database.
