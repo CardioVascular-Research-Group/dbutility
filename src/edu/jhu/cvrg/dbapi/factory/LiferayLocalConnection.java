@@ -189,4 +189,10 @@ public class LiferayLocalConnection extends Connection{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Integer storeService(String uiName, String wsName, String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

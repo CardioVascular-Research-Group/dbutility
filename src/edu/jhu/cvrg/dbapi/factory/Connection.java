@@ -96,5 +96,7 @@ public abstract class Connection {
 			Long docId, Integer leadIndex, String createdBy,
 			String bioportalOntologyID, List<String> bioportalClassIdList);
 
+	public abstract Integer storeService(String uiName, String wsName, String url);
+
 
 }

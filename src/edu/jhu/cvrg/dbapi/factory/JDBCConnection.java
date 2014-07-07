@@ -368,6 +368,12 @@ public class JDBCConnection extends Connection{
 			String completeDescription) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Integer storeService(String uiName, String wsName, String url) {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 
 }

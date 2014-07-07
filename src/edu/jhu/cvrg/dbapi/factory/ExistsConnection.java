@@ -298,6 +298,12 @@ public class ExistsConnection extends Connection{
 		return null;
 	}
 
+	@Override
+	public Integer storeService(String uiName, String wsName, String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 }

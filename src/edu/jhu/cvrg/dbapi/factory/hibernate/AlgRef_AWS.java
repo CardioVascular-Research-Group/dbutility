@@ -19,41 +19,45 @@ public class AlgRef_AWS implements Serializable {
 	//*****************************************
 
 	@Id
-	@SequenceGenerator(name="algorithmReferenceid_generator", sequenceName="algorithmReferenceid_seq")
+	@SequenceGenerator(name="algorithmReferenceid_generator", sequenceName="algorithmreference_algorithmreferenceid_seq")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="algorithmReferenceid_generator")
-	@Column(name="\"algorithmReferenceid\"")
-	private Integer algorithmReferenceid;
+	@Column(name="\"algorithmreferenceid\"")
+	private Integer algorithmreferenceid;
 
 	@Column(name="\"algorithmid\"")
 	private Integer algorithmid;
 
 	@Column(name="\"versionAlgorithm\"")
-	private String versionAlgorithm;
+	private String versionAlgorithm="n/a";
 
 	@Column(name="\"dateAlgorithm\"")
 	private Date dateAlgorithm;
 
 	@Column(name="\"versionWebService\"")
-	private String versionWebService;
+	private String versionWebService="n/a";
 
 	@Column(name="\"dateWebService\"")
 	private Date dateWebService;
 
 	@Column(name="\"licence\"")
-	private String licence;
+	private String licence="n/a";
 
 	@Column(name="\"referenceurl\"")
-	private String referenceurl;
+	private String referenceurl="n/a";
 
 	public AlgRef_AWS() {
 	}
 
+	public AlgRef_AWS(Integer Algid) {
+		setAlgorithmid(Algid);
+	}
+
 	public Integer getAlgorithmReferenceid() {
-		return this.algorithmReferenceid;
+		return this.algorithmreferenceid;
 	}
 
 	public void setAlgorithmReferenceid(Integer algorithmRefid) {
-		this.algorithmReferenceid = algorithmRefid;
+		this.algorithmreferenceid = algorithmRefid;
 	}
 
 	public Integer getAlgorithmid() {

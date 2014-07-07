@@ -369,6 +369,7 @@ public class HibernateConnection extends Connection {
 	 * @return - a comma separated list with the following columns<BR>
 	 *         Lead number(term), Total annotation count, Manual annotations
 	 *         count, Automated annotation count..
+	 * @author Michael Shipway
 	 */
 	@Override
 	public int[][] getAnnotationCountPerLead(Long docId, int qtdLead){
@@ -1014,6 +1015,7 @@ public class HibernateConnection extends Connection {
 	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
 	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
 	 * @return
+	 * @author Michael Shipway
 	 */
 	@Override
 	public Integer storeAlgorithm(String uiName, Integer serviceID, String serviceMethod, 
@@ -1027,13 +1029,14 @@ public class HibernateConnection extends Connection {
 			session.beginTransaction();
 			
 			Algorithm_AWS alg = new Algorithm_AWS(uiName, serviceID, serviceMethod, shortDescription, completeDescription);
-			
 			session.persist(alg);
-			
-			session.getTransaction().commit();
-			session.close();
-			
 			algID = alg.getAlgorithmid();
+
+			AlgRef_AWS ref = new AlgRef_AWS(algID);
+			session.persist(ref);
+
+			session.getTransaction().commit();
+			session.close();			
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -1048,7 +1051,8 @@ public class HibernateConnection extends Connection {
 	 * @param serviceMethod - Name of the method which executes the algorithm, within the webservice. e.g. "sqrsWrapperType2".
 	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
 	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
-	 * @return
+	 * @return - primary key of the new algorithm entry.
+	 * @author Michael Shipway
 	 */
 	@Override
 	public Integer updateAlgorithm(Integer algorithmid, String uiName, Integer serviceID, String serviceMethod, 
@@ -1083,6 +1087,7 @@ public class HibernateConnection extends Connection {
 	 * @param param - Algorithm parameter to be stored in the database.
 	 * @param iAlgorithmID - Primary key of the algorithm this parameter pertains to.
 	 * @return
+	 * @author Michael Shipway
 	 */
 	@Override
 	public Integer storeAlgorithmParameter(AdditionalParameters param, int iAlgorithmID) {
@@ -1138,5 +1143,36 @@ public class HibernateConnection extends Connection {
 		return algID;
 	}
 
+	/** Store a single Web Service
+	 * 
+	 * @param uiName - Human friendly name to be used by the UI when listing services.
+	 * @param wsName - The web service’s name to be used in the URL when calling the service.   e.g. "physionetAnalysisService"
+	 * @param url - URL of the server containing the web services e.g. http://128.220.76.170:8080/axis2/services. <BR>
+	 *        This is used together with “service.wsName” and "algorithm.method”. <BR>
+	 *        e.g. http://128.220.76.170:8080/axis2/services/physionetAnalysisService/sqrsWrapperType2
+	 * @return - the primary key of the new entry in the service table.
+	 * @author Michael Shipway
+	 */
+	@Override
+	public Integer storeService(String uiName, String wsName, String url) {
+			
+		int serviceID=-1;
+		
+		try{
+			Session session = sessionFactory.openSession();		
+			session.beginTransaction();
+			
+			WebService_AWS serv = new WebService_AWS(uiName, wsName, url);
+			session.persist(serv);
+			serviceID = serv.getServiceid();
+
+			session.getTransaction().commit();
+			session.close();			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return serviceID;
+	}
 
 }
