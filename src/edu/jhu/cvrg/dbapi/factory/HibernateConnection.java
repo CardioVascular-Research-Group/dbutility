@@ -6,18 +6,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-//import org.cvrgrid.philips.jaxb.beans.Globalmeasurements.Print;
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.annotations.Parameter;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
-//import org.hsqldb.error.Error;
-//import org.postgresql.util.PSQLException;
 
 import edu.jhu.cvrg.dbapi.dto.AdditionalParameters;
 import edu.jhu.cvrg.dbapi.dto.Algorithm;
@@ -48,7 +44,6 @@ import edu.jhu.cvrg.dbapi.factory.hibernate.DocumentRecord;
 import edu.jhu.cvrg.dbapi.factory.hibernate.FileInfo;
 import edu.jhu.cvrg.dbapi.factory.hibernate.UploadStatus;
 import edu.jhu.cvrg.dbapi.util.DBUtilityProperties;
-//import edu.jhu.cvrg.waveform.model.Algorithm;
 
 public class HibernateConnection extends Connection {
 
@@ -781,6 +776,11 @@ public class HibernateConnection extends Connection {
 	}
 
 	//*********** Algorithm database interaction methods **********************
+	/** Gets a list of all web services found in the database.
+	 * 	 
+	 * @param userId - login id of the user, currently ignored but included because we are likely to need it here in the future.
+	 * @author Michael Shipway
+	 */
 	@Override
 	public List<Service> getAvailableServiceList(long userId) {
 		
@@ -813,52 +813,7 @@ public class HibernateConnection extends Connection {
 	 * @param userId - login id of the user, currently ignored but included because we are likely to need it here in the future.
 	 * @author Michael Shipway
 	 */
-//	@Override
-//	public List<Algorithm> getAvailableAlgorithmList(long userId) {
-		
-//		List<Algorithm> ret = new ArrayList<Algorithm>();
-//		try{
-//			Session session = sessionFactory.openSession();
-//			Query qa = session.createQuery(
-//					 "FROM " +
-//					" AWS_Algorithm a ");
-//								
-//			@SuppressWarnings("unchecked")
-//			List<Object> l = qa.list();
-//			String qstring  = qa.getQueryString();
-//			String[] aNamPa = qa.getNamedParameters();
-			
-//			for (int i = 0; i < l.size(); i++) {
-//				Object[] obj = (Object[]) l.get(i);						
-//				Algorithm alg = new Algorithm();
-//				
-//				alg.setId((Integer)obj[0]);
-//				alg.setServiceID((Integer)obj[1]);
-//				alg.setServiceMethod((String) obj[2]);
-//				alg.setDisplayShortName((String) obj[3]);
-//				alg.setToolTipDescription((String) obj[4]);
-//				alg.setDisplayLongDescription((String)obj[5]);
-//				// obj[6] should be the same as obj[1]
-//				alg.setDisplayServiceName((String)obj[7]);
-//				alg.setServiceName((String)obj[8]);
-//				alg.setUrl((String)obj[9]);
-//				alg.setURLreference("URLreference not in database yet.");
-//				alg.setLicence("Licence not in database yet.");
-//				alg.setVersionIdAlgorithm("VersionIdAlgorithm not in database yet.");
-//				alg.setVersionIdWebService("VersionIdWebService not in database yet.");
-//				alg.setWfdbAnnotationOutput(true);
-////				alg.setParameters(getAlgorithmParameterArray(alg.getId()));
-//				
-//				ret.add(alg);
-//			}
-			
-//			session.close();
-//		}catch(Exception ex){
-//			ex.printStackTrace();
-//		}
-//		return ret;
-//	}
-	
+	@Override
 	public List<Algorithm> getAvailableAlgorithmList(long userId) {
 		
 		List<Algorithm> ret = new ArrayList<Algorithm>();
@@ -926,7 +881,8 @@ public class HibernateConnection extends Connection {
 	}
 
 	
-	/** Gets, via Hibernate, an ArrayList of all the Additional (optional) parameters which this specified algorithm can receive.
+	/** Gets, via Hibernate, an ArrayList of all the Additional (optional) parameters which this specified algorithm can receive.<BR>
+	 * NOTE: the "parameterValidator" table is expected to have an entry with an id of (-1) to deal with parameters which don't have any validator.
 	 * @param algorithmId - primary key of the algorithm in the persistence database.
 	 * @author Michael Shipway
 	 */
@@ -1014,7 +970,7 @@ public class HibernateConnection extends Connection {
 	 * @param serviceMethod - Name of the method which executes the algorithm, within the webservice. e.g. "sqrsWrapperType2".
 	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
 	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
-	 * @return
+	 * @return New Algorithm's ID (Primary key in the database)
 	 * @author Michael Shipway
 	 */
 	@Override
@@ -1044,14 +1000,14 @@ public class HibernateConnection extends Connection {
 		return algID;
 	}
 
-	/** Store a single Algorithm
+	/** Update a single Algorithm
 	 * 
 	 * @param uiName - Human friendly name to be used by the UI when listing services.
 	 * @param serviceID - Foreign key to the "service" table, which will contain the URL and description meta-data for a single web service.  
 	 * @param serviceMethod - Name of the method which executes the algorithm, within the webservice. e.g. "sqrsWrapperType2".
 	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
 	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
-	 * @return - primary key of the new algorithm entry.
+	 * @return - primary key of the algorithm entry.
 	 * @author Michael Shipway
 	 */
 	@Override
@@ -1086,13 +1042,13 @@ public class HibernateConnection extends Connection {
 	 * 
 	 * @param param - Algorithm parameter to be stored in the database.
 	 * @param iAlgorithmID - Primary key of the algorithm this parameter pertains to.
-	 * @return
+	 * @return Algorithm Parameter's ID (Primary key in the database)
 	 * @author Michael Shipway
 	 */
 	@Override
 	public Integer storeAlgorithmParameter(AdditionalParameters param, int iAlgorithmID) {
 			
-		int algID=-1;
+		int paramID=-1;
 		
 		try{
 			Session session = sessionFactory.openSession();		
@@ -1111,13 +1067,14 @@ public class HibernateConnection extends Connection {
 				session.getTransaction().commit();
 				valID = aws_val.getParameterValidationid();
 			}
-			int paramType = 0;
+			int paramType = 1; // text type parameter
 			if(param.getType().contains("text")) paramType = 1;
 			if(param.getType().contains("integer")) paramType = 2;
 			if(param.getType().contains("float")) paramType = 3;
 			if(param.getType().contains("boolean")) paramType = 4;
 			if(param.getType().contains("select")) paramType = 5;
 			if(param.getType().contains("drill_down")) paramType = 6;
+			if(param.getType().contains("data_column")) paramType = 7;
 			
 			AWS_Parameter aws_param = new AWS_Parameter(param.getDisplayShortName(), 
 							iAlgorithmID, 
@@ -1135,12 +1092,93 @@ public class HibernateConnection extends Connection {
 			System.out.println("Algorithm parameter database entry " + param.getDisplayShortName() + " wasCommitted(): " + session.getTransaction().wasCommitted());
 			session.close();
 			
+			paramID = aws_param.getParameterID();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return paramID;
+	}
+	
+	
+	/** Update a single Algorithm Parameter
+	 * 
+	 * @param param - Algorithm parameter to be stored in the database.
+	 * @param iAlgorithmID - Primary key of the algorithm this parameter pertains to.
+	 * @return
+	 * @author Michael Shipway
+	 */
+	@Override
+	public Integer updateAlgorithmParameter(AdditionalParameters param, int iAlgorithmID) {
+			
+		int algID=-1;
+		
+		try{
+			ParameterValidator ParamVal = param.getValidator();
+			
+			int valID = updateAWS_ParameterValidator(ParamVal);
+
+			AWS_Parameter aws_param = buildAWS_Parameter(param, iAlgorithmID, valID);
+
+			Session session = sessionFactory.openSession();		
+			session.beginTransaction();
+			session.update(aws_param);
+			session.getTransaction().commit();
+			System.out.println("Algorithm parameter database entry " + param.getDisplayShortName() + " wasCommitted(): " + session.getTransaction().wasCommitted());
+			session.close();
+			
 			algID = aws_param.getAlgorithmid();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 		
 		return algID;
+	}
+	
+	private int updateAWS_ParameterValidator(ParameterValidator ParamVal){
+		int valID = -1;
+		if((ParamVal != null) && (ParamVal.getId() != -1)){
+			int validatorType = 0;
+			if(ParamVal.getType().equalsIgnoreCase("in_range")) validatorType = 1;
+			if(ParamVal.getType().equalsIgnoreCase("length")) validatorType = 2;
+
+			AWS_ParameterValidator aws_val = new AWS_ParameterValidator(validatorType, 
+							ParamVal.getMessage(), ParamVal.getMin(), ParamVal.getMax(), ParamVal.getRegex());
+			aws_val.setParameterValidationid(ParamVal.getId());
+			Session session = sessionFactory.openSession();		
+			session.beginTransaction();
+			session.update(aws_val);
+			session.getTransaction().commit();
+			valID = aws_val.getParameterValidationid();
+			session.close();
+		}
+
+		return valID;
+	}
+
+	private AWS_Parameter buildAWS_Parameter(AdditionalParameters param, int iAlgorithmID, int valID){
+		int paramType = 1; // text type parameter
+		if(param.getType().contains("text")) paramType = 1;
+		if(param.getType().contains("integer")) paramType = 2;
+		if(param.getType().contains("float")) paramType = 3;
+		if(param.getType().contains("boolean")) paramType = 4;
+		if(param.getType().contains("select")) paramType = 5;
+		if(param.getType().contains("drill_down")) paramType = 6;
+		if(param.getType().contains("data_column")) paramType = 7;
+		
+		AWS_Parameter aws_param = new AWS_Parameter(param.getDisplayShortName(), 
+						iAlgorithmID, 
+						valID, 
+						param.getDisplayShortName(), 
+						param.getLongDescription(), 
+						param.getParameterFlag(), 
+						param.getParameterDefaultValue(), 
+						paramType, 
+						!param.getOptional(), 
+						false);
+		
+		aws_param.setParameterID(param.getId());
+		return aws_param;
 	}
 
 	/** Store a single Web Service
@@ -1174,5 +1212,35 @@ public class HibernateConnection extends Connection {
 		
 		return serviceID;
 	}
+
+	
+	/** Update a single Web Service
+	 * 
+	 * @param service - Service to be Updated in the database.
+	 * @return service id (Primary key in database)
+	 * @author Michael Shipway
+	 */
+	@Override
+	public Integer updateWebService(Service service) {
+			
+		int serviceID=-1;
+		
+		try{
+			Session session = sessionFactory.openSession();		
+			session.beginTransaction();
+			
+			WebService_AWS serv_aws = new WebService_AWS(service);
+			session.saveOrUpdate(serv_aws);
+			serviceID = serv_aws.getServiceid();
+
+			session.getTransaction().commit();
+			session.close();			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return serviceID;
+	}
+	
 
 }

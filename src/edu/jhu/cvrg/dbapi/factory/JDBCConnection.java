@@ -374,6 +374,19 @@ public class JDBCConnection extends Connection{
 	public Integer storeService(String uiName, String wsName, String url) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Integer updateAlgorithmParameter(AdditionalParameters param,
+			int iAlgorithmID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer updateWebService(Service service) {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 
 }

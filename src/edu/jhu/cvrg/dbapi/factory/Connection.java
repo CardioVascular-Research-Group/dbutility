@@ -62,17 +62,65 @@ public abstract class Connection {
 	public void setType(ConnectionType type) {
 		this.type = type;
 	}
-
-	public abstract List<Service> getAvailableServiceList(long userId);
 	
-	/** Gets, via Hibernate, an Array of all the Algorithms the specified user has access to.
+/*************************************************  Algorithm Web Services related methods *************************************/
+	/** Gets a list of all web services found in the database.
+	 * 	 
 	 * @param userId - login id of the user, currently ignored but included because we are likely to need it here in the future.
 	 * @author Michael Shipway
 	 */
+	public abstract List<Service> getAvailableServiceList(long userId);
+	
+	/** Gets, via Hibernate, a List of all the Algorithms the specified user has access to.
+	 * @param userId - login id of the user, currently ignored but included because we are likely to need it here in the future.
+	 * @return List of 'Algorithm' objects
+	 * @author Michael Shipway
+	 */
 	public abstract List<Algorithm> getAvailableAlgorithmList(long userId);
+	
+	/** Store a single Algorithm
+	 * 
+	 * @param uiName - Human friendly name to be used by the UI when listing services.
+	 * @param serviceID - Foreign key to the "service" table, which will contain the URL and description meta-data for a single web service.  
+	 * @param serviceMethod - Name of the method which executes the algorithm, within the webservice. e.g. "sqrsWrapperType2".
+	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
+	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
+	 * @return New Algorithm's ID (Primary key in the database)
+	 * @author Michael Shipway
+	 */
 	public abstract Integer storeAlgorithm(                      String uiName, Integer serviceID, String serviceMethod, String shortDescription, String completeDescription);
+	
+	/** Update a single Algorithm
+	 * 
+	 * @param uiName - Human friendly name to be used by the UI when listing services.
+	 * @param serviceID - Foreign key to the "service" table, which will contain the URL and description meta-data for a single web service.  
+	 * @param serviceMethod - Name of the method which executes the algorithm, within the webservice. e.g. "sqrsWrapperType2".
+	 * @param shortDescription - Short summary description suitable for displaying as a tooltip.
+	 * @param completeDescription - Complete description of the algorithm suitable for using in a manual/help file.
+	 * @return - primary key of the algorithm entry.
+	 * @author Michael Shipway
+	 */
 	public abstract Integer updateAlgorithm(Integer algorithmid, String uiName, Integer serviceID, String serviceMethod, String shortDescription, String completeDescription);
+
+	/** Store a single Algorithm Parameter
+	 * 
+	 * @param param - Algorithm parameter to be stored in the database.
+	 * @param iAlgorithmID - Primary key of the algorithm this parameter pertains to.
+	 * @return  Algorithm Parameter's ID (Primary key in the database)
+	 * @author Michael Shipway
+	 */
 	public abstract Integer storeAlgorithmParameter(AdditionalParameters param, int iAlgorithmID);
+	
+	/** Update a single Algorithm Parameter
+	 * 
+	 * @param param - Algorithm parameter to be stored in the database.
+	 * @param iAlgorithmID - Primary key of the algorithm this parameter pertains to.
+	 * @return Algorithm Parameter's ID (Primary key in the database)
+	 * @author Michael Shipway
+	 */
+	public abstract Integer updateAlgorithmParameter(AdditionalParameters param, int iAlgorithmID); 
+
+
 
 	/** Gets, via Hibernate, an ArrayList of all the Additional (optional) parameters which this specified algorithm can receive.
 	 * @param algorithmId - primary key of the algorithm in the persistence database.
@@ -89,14 +137,32 @@ public abstract class Connection {
 	 * @param createdBy - Either original file format identifier, algorithm identifier, or user ID in the case of manual annotations.
 	 * @param bioportalOntologyID - Identifier of the Ontology, e.g. "ECGT"
 	 * @param bioportalClassIdList - A List of bioportalClassId string, e.g. "ECGOntology:ECG_000000243".
-	 * 
 	 * @author Michael Shipway
 	 */
 	public abstract List<AnnotationDTO> getLeadAnnotationListConceptIDList(Long userId,
 			Long docId, Integer leadIndex, String createdBy,
 			String bioportalOntologyID, List<String> bioportalClassIdList);
 
+	/** Store a single Web Service
+	 * 
+	 * @param uiName - Human friendly name to be used by the UI when listing services.
+	 * @param wsName - The web service’s name to be used in the URL when calling the service.   e.g. "physionetAnalysisService"
+	 * @param url - URL of the server containing the web services e.g. http://128.220.76.170:8080/axis2/services. <BR>
+	 *        This is used together with “service.wsName” and "algorithm.method”. <BR>
+	 *        e.g. http://128.220.76.170:8080/axis2/services/physionetAnalysisService/sqrsWrapperType2
+	 * @return - the primary key of the new entry in the service table.
+	 * @author Michael Shipway
+	 */
 	public abstract Integer storeService(String uiName, String wsName, String url);
 
+	/** Update a single Web Service
+	 * 
+	 * @param service - Service to be Updated in the database.
+	 * @return service id (Primary key in database)
+	 * @author Michael Shipway
+	 */
+	public abstract Integer updateWebService(Service service);
 
+	
+	/***************************************************************************************************************************/
 }

@@ -4,11 +4,10 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import java.sql.Date;
-import java.util.List;
 
 
 /**
- * The persistent class for the Algorithm Web Service configuration "person" database table.
+ * The persistent class for the Algorithm Web Service configuration "algorithmreference" database table.
  * 
  */
 @Entity

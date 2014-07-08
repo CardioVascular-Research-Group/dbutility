@@ -69,9 +69,6 @@ public class AWS_Parameter implements Serializable {
 	@Column(name="\"algorithmid\"")
 	private Integer algorithmid;
 
-	@ManyToOne
-	private Algorithm_AWS algorithmref;
-	
 	/** Foreign Key of the algorithm this parameter pertains to. **/
 	public Integer getAlgorithmid() {
 		return this.algorithmid;
@@ -83,12 +80,15 @@ public class AWS_Parameter implements Serializable {
 	
 	// @JoinColumn(name = "algorithmid", insertable = false, updatable = false)
 	
-	public Algorithm_AWS getAlgorithmref() {
-		return this.algorithmref;
-	}
-	public void setlgorithmref(Algorithm_AWS algorithm) {
-		this.algorithmref = algorithm;
-	}
+//	@ManyToOne
+//	private Algorithm_AWS algorithmref;
+	
+//	public Algorithm_AWS getAlgorithmref() {
+//		return this.algorithmref;
+//	}
+//	public void setlgorithmref(Algorithm_AWS algorithm) {
+//		this.algorithmref = algorithm;
+//	}
 
 	/** default constructor **/
 	public AWS_Parameter() {

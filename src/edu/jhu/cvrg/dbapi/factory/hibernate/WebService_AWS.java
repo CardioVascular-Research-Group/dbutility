@@ -45,6 +45,16 @@ public class WebService_AWS implements java.io.Serializable  {
 		setUrl(URL);
 	}
 	
+	
+	public WebService_AWS(Service s){
+		setUiName(s.getDisplayServiceName());
+		setWsName(s.getServiceName());
+		setUrl(s.getUrl());
+		if(s.id != (-1)){
+			setServiceid(s.id);
+		}
+	}
+	
 	public Integer getServiceid() {
 		return this.serviceid;
 	}

@@ -304,6 +304,19 @@ public class ExistsConnection extends Connection{
 		return null;
 	}
 
+	@Override
+	public Integer updateAlgorithmParameter(AdditionalParameters param,
+			int iAlgorithmID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer updateWebService(Service service) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 }
