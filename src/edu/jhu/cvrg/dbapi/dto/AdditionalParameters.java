@@ -15,7 +15,7 @@ public class AdditionalParameters implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	
-	/** Command line flag indication that value follows, e.g. "-r " preceeds the record-name. */
+	/** Command line flag indication that value follows, e.g. "-r " proceeds the record-name. */
 	private String sParameterFlag; 
 	/** If the parameter equals this value, don't need to pass the parameter on the command line.*/
 	private String sParameterDefaultValue; 
