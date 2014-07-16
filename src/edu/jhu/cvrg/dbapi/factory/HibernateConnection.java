@@ -488,7 +488,7 @@ public class HibernateConnection extends Connection {
 	}
 	
 	/** Gets, via Hibernate, an ArrayList of all the Annotations of this document 
-	 * which match the list of bioportalClassIds and where created by the specified createdBy.
+	 * which match the list of bioportalClassIds and were created by the specified createdBy.
 	 * 
 	 * @param userId - Id of the user who owns this data.
 	 * @param docId - Document ID
@@ -560,6 +560,106 @@ public class HibernateConnection extends Connection {
 		q.setParameter("createdBy", createdBy);
 		q.setParameter("bioportalOntologyID", bioportalOntologyID);
 		q.setParameter("bioportalClassId", bioportalClassId);
+		if(leadIndex != null){
+			q.setParameter("leadIndex", leadIndex);
+			q.setParameter("annotationtype", "ANNOTATION");
+		}else{
+			// q.setParameter("annotationType", "COMMENT");
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<AnnotationInfo> result = q.list();
+		
+		if(result != null && result.size() > 0 ){
+//			annotations = new ArrayList<AnnotationDTO>();			
+			if(result.size() != 1){
+				annotationRet = null; // multiple results are not allow.
+			}else{
+//				for (AnnotationInfo entity : result) {
+//					annotationRet = new AnnotationDTO(entity);	
+//				}
+				annotationRet = new AnnotationDTO(result.get(0));
+			}
+		}else{
+			annotationRet = null;
+		}
+		
+		session.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return annotationRet;
+	}
+	
+	
+	/** Gets, via Hibernate, an ArrayList of all the Annotations of this document 
+	 * which match the list of annotation names and were created by the specified createdBy.
+	 * 
+	 * @param userId - Id of the user who owns this data.
+	 * @param docId - Document ID
+	 * @param leadIndex - zero based lead index, as found in the original data file.  If null, then it gets only whole record annotations.
+	 * @param createdBy - Either original file format identifier, algorithm identifier, or user ID in the case of manual annotations.
+	 * @param nameList - A List of display names of the annotation, e.g. "S-_AMPL" (node name from a Schiller file)
+	 * 
+	 * @author Michael Shipway
+	 */
+	@Override
+	public List<AnnotationDTO> getLeadAnnotationbyNameList(Long userId, Long docId, Integer leadIndex, String createdBy, List<String> nameList){
+		List<AnnotationDTO> annotationsRet = new ArrayList<AnnotationDTO>();
+		
+		for(String name:nameList){
+			AnnotationDTO annotation = getLeadAnnotationbyName(userId, docId, leadIndex, 
+					createdBy, name);
+			
+			if(annotation!=null){
+				annotationsRet.add(annotation);
+			}else{
+				annotationsRet.add(null); // marks the empty result in the result set.
+			}
+		}
+		
+		return annotationsRet;
+	}
+
+	/** returns the single annotation that meets these parameters, returns null if more than one are found or if none are found.
+	 * 
+	 * @param userId - Id of the user who owns this data.
+	 * @param docId - Document ID
+	 * @param leadIndex - zero based lead index, as found in the original data file.
+	 * @param createdBy - Either original file format identifier, algorithm identifier, or user ID in the case of manual annotations.
+	 * @param name - display name of the annotation, e.g. "S-_AMPL" (node name from a Schiller file)
+	 * 
+	 * @author Michael Shipway
+	 * @return a single annotation or null
+	 */
+	private AnnotationDTO getLeadAnnotationbyName(Long userId, Long docId, Integer leadIndex,
+			String createdBy, String name){
+		
+//		List<AnnotationDTO> annotations = null;
+		AnnotationDTO annotationRet = null;
+		try{
+		Session session = sessionFactory.openSession();
+		
+		StringBuilder hql = new StringBuilder();
+		System.out.println("getLeadAnnotationbyBioportal() leadIndex: " + leadIndex);
+		hql.append("select a from DocumentRecord d ")
+			.append("inner join d.annotationInfos as a ") // HashSet of AnnotationInfo class in DocumentRecord
+			.append("where d.documentRecordId = :docId ")
+			.append("  and d.userId = :userId ")
+			.append("  and a.createdBy  = :createdBy ")	
+			.append("  and a.name  = :name ")	;
+		if(leadIndex != null){
+			hql.append("  and a.annotationtype  = :annotationtype ");
+			hql.append("  and a.leadIndex  = :leadIndex ");
+		}else{
+		}
+		
+		Query q = session.createQuery(hql.toString());
+		
+		q.setParameter("docId", docId);
+		q.setParameter("userId", userId);		
+		q.setParameter("createdBy", createdBy);
+		q.setParameter("name", name);
 		if(leadIndex != null){
 			q.setParameter("leadIndex", leadIndex);
 			q.setParameter("annotationtype", "ANNOTATION");
@@ -941,7 +1041,7 @@ public class HibernateConnection extends Connection {
 					val.setMin((Float) obj[10]);
 					val.setMax((Float) obj[11]);
 					val.setRegex((String) obj[12]);
-					val.setType((String) obj[13]);
+					val.setType((Integer) obj[13]);
 				}
 				param.setValidator(val);
 				ret.add(param);
@@ -1057,12 +1157,15 @@ public class HibernateConnection extends Connection {
 			ParameterValidator ParamVal = param.getValidator();
 			int valID = -1;
 			if(ParamVal != null){
-				int validatorType = 0;
-				if(ParamVal.getType().equalsIgnoreCase("in_range")) validatorType = 1;
-				if(ParamVal.getType().equalsIgnoreCase("length")) validatorType = 2;
-	
-				AWS_ParameterValidator aws_val = new AWS_ParameterValidator(validatorType, 
-								ParamVal.getMessage(), ParamVal.getMin(), ParamVal.getMax(), ParamVal.getRegex());
+//				int validatorType = 0;
+//				if(ParamVal.getType().equalsIgnoreCase("in_range")) validatorType = 1;
+//				if(ParamVal.getType().equalsIgnoreCase("length")) validatorType = 2;
+//	
+//				AWS_ParameterValidator aws_val = new AWS_ParameterValidator(validatorType, 
+//								ParamVal.getMessage(), ParamVal.getMin(), ParamVal.getMax(), ParamVal.getRegex());
+				AWS_ParameterValidator aws_val = new AWS_ParameterValidator(ParamVal.getType(), 
+						ParamVal.getMessage(), ParamVal.getMin(), ParamVal.getMax(), ParamVal.getRegex());
+
 				session.persist(aws_val);
 				session.getTransaction().commit();
 				valID = aws_val.getParameterValidationid();
@@ -1138,12 +1241,14 @@ public class HibernateConnection extends Connection {
 	private int updateAWS_ParameterValidator(ParameterValidator ParamVal){
 		int valID = -1;
 		if((ParamVal != null) && (ParamVal.getId() != -1)){
-			int validatorType = 0;
-			if(ParamVal.getType().equalsIgnoreCase("in_range")) validatorType = 1;
-			if(ParamVal.getType().equalsIgnoreCase("length")) validatorType = 2;
-
-			AWS_ParameterValidator aws_val = new AWS_ParameterValidator(validatorType, 
-							ParamVal.getMessage(), ParamVal.getMin(), ParamVal.getMax(), ParamVal.getRegex());
+//			int validatorType = 0;
+//			if(ParamVal.getType().equalsIgnoreCase("in_range")) validatorType = 1;
+//			if(ParamVal.getType().equalsIgnoreCase("length")) validatorType = 2;
+//
+//			AWS_ParameterValidator aws_val = new AWS_ParameterValidator(validatorType, 
+//							ParamVal.getMessage(), ParamVal.getMin(), ParamVal.getMax(), ParamVal.getRegex());
+			AWS_ParameterValidator aws_val = new AWS_ParameterValidator(ParamVal.getType(), 
+					ParamVal.getMessage(), ParamVal.getMin(), ParamVal.getMax(), ParamVal.getRegex());
 			aws_val.setParameterValidationid(ParamVal.getId());
 			Session session = sessionFactory.openSession();		
 			session.beginTransaction();

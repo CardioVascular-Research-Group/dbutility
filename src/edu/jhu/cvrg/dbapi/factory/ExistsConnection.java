@@ -317,6 +317,14 @@ public class ExistsConnection extends Connection{
 		return null;
 	}
 
+	@Override
+	public List<AnnotationDTO> getLeadAnnotationbyNameList(Long userId,
+			Long docId, Integer leadIndex, String createdBy,
+			List<String> nameList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 }

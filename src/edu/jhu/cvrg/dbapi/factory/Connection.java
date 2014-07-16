@@ -143,6 +143,23 @@ public abstract class Connection {
 			Long docId, Integer leadIndex, String createdBy,
 			String bioportalOntologyID, List<String> bioportalClassIdList);
 
+
+	/** Gets, via Hibernate, an ArrayList of all the Annotations of this document 
+	 * which match the list of annotation names and were created by the specified createdBy.
+	 * 
+	 * @param userId - Id of the user who owns this data.
+	 * @param docId - Document ID
+	 * @param leadIndex - zero based lead index, as found in the original data file.  If null, then it gets only whole record annotations.
+	 * @param createdBy - Either original file format identifier, algorithm identifier, or user ID in the case of manual annotations.
+	 * @param nameList - A List of display names of the annotation, e.g. "S-_AMPL" (node name from a Schiller file)
+	 * 
+	 * @author Michael Shipway
+	 */
+	public abstract List<AnnotationDTO> getLeadAnnotationbyNameList(Long userId,
+			Long docId, Integer leadIndex, String createdBy,
+			List<String> nameList);
+	
+
 	/** Store a single Web Service
 	 * 
 	 * @param uiName - Human friendly name to be used by the UI when listing services.
@@ -163,6 +180,5 @@ public abstract class Connection {
 	 */
 	public abstract Integer updateWebService(Service service);
 
-	
 	/***************************************************************************************************************************/
 }

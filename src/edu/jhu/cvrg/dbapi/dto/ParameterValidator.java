@@ -2,7 +2,7 @@ package edu.jhu.cvrg.dbapi.dto;
 
 public class ParameterValidator {
 	private int id;
-	private String type=""; // regex, in_range, length
+	private int type=-1; // 1=regex, 2=in_range, 3=length
 	private String message=""; // The message displayed if validation fails.
 	private float min; // 	a number, minimum parameter value; only valid when the parameter type is "integer" or "float"
 	private float max;// 	a number, maximum parameter value; only valid when the parameter type is "integer" or "float"
@@ -20,10 +20,28 @@ public class ParameterValidator {
 			2 = in_range - Defines the minimum and maximum values that a numeric input (integer or float) can have.<BR/>
 			3 = length -  Defines the minimum and maximum length that a text input can have.<BR/>
 	 * @return - type string */
-	public String getType() {
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public String getTypetext() {
+		String text="no type";
+		switch (type){
+		case 1: 
+			text="regex";
+			break;
+		case 2:
+			text="in_range";
+			break;
+		case 3:
+			text="length";
+			break;
+		default:
+			text="n/a";		
+		}
+		
+		return text;
+	}
+	public void setType(int type) {
 		this.type = type;
 	}
 	
