@@ -1007,7 +1007,8 @@ public class HibernateConnection extends Connection {
 					 " v.min, " +
 					 " v.max, " +
 					 " v.regex, " +
-					 " v.validatorType " +
+					 " v.validatorType, " +
+					 " p.flag " +
 					 "FROM " +
 					 " AWS_Parameter p," +
 					 " AWS_ParameterType t, " +
@@ -1033,6 +1034,7 @@ public class HibernateConnection extends Connection {
 				param.setOptional(!((Boolean)obj[5]));
 				param.setMultipleSelect((Boolean)obj[6]); // If true, allow multiple selections in a dropdown list. Only relevent for select or data_column parameter types.'
 				param.setType((String) obj[7]);
+				param.setParameterFlag((String)obj[14]);
 				
 				ParameterValidator val = new ParameterValidator();
 				val.setId((Integer) obj[8]);
